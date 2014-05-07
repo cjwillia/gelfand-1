@@ -51,10 +51,14 @@
                     <% if @program.organizations.empty? %>
                         <!-- do nothing -->
                     <% else %>
+                        <ul>
                         <% @program.organizations.each do |org| %>
-                            <%= link_to org.name, org %> <br>
+                            <li><%= link_to org.name, org %></li>
+                        </ul>
                         <% end %>
                     <% end %>
+
+                <br />
                 <div class="small-4 columns rightContent" data-equalizer-watch>
                     <%= render 'quick_affiliate_with_an_org' %>
                 </div>
