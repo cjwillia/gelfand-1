@@ -30,6 +30,9 @@ gem 'devise'
 gem 'font-awesome-rails'
 gem 'chronic'
 gem 'mysql2'
+gem 'faker'
+gem 'populator'
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
