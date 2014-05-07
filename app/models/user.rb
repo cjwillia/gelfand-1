@@ -124,5 +124,41 @@ class User < ActiveRecord::Base
     return nil
   end
 
+  # method assumes: Org has at least 1 affiliation
+  #                 User has at least 1 participation                
+  def get_all_programs_user_not_yet_participating_in_under_an_org(org)
+
+    # all_affiliations gets ALL affiliations to programs for 1 org
+    affiliated_programs = org.affiliations.map {|affil| Program.find(affil.program_id)}
+
+    dups = self.get_programs_user_participating_under_particular_org(org)
+    # return immediately since user not participating in any of orgs programs
+
+    if dups.empty?
+        return dups
+    end
+
+    affiliated_programs - dups
+  end
+
+  # method assumes: Org has at least 1 affiliation
+  #                 User has at least 1 participation
+  def get_programs_user_participating_under_particular_org(org)
+    # all_participations: gets ALL participations to programs from ANY org
+    all_participations = self.individual.participants
+    # all_affiliations: gets ALL affiliations to programs for 1 org
+    all_affiliations = org.affiliations
+
+    # get program_ids from each above
+    p_ids_prtcpnts = all_participations.map {|prtcpnt| prtcpnt.program_id}
+    p_ids_affils = all_affiliations.map {|affil| affil.program_id}
+
+    # get the program_ids that overlap in the above
+      # '&' will return nil if there are no duplicates else returns array with dup elemnts
+    p_ids = p_ids_prtcpnts & p_ids_affils
+
+    # return a list of programs from each id
+    p_ids.map{|p_id| Program.find(p_id)}
+  end
 
 end

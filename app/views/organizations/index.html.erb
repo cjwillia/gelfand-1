@@ -5,30 +5,49 @@
   <div class="small-10 columns rightContent" data-equalizer-watch>
       <h1>Organization home</h1>
   <br>
-    
+      <% if current_user.admin %>
+                    <table id="org_home_table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Is a partner</th>
+                          <th>Active</th>
+                          <th>Org head</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <% @organizations.each do |org|  %>
+                        <tr class="rows_in_admin_org_home"><td><%= link_to org.name, org %> </td>
+                            <td><%= org.is_partner ? "Yes" : "No" %></td>
+                            <td><%= org.active ? "Yes" : "No" %></td> 
+                            <% orgUser = OrgUser.for_organization(org).first %>
+
+                            <% if orgUser.nil? %>
+                                <td> N/A </td>
+                            <% else %>
+                                <% indiv = orgUser.user.individual %>
+                                <td><%= link_to indiv.f_name, indiv %></td>
+                                
+                                 <td class="removeOrgUser"><%= image_tag('removeOrgUser_2.png', size: "75x30", alt: "Remove?", :class => "ButtonRemoveOrgUser")   %>
+                                </td>
+                                <td style="display:none;">
+<%= simple_form_for OrgUser.new, :html => {:method => 'post'} do |f| %> 
+    <%= f.input :organization_id, :as => :hidden, :input_html => { :value => org.id } %>
+    <%= f.input :user_id, :label => "Create a new Org Admin:", :collection => @names_from_users %>
+     <%= f.button :submit, :name => "fromOrgShowPage", :value => "Add", :id => "addingFormButton" %>
+<% end %>
+                                </td>
+                            <% end %>                           
+                            <td class="row_actions"><%= link_to "#{image_tag('pencil_edit.png', size: "20x20")}".html_safe, edit_organization_path(org) %></td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                   </table>   
+        <% elsif current_user.member %>  
+
+            <%= render 'org_home_for_regular_user' %>
         
-    <% if current_user.get_all_memberships.empty? %>
-      Hi <%= current_user.get_first_name %>. <br>
-      Currently you are not part of any Organizations and consequently programs. <br>
-      Click on the side bar to create an Organization or Program. <br>
-      Or wait until someone adds you to their Organization and/or Program.
-
-
-    <% else  %>
-        <div class="my_memberships_outerDiv">
-            <h3> Memberships </h3>
-            <% current_user.orgs_that_user_is_part_of.each do |org| %>
-                    <ul class="my_memberships_list"><%= link_to org.name, organization_path(org) %>
-            
-            <% if current_user.is_orgUser_for_specific_org(org) %>
-                    <li id="prog_under_org"><%= link_to "-- No programs yet -- Click here", new_program_path %></li> 
-            <% end %>
-                    </ul>
-
-            <% end %>
-        </div>
-    <% end %>
-
+        <% end %>
     
    </div>
  </div>
