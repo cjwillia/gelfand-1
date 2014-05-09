@@ -9,10 +9,56 @@ namespace :db do
     # Docs at: http://faker.rubyforge.org/rdoc/
     require 'faker'
     
-    # Step 1: clear any old data in the db
+    # clear any old data in the db
     [Affiliation, BgCheck, Contact, Individual, Membership, OrgUser, Organization, Participant, Program, User].each(&:delete_all)
     
+    # create admin user
+
+    admin = User.new
+    admin.email = "admin@example.com"
+    admin.password = "11111111"
+    admin.password_confirmation = "11111111"
+    admin.admin = true
+    admin.member = true
+    admin.save!
+    # create contact for admin user
+    contact = Contact.new
+    contact.phone = Faker::PhoneNumber.phone_number
+    contact.email = admin.email
+    contact.street = Faker::Address.street_address
+    contact.city = Faker::Address.city
+    contact.state = Faker::Address.state
+    contact.zip = Faker::Address.zip_code
+    contact.save!
+    # create individual for admin user
+    indiv = Individual.new
+    indiv.first_name = Faker::name.first_name
+    indiv.last_name = Faker::name.last_name
+    indiv.active = true
+    indiv.user_id = admin.id
+    indiv.contact_id = contact.id
+
+    # create 15 organizations with contact information
+      # create 0...5 programs for each organization
+
+
+    # create 150 regular users
+
+      # create individuals that belong to those users 
+
+      # create contact information for those indivs
+
+      # Have them be members of 0...4 orgs
+
+      # If they are a member of an org, have them sign up for their programs as participants
+
+      # for 2/3 create a background check, randomizing the status for each
     
+
+
+
+
+
     # # Step 2: add some animal types to work with (small set for now...)
     # animals = %w[Dog Cat Ferret Rabbit Bird]
     # animals.sort.each do |animal|
