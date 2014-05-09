@@ -1,0 +1,39 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Active</th>
+      <th>Background Check</th>
+      <th>Contact Email</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @individuals.each do |individual| %>
+      <tr>
+        <td><%=link_to individual.name, individual_path(individual)%></td>
+        <td><%= individual.active ? "Yes" : "No" %></td>
+
+        <td>
+          <% unless individual.bg_check.nil? %>
+              <%= link_to individual.bg_check.format_status, bg_check_path(individual.bg_check) %>
+          <% else %>
+              Not Started
+          <% end %>
+        </td>
+
+        <td>
+          <% if individual.user %>
+            <%= individual.user.email %>
+          <% elsif individual.contact %>
+            <%= individual.contact.email %>
+          <% else %>
+            No Contact Email
+          <% end %>  
+        </td>
+        
+        <td class="row_actions"><%= link_to "#{image_tag('pencil_edit.png')}".html_safe, edit_individual_path(individual) %></td> 
+      </tr>     
+    <% end %>
+  </tbody>      
+</table>

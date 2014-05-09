@@ -1,18 +1,38 @@
-<h1>Editing Individual</h1>
+<div class="row" data-equalizer>
+  <div class="small-2 columns leftNav" data-equalizer-watch>
+    <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
+     <ul class="side-nav">
+      <li><div class="navHead">Actions</div></li>
+      <li class="deleteLink"><%= link_to "Delete This Individual?", @individual, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+      <li><div class="navHead">Display</div></li>
+      <li><%= link_to 'Students', 'students' %></li>
+      <li><%= link_to 'Faculty', 'faculty' %></li>
+      <br />
+      <li><%= link_to 'Organizations', organizations_path %> </li>
+      <li><%= link_to 'Programs', programs_path %></li>
+    </ul> 
+    <br />
+  </div>
+  <div class="small-10 columns rightContent" data-equalizer-watch>  	
+	<h1>Editing Individual</h1>
 
-<%= form_for(@individual) do |f| %>
+	<div class="cushionWrapper">
+		<%= form_for(@individual) do |f| %>
 
-	<%= render partial: 'form', object: f  %>
+			<%= render partial: 'form', object: f  %>
 
-	<!-- This is where some methods for adding background checks and contact info goes. -->
+			<!-- This is where some methods for adding background checks and contact info goes. -->
 
-	<div class="row">
-    	<div class="actions">
-      		<%= f.submit %>
-		</div>
-  	</div>
+			<div class="row">
+		    	<div class="actions">
+		      		<%= f.submit "Update Individual", :class => "button" %>
+				</div>
+		  	</div>
 
-<% end %>
+		<% end %>
+	</div>
+  </div>
+</div>
 
-<%= link_to 'Show', @individual %> |
-<%= link_to 'Back', individuals_path %>
+
+

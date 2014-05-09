@@ -24,7 +24,7 @@ class Individual < ActiveRecord::Base
 
     # Scopes
     # ------
-    default_scope { where(active: true)}
+    default_scope { where(active: true) }
     scope :alphabetical, -> { order('l_name') }
     scope :alpha_by_first, -> { order('f_name') }
     scope :students, -> { where(role: 0) }
@@ -34,7 +34,7 @@ class Individual < ActiveRecord::Base
 
     # Select Lists
     # -------
-    ROLES_LIST = [["Student", 0],["Staff",1],["Faculty",2]]
+    ROLES_LIST = [["Student", 0],["Staff", 1],["Faculty", 2]]
 
     # Class Methods
     # -------------
