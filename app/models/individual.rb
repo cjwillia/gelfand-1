@@ -44,11 +44,11 @@ class Individual < ActiveRecord::Base
             when 0
                 return "Student"
             when 1
-                return "Faculty"
+                return "Staff"
             when 2
-                return "Off-Campus"
+                return "Faculty"
             else
-                return "attr_error"
+                return "Unknown"
     	end
     end
 
