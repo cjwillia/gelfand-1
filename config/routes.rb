@@ -1,4 +1,6 @@
 Gelfand::Application.routes.draw do
+
+  #Programs Routes
   get 'programs/:id/individuals_list' => 'programs#individuals_list'
   get 'programs/completed' => 'programs#completed'
   get 'programs/ongoing' => 'programs#ongoing'
@@ -9,6 +11,10 @@ Gelfand::Application.routes.draw do
   get 'participants', to: 'participants#index'
   post 'participants', to: 'participants#create'
 
+
+  #Individuals Routes
+  get 'individuals/students' => 'individuals#students'
+  get 'individuals/faculty' => 'individuals#faculty'
   resources :individuals
 
   resources :organizations do

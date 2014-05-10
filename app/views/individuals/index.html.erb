@@ -2,7 +2,13 @@
   <div class="small-2 columns leftNav" data-equalizer-watch>
     <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
      <ul class="side-nav">
-      <li><%= link_to 'New Individual', new_individual_path %> </li>
+      <li><div class="navHead">Actions</div></li>
+      <li><%= link_to 'New Individual', new_individual_path %></li>
+
+      <li><div class="navHead">Display</div></li>
+      <li><%= link_to 'Students', 'individuals/students' %></li>
+      <li><%= link_to 'Faculty', 'individuals/faculty' %></li>
+      <br />
       <li><%= link_to 'Organizations', organizations_path %> </li>
       <li><%= link_to 'Programs', programs_path %></li>
     </ul> 
@@ -18,24 +24,24 @@
           <th>Name</th>
           <th>Role</th>
           <th>Active</th>
-          <th>Bg check link</th>
+          <th>Background Check</th>
         </tr>
       </thead>
 
       <tbody>
         <!-- Sethu note: @individuals gets only active individuals, not sure why -->
+        <!-- Clarification: in most models, the default scope is set to active. if you need to access the inactive Individuals, use Individual.inactive -->
         <% @individuals.each do |individual| %>
           <tr>
             <td><%=link_to individual.name, individual_path(individual)%></td>
             <td><%= individual.format_role %></td>
             <td><%= individual.active ? "Yes" : "No" %></td>
                 <% unless individual.bg_check.nil? %>
-                    <td><%= link_to 'Bg Check', bg_check_path(individual.bg_check) %></td>
+                    <td><%= link_to individual.bg_check.format_status, bg_check_path(individual.bg_check) %></td>
                 <% else %>
-                    <td> N/A </td>
+                    <td> Not Started </td>
                 <% end %>
             <td class="row_actions"><%= link_to "#{image_tag('pencil_edit.png')}".html_safe, edit_individual_path(individual) %></td>
-            <td class="row_actions"><%= link_to "#{image_tag('remove.png', size: "16x16", alt: "Remove?")}".html_safe, individual, method: :delete, data: { confirm:        'Are you sure?' } %></td>   
           </tr>     
         <% end %>
       </tbody>      

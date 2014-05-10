@@ -1,16 +1,30 @@
-<p id="notice"><%= notice %></p>
-<h1>New Individual</h1>
+<div class="row" data-equalizer-watch>
+	<div class="small-2 columns leftNav">
+		<img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
+		<ul class="side-nav">
+		    <li><%= link_to 'Organizations', organizations_path %></li>
+		    <li><%= link_to 'Programs', programs_path %></li>
+		    <li><%= link_to 'Back', individuals_path %></li>
+		</ul>
+	</div>
 
-<%= form_for(@individual) do |f| %>
+	<div class="small-10 columns rightContent">
+		<p id="notice"><%= notice %></p>
+		<h1>New Individual</h1>
 
-	<%= render partial: 'form', object: f  %>
+		<%= form_for(@individual) do |f| %>
+			<div class="cushionWrapper">
+				<%= render partial: 'form', object: f  %>
+			</div>
 
-	<div class="row">
-  	  <div class="actions">
-  	    <%= f.submit %>
-  	  </div>
-  	</div>
+			<div class="row">
+		  	  <div class="cushionWrapper">
+		  	    <%= f.submit "Create Individual", :class => "button" %>
+		  	  </div>
+		  	</div>
 
-<% end %>
+		<% end %>
+	</div>
 
-<%= link_to 'Back', individuals_path %>
+	
+</div>

@@ -8,6 +8,14 @@ class IndividualsController < ApplicationController
     @individuals = Individual.all.alphabetical
   end
 
+  def students
+    @individuals = Individual.students
+  end
+
+  def faculty
+    @individuals = Individual.faculty
+  end
+
   # POST /individuals
   # POST /individuals.json
 
