@@ -18,7 +18,7 @@ class Program < ActiveRecord::Base
     validates :num_minors, :numericality => {:only_integer => true, :greater_than_or_equal_to => 0}
 
     validates_date :start_date, :presence => true
-    validates_date :end_date, :allow_blank => true, :after => :start_date
+    validates_date :end_date, :allow_blank => true, :on_or_after => :start_date
 
     # Scopes
     # ------

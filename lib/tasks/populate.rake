@@ -8,40 +8,97 @@ namespace :db do
     require 'populator'
     # Docs at: http://faker.rubyforge.org/rdoc/
     require 'faker'
-    
+    r = Random.new
     # clear any old data in the db
     [Affiliation, BgCheck, Contact, Individual, Membership, OrgUser, Organization, Participant, Program, User].each(&:delete_all)
+
+    STATE_ABBREVIATIONS = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
     
     # create admin user
-
     admin = User.new
     admin.email = "admin@example.com"
-    admin.password = "11111111"
-    admin.password_confirmation = "11111111"
+    admin.password = "secretpassword"
+    admin.password_confirmation = "secretpassword"
     admin.admin = true
     admin.member = true
     admin.save!
     # create contact for admin user
     contact = Contact.new
-    contact.phone = Faker::PhoneNumber.phone_number
+    contact.phone = rand(10 ** 10).to_s.rjust(10,'0')
     contact.email = admin.email
     contact.street = Faker::Address.street_address
     contact.city = Faker::Address.city
-    contact.state = Faker::Address.state
-    contact.zip = Faker::Address.zip_code
+    contact.state = STATE_ABBREVIATIONS.sample
+    contact.zip = rand(5 ** 5).to_s.rjust(5,'0')
     contact.save!
+
     # create individual for admin user
     indiv = Individual.new
-    indiv.first_name = Faker::name.first_name
-    indiv.last_name = Faker::name.last_name
+    indiv.f_name = Faker::Name.first_name
+    indiv.l_name = Faker::Name.last_name
     indiv.active = true
     indiv.user_id = admin.id
     indiv.contact_id = contact.id
+    indiv.role=2
+    indiv.save!
 
     # create 15 organizations with contact information
-      # create 0...5 programs for each organization
+    organizations=[]
+    15.times do
+        contact = Contact.new
+        contact.phone = rand(10 ** 10).to_s.rjust(10,'0')
+        contact.email = Faker::Internet.email
+        contact.street = Faker::Address.street_address
+        contact.city = Faker::Address.city
+        contact.state = STATE_ABBREVIATIONS.sample
+        contact.zip = rand(5 ** 5).to_s.rjust(5,'0')
+        contact.save!
 
+        organization = Organization.new
+        organization.name = Faker::Lorem.word.capitalize+" "+["Club","Organization","Center"].sample
+        organization.is_partner = [true,false].sample
+        organization.description = Faker::Lorem.paragraph
+        organization.active = true
+        organization.department = ["History","Information Systems", "Computer Science","Engineering","Business","English","Linguistics","Cognitive Science","Art","Architecture","Drama","Philosophy","Psycholog","Statistics","Economics"].sample
+        organization.contact_id = contact.id
+        organization.save!
+        organizations.push organization
+    end
 
+    # create 0...5 programs for each organization
+    programs = []
+    organizations.each do |org|
+        rand(6).times do
+            contact = Contact.new
+            contact.phone = rand(10 ** 10).to_s.rjust(10,'0')
+            contact.email = Faker::Internet.email
+            contact.street = Faker::Address.street_address
+            contact.city = Faker::Address.city
+            contact.state = STATE_ABBREVIATIONS.sample
+            contact.zip = rand(5 ** 5).to_s.rjust(5,'0')
+            contact.save!
+
+            program = Program.new
+            program.name = Faker::Lorem.word.capitalize + " " +["Program","Activity","Day","Event","Days","Events","Programs", "Activities","Week","Weeks","Occurrence","Happening"].sample
+            program.description = Faker::Lorem.paragraph
+            program.start_date = Date.today + r.rand(-50...100)
+            program.end_date = program.start_date + r.rand(100)
+            program.cmu_facilities = ["Wean Hall","University Center","Porter Hall", "Simon Hall", "Wiegand Gym","Resnik"].sample
+            program.off_campus_facilities = ["None","Cathedral of Learning", "Carnegie Science Center"].sample 
+            program.num_minors = r.rand(0...150)
+            program.num_adults_supervising =  r.rand(0...50)
+            program.contact_id = contact.id
+            program.save!
+
+            affiliation = Affiliation.new
+            affiliation.organization_id = org.id
+            affiliation.program_id = program.id
+            affiliation.description = Faker::Lorem.sentence
+            affiliation.followed_process = [true,false].select
+            affiliation.save!
+        end
+
+    end
     # create 150 regular users
 
       # create individuals that belong to those users 
@@ -50,7 +107,7 @@ namespace :db do
 
       # Have them be members of 0...4 orgs
 
-      # If they are a member of an org, have them sign up for their programs as participants
+      # If they are a member of an org, have them sign up for some of their programs as participants
 
       # for 2/3 create a background check, randomizing the status for each
     
