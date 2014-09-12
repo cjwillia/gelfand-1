@@ -145,19 +145,22 @@ namespace :db do
                 # If it's expired, give it an old date
                 if bg_check.status == 5
                     old = Date.today << r.rand(60...100)
+                    bg_check.date_requested = old - r.rand(2...8)
                     bg_check.criminal_date = old
-                    bg_check.child_abuse_date = old
+                    bg_check.child_abuse_date = old + r.rand(2...15)
                 end
                 # If things have cleared, give it dates
                 if bg_check.status < 2
                     bg_check.criminal_date = Date.today - r.rand(10...60)
+                    bg_check.date_requested = bg_check.criminal_date - r.rand(2...8)
 
                     # If they got the child abuse date, assign it some time after the criminal date
                     if bg_check.status == 2
-                        bg_check.child_abuse_date = bg_check.criminal_date + r.rand(0...10)
+                        bg_check.child_abuse_date = bg_check.criminal_date + r.rand(2...10)
                     end
                 end
             end
+            bg_check.save!
         end
         
         # Have them be members of 0...4 orgs
