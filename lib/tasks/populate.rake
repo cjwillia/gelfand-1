@@ -134,9 +134,22 @@ namespace :db do
         # Have them be members of 0...4 orgs
         rand(5).times do
             membership = Membership.new
+            org = organizations.sample
             membership.individual_id = indiv.id
-            membership.organization_id = organizations.sample.id
+            membership.organization_id = org.id
             membership.save!
+
+
+            # Select some programs for the individual to sign up for
+            org_programs = org.programs.sample(rand(org.programs.count))
+
+            org_programs.each do |program|
+                participant = Participant.new
+                participant.individual_id = indiv.id
+                participant.program_id = program.id
+                participant.save!
+            end
+
         end
         # If they are a member of an org, have them sign up for some of their programs as participants
 
