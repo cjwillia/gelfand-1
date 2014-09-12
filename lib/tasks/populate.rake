@@ -131,6 +131,17 @@ namespace :db do
         indiv.role = rand(3)
         indiv.save!
 
+        # Give them a Background Check (2/3 chance)
+        
+        #n = rand(3)
+
+        #if n < 2
+            #bg_check = BgCheck.new
+            #bg_check.status = rand(6)
+            #if bg_check > 0
+                #bg_check Date.today + r.rand(-50...100)
+        #end
+        
         # Have them be members of 0...4 orgs
         rand(5).times do
             membership = Membership.new
@@ -155,7 +166,11 @@ namespace :db do
 
         # for 2/3 create a background check, randomizing the status for each
 
-
+        # An Organization should have an Org_Head
     end
+
+    # Now that we have organizations with users in them, make a member the Organization Head
+
+
   end
 end
