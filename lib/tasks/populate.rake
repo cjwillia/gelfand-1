@@ -180,15 +180,21 @@ namespace :db do
             end
 
         end
+        # vvvvvvvvvvv These are done now -Cory vvvvvvvvvvvvv
+
         # If they are a member of an org, have them sign up for some of their programs as participants
 
         # for 2/3 create a background check, randomizing the status for each
-
-        # An Organization should have an Org_Head
     end
 
-    # Now that we have organizations with users in them, make a member the Organization Head
+    # Now that we have organizations with users in them, make one member the Organization Head
 
-
+    organizations.each do |org|
+        leader = org.individuals.sample
+        org_user = OrgUser.new
+        org_user.organization_id = org.id
+        org_user.user_id = leader.user.id
+        org_user.save!
+    end
   end
 end
