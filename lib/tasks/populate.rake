@@ -133,14 +133,32 @@ namespace :db do
 
         # Give them a Background Check (2/3 chance)
         
-        #n = rand(3)
+        n = rand(3)
 
-        #if n < 2
-            #bg_check = BgCheck.new
-            #bg_check.status = rand(6)
-            #if bg_check > 0
-                #bg_check Date.today + r.rand(-50...100)
-        #end
+        if n < 2
+            bg_check = BgCheck.new
+            bg_check.individual_id = indiv.id
+            bg_check.status = rand(6)
+
+            # Exclude the just created case
+            if bg_check.status > 0
+                # If it's expired, give it an old date
+                if bg_check.status == 5
+                    old = Date.today << r.rand(60...100)
+                    bg_check.criminal_date = old
+                    bg_check.child_abuse_date = old
+                end
+                # If things have cleared, give it dates
+                if bg_check.status < 2
+                    bg_check.criminal_date = Date.today - r.rand(10...60)
+
+                    # If they got the child abuse date, assign it some time after the criminal date
+                    if bg_check.status == 2
+                        bg_check.child_abuse_date = bg_check.criminal_date + r.rand(0...10)
+                    end
+                end
+            end
+        end
         
         # Have them be members of 0...4 orgs
         rand(5).times do
