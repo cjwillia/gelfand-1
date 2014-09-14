@@ -21,25 +21,28 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 			indiv_ids.each do |i_id|
 				membership_ids << Membership.find_by(individual_id: i_id).id
 			end
-			# By here should have populated indiv_ids and membership_ids
-			
-			# Note 1: membership_ids and indiv_ids should be the same size because I made it so in the Org
-				# show page that a new Membership and Indiv is created (thus a new Indiv id created for each new Indiv)
-			# Note 2: where returns Active Record relation (basically an array) even if there is only 1 object 
-				# that meets the criteria, BUT find_by always returns the single object itself
-			indiv_ids.each do |i_id|
-				Individual.delete(i_id)
-			end
-			# now here I should have deleted all temp Indivs, so now there are Membership objects with
-				# their individual_id foreign keys pointing to a nil object
-			
-			# Below is where I go through my mem_ids, find the Membership with that id, 
-				# assign that membership to the id of the Individual that just signed up
-			indiv_of_new_user = resource.individual.id
-			membership_ids.each do |m_id|
-				@m = Membership.find_by_id(m_id)
-				@m.individual_id = indiv_of_new_user
-				@m.save
+
+			unless indiv_ids.empty?
+				# By here should have populated indiv_ids and membership_ids
+				
+				# Note 1: membership_ids and indiv_ids should be the same size because I made it so in the Org
+					# show page that a new Membership and Indiv is created (thus a new Indiv id created for each new Indiv)
+				# Note 2: where returns Active Record relation (basically an array) even if there is only 1 object 
+					# that meets the criteria, BUT find_by always returns the single object itself
+				indiv_ids.each do |i_id|
+					Individual.delete(i_id)
+				end
+				# now here I should have deleted all temp Indivs, so now there are Membership objects with
+					# their individual_id foreign keys pointing to a nil object
+				
+				# Below is where I go through my mem_ids, find the Membership with that id, 
+					# assign that membership to the id of the Individual that just signed up
+				indiv_of_new_user = resource.individual.id
+				membership_ids.each do |m_id|
+					@m = Membership.find_by_id(m_id)
+					@m.individual_id = indiv_of_new_user
+					@m.save
+				end
 			end
 #------------------------------------------------------------------------------
 
