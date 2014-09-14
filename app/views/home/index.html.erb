@@ -8,19 +8,14 @@
   <section class="top-bar-section">
     <!-- Right Nav Section -->
     <ul class="right">
-      <li class="active"><a href="#">Right Button Active</a></li>
-      <li class="has-dropdown">
-        <a href="#">Right Button Dropdown</a>
-        <ul class="dropdown">
-          <li><a href="#">First link in dropdown</a></li>
-          <li class="active"><a href="#">Active link in dropdown</a></li>
-        </ul>
-      </li>
-    </ul>
-
-    <!-- Left Nav Section -->
-    <ul class="left">
-      <li><a href="#">Left Nav Button</a></li>
+		<%= form_for(User.new, :url => user_session_path) do |f| %>
+		<div class="row collapse">
+			<li class="small-4 columns"><%= f.email_field :email, :id => 'email', :placeholder => 'email' %></li>
+			<li class="small-4 columns"><%= f.password_field :password, :id => 'password', :placeholder => 'password' %></li>
+			<li class="small-4 columns text-center"><%= f.submit 'Login', :id => 'submit', :class => 'button' %></li>
+		</div>
+		
+		<% end %>
     </ul>
   </section>
 </nav>
