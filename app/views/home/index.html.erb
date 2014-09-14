@@ -12,13 +12,23 @@
 		<div class="row collapse">
 			<li class="small-4 columns"><%= f.email_field :email, :id => 'email', :placeholder => 'email' %></li>
 			<li class="small-4 columns"><%= f.password_field :password, :id => 'password', :placeholder => 'password' %></li>
-			<li class="small-4 columns text-center"><%= f.submit 'Login', :id => 'submit', :class => 'button' %></li>
+			<li class="small-4 columns text-center"><%= f.submit 'Login', :class => 'button' %></li>
 		</div>
 		
 		<% end %>
     </ul>
   </section>
 </nav>
+
+<div class="row">
+	<!-- Alerts go here. -->
+	<% if flash[:alert] %>
+		<div data-alert class="alert-box radius">
+			<%= flash[:alert] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
+</div>
 
 
 <div class="row" data-equalizer>
@@ -32,7 +42,58 @@
 			- create/manage your organization <br>
 			- add individuals to your organization <br>
 	<% else %>
-		<h3> Welcome to the Gelfand Center! </h3>
+		<div class="small-8 columns">
+			<h2>This is some stuff about the app and its business value. It is very large.</h2>
+			<div class="row">
+				<div class="small-2 columns">
+					<img src="<%= asset_path( 'gelfandLogo.jpg' ) %>">
+				</div>
+				<div class="small-10 columns">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-2 columns">
+					<img src="<%= asset_path( 'gelfandLogo.jpg' ) %>">
+				</div>
+				<div class="small-10 columns">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-2 columns">
+					<img src="<%= asset_path( 'gelfandLogo.jpg' ) %>">
+				</div>
+				<div class="small-10 columns">
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				</div>
+			</div>
+		</div>
+		<div class="small-4 columns">
+			<h1>Sign Up</h1>
+			<p>Please use your official andrew email address if you are affiliated with Carnegie Mellon University.</p>
+			<%= form_for(:user, :url => user_registration_path) do |f| %>
+				<%= f.fields_for :individual do |individual_f| %>
+					<!-- Needs to accept Attributes for Individual too -->
+					<div class="row">
+						<div class="small-6 columns"><%= individual_f.text_field :f_name, :placeholder => "First Name" %></div>
+						<div class="small-6 columns"><%= individual_f.text_field :l_name, :placeholder => "Last Name" %></div>
+					</div>
+					<div class="row"><div class="small-12 columns"><%= f.email_field :email, :placeholder => "Email" %></div></div>
+					<div class="row">
+						<div class="small-6 columns"><%= f.password_field :password, :placeholder => "Password" %></div>
+						<div class="small-6 columns"><%= f.password_field :password, :placeholder => "Confirm Password" %></div>
+					</div>
+					<div class="row">
+						<div class="small-12 columns"><%= individual_f.select :role, Individual::ROLES_LIST, :include_blank => "Select which describes you best..." %></div>
+					</div>
+					<br />
+					<div class="row">
+						<%= f.submit 'Create Account', :class => "button" %>
+					</div>
+				<% end %>
+			<% end %>
+		</div>
 	<% end %>
 
 </div>
