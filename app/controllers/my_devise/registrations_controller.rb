@@ -9,7 +9,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	    yield resource if block_given?
 	    if resource_saved
 #------------------------------------------------------------------------------
-# The  below code is how Memberships isidentified by a temp Individuals first_name
+# The  below code is how Memberships is identified by a temp Individuals first_name
 # which is set as a future User's email and assigns all Memberships to the new Indiv_id after sign up
 #------------------------------------------------------------------------------
 			indiv_Objects = Individual.where(f_name: @user.email)
