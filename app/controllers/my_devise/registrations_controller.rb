@@ -2,14 +2,14 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	  def create
 	    build_resource(sign_up_params)
-	    # this line is so can build the User using strong parameters in method user_params
+	    # this line is so we can build the User using strong parameters in method user_params
 	    @user = User.new(user_params)
 
 	    resource_saved = resource.save
 	    yield resource if block_given?
 	    if resource_saved
 #------------------------------------------------------------------------------
-# The  below code is how Memberships identified by a temp Individuals first_name
+# The  below code is how Memberships isidentified by a temp Individuals first_name
 # which is set as a future User's email and assigns all Memberships to the new Indiv_id after sign up
 #------------------------------------------------------------------------------
 			indiv_Objects = Individual.where(f_name: @user.email)
@@ -25,17 +25,17 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 			unless indiv_ids.empty?
 				# By here should have populated indiv_ids and membership_ids
 				
-				# Note 1: membership_ids and indiv_ids should be the same size because I made it so in the Org
-					# show page that a new Membership and Indiv is created (thus a new Indiv id created for each new Indiv)
+				# Note 1: membership_ids and indiv_ids should be the same size because currently in the Org
+					# show page a new Membership and Indiv is created (thus a new Indiv id created for each new Indiv)
 				# Note 2: where returns Active Record relation (basically an array) even if there is only 1 object 
 					# that meets the criteria, BUT find_by always returns the single object itself
 				indiv_ids.each do |i_id|
 					Individual.delete(i_id)
 				end
-				# now here I should have deleted all temp Indivs, so now there are Membership objects with
+				# here all temp Indivs deleted, so now there are Membership objects with
 					# their individual_id foreign keys pointing to a nil object
 				
-				# Below is where I go through my mem_ids, find the Membership with that id, 
+				# Below look through mem_ids, find the Membership with that id, 
 					# assign that membership to the id of the Individual that just signed up
 				indiv_of_new_user = resource.individual.id
 				membership_ids.each do |m_id|
