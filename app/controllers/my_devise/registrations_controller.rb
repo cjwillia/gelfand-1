@@ -5,6 +5,11 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	    # this line is so we can build the User using strong parameters in method user_params
 	    @user = User.new(user_params)
 
+	    # add attribute to user to check if first time
+	    if (!params[:first_time.nil?])
+	    	@user.first_time = true
+	    end
+
 	    resource_saved = resource.save
 	    yield resource if block_given?
 	    if resource_saved
