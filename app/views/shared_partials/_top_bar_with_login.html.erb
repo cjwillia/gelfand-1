@@ -1,0 +1,21 @@
+<nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="/">Awesome Name</a></h1>
+    </li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+		<%= form_for(User.new, :url => user_session_path) do |f| %>
+		<div class="row collapse">
+			<li class="small-4 columns"><%= f.email_field :email, :id => 'email', :placeholder => 'email' %></li>
+			<li class="small-4 columns"><%= f.password_field :password, :id => 'password', :placeholder => 'password' %></li>
+			<li class="small-4 columns text-center"><%= f.submit 'Login', :class => 'button' %></li>
+		</div>
+		
+		<% end %>
+    </ul>
+  </section>
+</nav>
