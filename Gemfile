@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'devise'
 gem 'font-awesome-rails'
 gem 'chronic'
-gem 'mysql2'
+#gem 'mysql2'
 gem 'faker'
 gem 'populator'
 
