@@ -4,7 +4,8 @@
 	<%= render "shared_partials/top_bar_with_links" %>
 <% end %>
 
-<div class="row">
+<!-- DEVISE puts its alerts in flash[:notice] -->
+<div id="alerts" class="row">
 	<!-- Alerts go here. -->
 	<% if flash[:notice] %>
 		<div data-alert class="alert-box radius">
