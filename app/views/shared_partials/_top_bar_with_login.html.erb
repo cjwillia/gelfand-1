@@ -7,15 +7,12 @@
 
   <section class="top-bar-section">
     <!-- Right Nav Section -->
-    <ul class="right">
-		<%= form_for(User.new, :url => user_session_path) do |f| %>
-		<div class="row collapse">
-			<li class="small-4 columns"><%= f.email_field :email, :id => 'email', :placeholder => 'email' %></li>
-			<li class="small-4 columns"><%= f.password_field :password, :id => 'password', :placeholder => 'password' %></li>
-			<li class="small-4 columns text-center"><%= f.submit 'Login', :class => 'button' %></li>
-		</div>
-		
-		<% end %>
+    <ul id="nav-bar-right-login" class="right">
+  		<%= form_for(User.new, :url => user_session_path) do |f| %>
+    			<li class=""><%= f.email_field :email, :id => 'email', :placeholder => 'email' %></li>
+    			<li class=""><%= f.password_field :password, :id => 'password', :placeholder => 'password' %></li>
+          <li class=""><%= f.submit 'Login', :class => 'button' %></li>
+    	<% end %>
     </ul>
   </section>
 </nav>
