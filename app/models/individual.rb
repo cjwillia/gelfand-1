@@ -34,7 +34,7 @@ class Individual < ActiveRecord::Base
 
     # Select Lists
     # -------
-    ROLES_LIST = [["Student", 0],["Staff", 1],["Faculty", 2]]
+    ROLES_LIST = [["CMU Student", 0],["CMU Faculty", 1],["Off-Campus Staff", 2]]
 
     # Class Methods
     # -------------

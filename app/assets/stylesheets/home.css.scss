@@ -2,22 +2,6 @@
 
 $height_Main_content: auto;
 
-.title{
-	margin: 15px;
-	// color: white; <- currently not working, find out why
-}
-
-
-.leftNav{
-	background-color: #990000;
-	min-height: 100vh;
-}
-
-.rightContent{
-	height: $height_Main_content;
-	background-color:#fff; 
-}
-
 img{
 	border: 3px solid gray;
 }

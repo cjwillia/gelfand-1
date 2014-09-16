@@ -131,18 +131,73 @@ namespace :db do
         indiv.role = rand(3)
         indiv.save!
 
+        # Give them a Background Check (2/3 chance)
+        
+        n = rand(3)
+
+        if n < 2
+            bg_check = BgCheck.new
+            bg_check.individual_id = indiv.id
+            bg_check.status = rand(6)
+
+            # Exclude the just created case
+            if bg_check.status > 0
+                # If it's expired, give it an old date
+                if bg_check.status == 5
+                    old = Date.today << r.rand(60...100)
+                    bg_check.date_requested = old - r.rand(2...8)
+                    bg_check.criminal_date = old
+                    bg_check.child_abuse_date = old + r.rand(2...15)
+                end
+                # If things have cleared, give it dates
+                if bg_check.status < 2
+                    bg_check.criminal_date = Date.today - r.rand(10...60)
+                    bg_check.date_requested = bg_check.criminal_date - r.rand(2...8)
+
+                    # If they got the child abuse date, assign it some time after the criminal date
+                    if bg_check.status == 2
+                        bg_check.child_abuse_date = bg_check.criminal_date + r.rand(2...10)
+                    end
+                end
+            end
+            bg_check.save!
+        end
+        
         # Have them be members of 0...4 orgs
         rand(5).times do
             membership = Membership.new
+            org = organizations.sample
             membership.individual_id = indiv.id
-            membership.organization_id = organizations.sample.id
+            membership.organization_id = org.id
             membership.save!
+
+
+            # Select some programs for the individual to sign up for
+            org_programs = org.programs.sample(rand(org.programs.count))
+
+            org_programs.each do |program|
+                participant = Participant.new
+                participant.individual_id = indiv.id
+                participant.program_id = program.id
+                participant.save!
+            end
+
         end
+        # vvvvvvvvvvv These are done now -Cory vvvvvvvvvvvvv
+
         # If they are a member of an org, have them sign up for some of their programs as participants
 
         # for 2/3 create a background check, randomizing the status for each
+    end
 
+    # Now that we have organizations with users in them, make one member the Organization Head
 
+    organizations.each do |org|
+        leader = org.individuals.sample
+        org_user = OrgUser.new
+        org_user.organization_id = org.id
+        org_user.user_id = leader.user.id
+        org_user.save!
     end
   end
 end
