@@ -19,7 +19,9 @@
 
   <strong>Is partner:</strong>
   <%= @organization.is_partner ? "Yes" : "No"%>
-
+  <br>
+  <strong>Org Heads:</strong>
+  <%= @organization.users.sample.individual.name %>
   <br>
   <br>
   <div class="Org_Show_Content">

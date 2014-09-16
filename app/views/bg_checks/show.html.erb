@@ -1,4 +1,6 @@
-<div class="row" data-equalizer>
+<%= render "shared_partials/top_bar_with_links" %>
+
+<div class="row">
   <p id="notice"><%= notice %></p>
   <% if current_user.admin? %>
   <h1>Background Check for <%=@bg_check.individual.proper_name%></h1>
@@ -21,7 +23,7 @@
     <%= link_to 'Back', bg_checks_path %>
 
   <% else %>
-    <h1>My Background Check Status</h1>
+    <h1 class="text-center">My Background Check Status</h1>
     <div class="bg-wrapper">
       <div class="bg-status-bar">
         <table>
