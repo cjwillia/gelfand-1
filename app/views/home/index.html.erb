@@ -1,4 +1,8 @@
-<%= render "shared_partials/top_bar_with_links" %>
+<% if current_user.nil? %>
+	<%= render "shared_partials/top_bar_with_login" %>
+<% else %>
+	<%= render "shared_partials/top_bar_with_links" %>
+<% end %>
 
 <div class="row">
 	<!-- Alerts go here. -->
