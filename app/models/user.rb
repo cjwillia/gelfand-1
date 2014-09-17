@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-         
 
   def admin?
   	admin # this is a boolean that holds a true or false value
