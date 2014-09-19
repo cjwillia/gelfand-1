@@ -1,5 +1,31 @@
-<%= render "shared_partials/top_bar_with_login" %>
+<%= render "shared_partials/top_bar_with_no_links_no_login" %>
 
+<!-- DEVISE puts its alerts in flash[:notice] -->
+<div id="alerts" class="row">
+	<!-- Alerts go here. -->
+	<% if flash[:notice] %>
+		<div data-alert class="alert-box radius">
+			<%= flash[:notice] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
+
+	<% if flash[:error] %>
+		<div data-alert class="alert-box slow-fade radius">
+			<%= flash[:error] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
+
+	<% if flash[:alert] %>
+		<div data-alert class="alert-box radius">
+			<%= flash[:alert] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
+
+
+</div>
 
 <div class="row">
   <div class="small-4 columns">&nbsp;</div>
@@ -13,9 +39,9 @@
 	  <%= f.password_field :password, :placeholder => "Password" %>
 
 	  <br>
-	  <%= f.submit "Sign in", :class => "button"%>
-	<% end %>
 
+	 <class="test" style="position:absolute;right:10px;"> 	<%= f.submit "Sign in", :class => "button"%>
+	<% end %>
 
   </div>
   <div class="small-4 columns">&nbsp;</div>

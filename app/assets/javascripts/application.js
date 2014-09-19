@@ -57,10 +57,10 @@ $(document).ready(function(){
   });
 
   //code to fade out alert boxes
-  $('.alert-box').fadeIn('normal', function() {
+  $('.slow-fade').fadeIn('normal', function() {
       $(this).delay(2000).fadeOut();
    });
-
+  
   //datepicker code
   $('.datepicker').fdatepicker({
     format: 'yyyy-mm-dd'
