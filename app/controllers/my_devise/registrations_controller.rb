@@ -1,5 +1,10 @@
 class MyDevise::RegistrationsController < Devise::RegistrationsController
 
+	  def after_inactive_sign_up_path_for(resource)
+	    flash[:notice] = "Signed up...but need to confirm #{resource.email}"
+	    signed_up_confirm_path
+	  end
+
 	  def create
 	    build_resource(sign_up_params)
 	    # this line is so we can build the User using strong parameters in method user_params
@@ -51,8 +56,8 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	        sign_up(resource_name, resource)
 	        respond_with resource, location: after_sign_up_path_for(resource)
 	      else
-	        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
 	        expire_data_after_sign_in!
+	        puts after_inactive_sign_up_path_for(resource)
 	        respond_with resource, location: after_inactive_sign_up_path_for(resource)
 	      end
 	    else

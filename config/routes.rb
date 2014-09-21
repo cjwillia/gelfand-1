@@ -25,6 +25,7 @@ Gelfand::Application.routes.draw do
 
   resources :bg_checks 
 
+  get 'signed_up_confirm' => "home#signed_up_confirm", :as => :signed_up_confirm
   #match 'organizations/overview' => 'organizations#overview', :via => [:get], :as => :org_overview
 
   # below is so I can add the 'delete_multiple' action and url along with the regular 7 we get from 
