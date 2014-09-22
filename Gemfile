@@ -49,9 +49,10 @@ group :production do
     gem 'pg', '~> 0.17.1'
 end
 
-group :test do
+group :development, :test do
 	gem 'factory_girl_rails', '4.2.1'
 	gem 'shoulda'
+    gem 'sqlite3'
 end
 
 
