@@ -4,6 +4,7 @@ class HomeController < ApplicationController
     	@bgChecks_requested = @all.requested
     	@bgChecks_pCriminal = @all.passed_criminal
     	@bgChecks_pChildAbuse = @all.passed_child_abuse
+        @bgChecks_underReview = @all.criminal_failed
     	@bgChecks_nCleared = @all.not_cleared
     	@bgChecks_expired = @all.expired.limit(30)
 
