@@ -58,8 +58,7 @@
 			<h1>Sign Up</h1>
 			<p>Please use your official andrew email address if you are affiliated with Carnegie Mellon University.</p>
 			<%= form_for(:user, :url => user_registration_path) do |f| %>
-				<%= f.fields_for :individual do |individual_f| %>
-					<!-- Needs to accept Attributes for Individual too -->
+				<%= f.fields_for :individual_attributes do |individual_f| %>
 					<div class="row">
 						<div class="small-6 columns"><%= individual_f.text_field :f_name, :placeholder => "First Name" %></div>
 						<div class="small-6 columns"><%= individual_f.text_field :l_name, :placeholder => "Last Name" %></div>

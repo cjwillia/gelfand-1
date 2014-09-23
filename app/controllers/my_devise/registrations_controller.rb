@@ -1,9 +1,18 @@
 class MyDevise::RegistrationsController < Devise::RegistrationsController
 
+	  def after_inactive_sign_up_path_for(resource)
+	    flash[:notice] = "Signed up...but need to confirm #{resource.email}"
+	    signed_up_confirm_path
+	  end
+
 	  def create
 	    build_resource(sign_up_params)
+	    resource.build_individual(sign_up_params[:individual_attributes])
 	    # this line is so we can build the User using strong parameters in method user_params
-	    @user = User.new(user_params)
+	    #@user = User.new(user_params)
+
+
+	    puts "YOOOO INDIVIDUAL OVER HURRRR: " + resource.individual.name
 
 	    resource_saved = resource.save
 	    yield resource if block_given?
@@ -51,8 +60,8 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	        sign_up(resource_name, resource)
 	        respond_with resource, location: after_sign_up_path_for(resource)
 	      else
-	        set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
 	        expire_data_after_sign_in!
+	        puts after_inactive_sign_up_path_for(resource)
 	        respond_with resource, location: after_inactive_sign_up_path_for(resource)
 	      end
 	    else
@@ -64,6 +73,6 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	 private
 	 def user_params
-	 	params.require(:user).permit(:email, :password, :password_confirmation, :encrypted_password, :salt, {individual_attributes: [:f_name, :l_name, :role, :active]})
+	 	params.require(:user).permit(:email, :password, :password_confirmation, :encrypted_password, :salt, individual_attributes: [:f_name, :l_name, :role])
 	 end
 end
