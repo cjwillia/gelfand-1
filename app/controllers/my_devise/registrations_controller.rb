@@ -7,8 +7,12 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	  def create
 	    build_resource(sign_up_params)
+	    resource.build_individual(sign_up_params[:individual_attributes])
 	    # this line is so we can build the User using strong parameters in method user_params
-	    @user = User.new(user_params)
+	    #@user = User.new(user_params)
+
+
+	    puts "YOOOO INDIVIDUAL OVER HURRRR: " + resource.individual.name
 
 	    resource_saved = resource.save
 	    yield resource if block_given?
@@ -69,6 +73,6 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	 private
 	 def user_params
-	 	params.require(:user).permit(:email, :password, :password_confirmation, :encrypted_password, :salt, {individual_attributes: [:f_name, :l_name, :role, :active]})
+	 	params.require(:user).permit(:email, :password, :password_confirmation, :encrypted_password, :salt, individual_attributes: [:f_name, :l_name, :role])
 	 end
 end
