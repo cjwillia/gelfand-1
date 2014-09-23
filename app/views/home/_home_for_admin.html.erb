@@ -24,7 +24,11 @@
 	<div class="small-2 large-2 columns">
 		<!-- content -->
 		<% @bgChecks_requested.each do |bgcheck| %>
-			<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% if bgcheck.date_requested > 7.days.ago %>
+				<div class="panel callout"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% else %>
+				<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<%end%>
 		<% end %>
 	</div>
 
