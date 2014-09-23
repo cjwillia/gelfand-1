@@ -7,9 +7,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	  def after_sign_in_path_for(resource)
 	  	flash[:notice] = "Signed In Successfully"
-	  	unless resource.admin?
-	  	 	bg_checks_path
-	  	end 
+  	 	bg_checks_path 
 	  end
 
 	  def create

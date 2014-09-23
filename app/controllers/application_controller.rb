@@ -20,5 +20,10 @@ class ApplicationController < ActionController::Base
     return nil if string.blank?
     Chronic.parse(string).to_date
   end
+
+  def after_sign_in_path_for(resource)
+    flash[:notice] = "Signed In Successfully"
+    bg_checks_path 
+  end
   
 end
