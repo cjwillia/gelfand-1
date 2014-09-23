@@ -1,17 +1,49 @@
-<h2>Sign in</h2>
+<%= render "shared_partials/top_bar_with_no_links_no_login" %>
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+<!-- DEVISE puts its alerts in flash[:notice] -->
+<div id="alerts" class="row">
+	<!-- Alerts go here. -->
+	<% if flash[:notice] %>
+		<div data-alert class="alert-box radius">
+			<%= flash[:notice] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+	<% if flash[:error] %>
+		<div data-alert class="alert-box slow-fade radius">
+			<%= flash[:error] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+	<% if flash[:alert] %>
+		<div data-alert class="alert-box radius">
+			<%= flash[:alert] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
 
-  <div><%= f.submit "Sign in" %></div>
 
-<% end %>
+</div>
+
+<div class="row">
+  <div class="small-4 columns">&nbsp;</div>
+  <div class="small-4 columns">
+
+	<h2>Sign in</h2>
+	<br>
+	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+	  <%= f.email_field :email, :autofocus => true, :placeholder => "Email" %>
+
+	  <%= f.password_field :password, :placeholder => "Password" %>
+
+	  <br>
+
+	 <class="test" style="position:absolute;right:10px;"> 	<%= f.submit "Sign in", :class => "button"%>
+	<% end %>
+
+  </div>
+  <div class="small-4 columns">&nbsp;</div>
+</div>
 

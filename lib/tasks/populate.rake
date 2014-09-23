@@ -20,6 +20,7 @@ namespace :db do
     admin.password = "secretpassword"
     admin.password_confirmation = "secretpassword"
     admin.admin = true
+    admin.skip_confirmation!
     admin.member = true
     admin.save!
     # create contact for admin user
@@ -109,6 +110,7 @@ namespace :db do
         user.email = "#{f_name}.#{l_name}@example.com"
         user.password = "secretpassword"
         user.password_confirmation = "secretpassword"
+        user.skip_confirmation!
         user.admin = false
         user.member = true
         user.save!

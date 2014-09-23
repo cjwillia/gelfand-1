@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
+ruby '2.1.0'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
-
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -49,11 +48,15 @@ gem 'hirb'
 gem 'validates_timeliness'
 
 group :production do
+    gem 'pg', '~> 0.17.1'
+    gem 'rails_12factor'
+    gem 'unicorn'
 end
 
-group :test do
+group :development, :test do
 	gem 'factory_girl_rails', '4.2.1'
 	gem 'shoulda'
+    gem 'sqlite3'
 end
 
 
@@ -71,7 +74,7 @@ end
 # gem 'debugger', group: [:development, :test]
 
 # Use Foundation for clean CSS/JS
-gem 'foundation-rails'
+gem 'foundation-rails', '5.4.3.1'
 
 gem 'simple_form'
 
