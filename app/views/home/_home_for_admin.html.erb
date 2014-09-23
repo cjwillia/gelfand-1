@@ -1,100 +1,87 @@
 
 <div class="row">
 	<!-- Requested -->
-	<div class="small-2 large-2">
-		<div class="org_list">
-			<!-- title -->
-			<div class="title">
-				<h4> Requested </h4>
-			</div>
-
-			<!-- content -->
-				<br>
-				<% @bgChecks_requested.each do |bgcheck| %>
-					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
-				<% end %>
-
+	<div class="small-2 large-2 columns">
+		<!-- title -->
+		<div class="title">
+			<h4> Requested </h4>
 		</div>
+
+		<!-- content -->
+			<br>
+			<% @bgChecks_requested.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% end %>
 	</div>
 
 	<!-- Criminal passed -->
-	<div class="small-2 large-2">
-		<div class="org_list">
-			<!-- title -->
-			<div class="title">
-				<h4> Criminal Passed </h4>
-			</div>
-
-			<!-- content -->
-				<br>
-				<% @bgChecks_pCriminal.each do |bgcheck| %>
-					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
-				<% end %>
+	<div class="small-2 large-2 columns">
+		<!-- title -->
+		<div class="title">
+			<h4> Criminal Passed </h4>
 		</div>
+
+		<!-- content -->
+			<br>
+			<% @bgChecks_pCriminal.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% end %>
 	</div>
 
 	<!-- Child Abuse passed -->
-	<div class="small-2 large-2">
-		<div class="org_list">
-			<!-- title -->
-			<div class="title">
-				<h4> Child Abuse passed </h4>
-			</div>
-
-			<!-- content -->
-				<br>
-				<% @bgChecks_pChildAbuse.each do |bgcheck| %>
-					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
-				<% end %>
+	<div class="small-2 large-2 columns">
+		<!-- title -->
+		<div class="title">
+			<h4> Child Abuse passed </h4>
 		</div>
+
+		<!-- content -->
+			<br>
+			<% @bgChecks_pChildAbuse.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% end %>
 	</div>
 
 	<!-- Under review -->
-	<div class="small-2 large-2">
-		<div class="org_list">
-			<!-- title -->
-			<div class="title">
-				<h4> Under Review </h4>
-			</div>
-
-			<!-- content -->
-				<br>
-				<% @bgChecks_requested.each do |bgcheck| %>
-					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
-				<% end %>
+	<div class="small-2 large-2 columns">
+		<!-- title -->
+		<div class="title">
+			<h4> Under Review </h4>
 		</div>
+
+		<!-- content -->
+			<br>
+			<% @bgChecks_requested.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% end %>
 	</div>
 
 	<!-- Not cleared  -->
-	<div class="small-2 large-2">
-		<div class="org_list">
-			<!-- title -->
-			<div class="title">
-				<h4> Not cleared </h4>
-			</div>
-
-			<!-- content -->
-				<br>
-				<% @bgChecks_nCleared.each do |bgcheck| %>
-					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
-				<% end %>
+	<div class="small-2 large-2 columns">
+		<!-- title -->
+		<div class="title">
+			<h4> Not cleared </h4>
 		</div>
+
+		<!-- content -->
+			<br>
+			<% @bgChecks_nCleared.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% end %>
 	</div>
 
 	<!-- Expired  -->
-	<div class="small-2 large-2">
-		<div class="org_list">
-			<!-- title -->
-			<div class="title">
-				<h4> Expired </h4>
-			</div>
-
-			<!-- content -->
-				<br>
-				<% @bgChecks_expired.each do |bgcheck| %>
-					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
-				<% end %>
+	<div class="small-2 large-2 columns">
+		<!-- title -->
+		<div class="title">
+			<h4> Expired </h4>
 		</div>
+
+		<!-- content -->
+			<br>
+			<% @bgChecks_expired.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %></div>
+			<% end %>
 	</div>
 
 
