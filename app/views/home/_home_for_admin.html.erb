@@ -10,7 +10,7 @@
 
 			<!-- content -->
 				<br>
-				<% @bgChecks_req.each do |bgcheck| %>
+				<% @bgChecks_requested.each do |bgcheck| %>
 					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
 				<% end %>
 
@@ -30,9 +30,73 @@
 				<% @bgChecks_pCriminal.each do |bgcheck| %>
 					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
 				<% end %>
-
 		</div>
 	</div>
+
+	<!-- Child Abuse passed -->
+	<div class="small-2 large-2">
+		<div class="org_list">
+			<!-- title -->
+			<div class="title">
+				<h4> Child Abuse passed </h4>
+			</div>
+
+			<!-- content -->
+				<br>
+				<% @bgChecks_pChildAbuse.each do |bgcheck| %>
+					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
+				<% end %>
+		</div>
+	</div>
+
+	<!-- Under review -->
+	<div class="small-2 large-2">
+		<div class="org_list">
+			<!-- title -->
+			<div class="title">
+				<h4> Under Review </h4>
+			</div>
+
+			<!-- content -->
+				<br>
+				<% @bgChecks_requested.each do |bgcheck| %>
+					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
+				<% end %>
+		</div>
+	</div>
+
+	<!-- Not cleared  -->
+	<div class="small-2 large-2">
+		<div class="org_list">
+			<!-- title -->
+			<div class="title">
+				<h4> Not cleared </h4>
+			</div>
+
+			<!-- content -->
+				<br>
+				<% @bgChecks_nCleared.each do |bgcheck| %>
+					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
+				<% end %>
+		</div>
+	</div>
+
+	<!-- Expired  -->
+	<div class="small-2 large-2">
+		<div class="org_list">
+			<!-- title -->
+			<div class="title">
+				<h4> Expired </h4>
+			</div>
+
+			<!-- content -->
+				<br>
+				<% @bgChecks_expired.each do |bgcheck| %>
+					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
+				<% end %>
+		</div>
+	</div>
+
 
 
 </div>
