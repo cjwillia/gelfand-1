@@ -14,7 +14,7 @@
           <% unless current_user.individual.bg_check.nil? %>
             <li><%= link_to "My Status", bg_check_path(current_user.individual.bg_check) %></li>
           <% else %>
-            <li><a href="/bg_check/new">My Status</a></li>
+            <li><a href="/bg_checks/new">My Status</a></li>
           <% end %>
           <li><a href="#">FAQ</a></li> <!-- Where does this go??? -->
         </ul>
