@@ -26,6 +26,17 @@
     <h1 class="text-center">My Background Check Status</h1>
     <div class="bg-wrapper">
       <div class="bg-status-bar">
+
+        <div class="row text-center">
+          <% if @bg_check.status == 0 %>
+            <div class="small-3 small-offset-1 columns"><strong class="current-step">Initiate Process</strong></div>
+            <div class="small-1 column">></div>
+            <div class="small-3 columns">In Progress</div>
+            <div class="small-1 column">></div>
+            <div class="small-3 columns">Complete</div>
+          <% end %>
+        </div>
+        <!--
         <table>
           <tr>
             <% if @bg_check.status == 0 %>
@@ -49,6 +60,7 @@
             <% end %>
           </tr>
         </table>
+        -->
       </div>
 
       <div class="bg-body">
