@@ -21,58 +21,9 @@
 // MENTION this: if user doesnt include the @ in the email, then a cool notification pops up
 $(document).ready(function(){
 
- // for login dropdown in Navbar
-  $('#login-trigger').click(function(){
-	$('#login-content').slideToggle(function(){
-    	$('#email').focus();
-	}); 
-    
-    $(this).toggleClass('active');          
-        
-    if ($(this).hasClass('active')) 
-    	$(this).find('span').html('&#x25B2;')
-    else $(this).find('span').html('&#x25BC;')
-    })
-
-  // Changes cursor to pointer for:
-  	// gelfand block in title of Nav bar
-  $('.name').css( 'cursor', 'pointer' );
-
-  $('.name').click(function() {
-  		window.location = ('/');
-  });
-
-
-  $(window).bind("load", function () {
-    var footer = $("#footer");
-    var pos = footer.position();
-    var height = $(window).height();
-    height = height - pos.top;
-    height = height - footer.height();
-    if (height > 0) {
-        footer.css({
-            'margin-top': height + 'px'
-        });
-    }
-  });
-
-  //code to fade out alert boxes
-  /*
-  $('.alert-box').fadeIn('normal', function() {
-      $(this).delay(2000).fadeOut();
-   });
-  */
-
   //datepicker code
   $('.datepicker').fdatepicker({
     format: 'yyyy-mm-dd'
-  });
-
-  // to add/delete orgUser
-  $(".removeOrgUser").click(function() {
-    $(this).next().toggle();
-
-      //$(".orgUser_add_delete_form").toggle();
   });
 
 });

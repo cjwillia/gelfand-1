@@ -19,15 +19,6 @@ body, html {
     height: 100%;
 }
 
-.row {
-  margin-left: 0;
-  margin-right: 0;
-  width: 100% !important;
-  max-width: 100%;
-  min-width: 100% !important;
-  position: relative;
-}
-
 .date-switch, .dow, .datepicker .next, .datepicker .prev {
     color:black;
 }
