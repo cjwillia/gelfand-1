@@ -1,15 +1,38 @@
 
-<div class="title">
-	<h1> Admin Dashboard </h1>
-</div>
+<div class="row">
+	<!-- Requested -->
+	<div class="small-2 large-2">
+		<div class="org_list">
+			<!-- title -->
+			<div class="title">
+				<h4> Requested </h4>
+			</div>
 
-<div class="org_list">
-	<h3> Stats for Organizations </h3>
-		<br>
-		<% Organization.all.each do |org| %>
-			<h5><%= link_to org.name, organization_path(org) %></h5>
-			Programs: <%= org.affiliations.size %> <br>
-			Members: <%= org.memberships.size %> <br> <br>
-		<% end %>
+			<!-- content -->
+				<br>
+				<% @bgChecks_req.each do |bgcheck| %>
+					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
+				<% end %>
+
+		</div>
+	</div>
+
+	<!-- Criminal passed -->
+	<div class="small-2 large-2">
+		<div class="org_list">
+			<!-- title -->
+			<div class="title">
+				<h4> Criminal Passed </h4>
+			</div>
+
+			<!-- content -->
+				<br>
+				<% @bgChecks_pCriminal.each do |bgcheck| %>
+					<%= link_to bgcheck.individual.name, individual_path(bgcheck.individual.id) %><br> <br>
+				<% end %>
+
+		</div>
+	</div>
+
 
 </div>
