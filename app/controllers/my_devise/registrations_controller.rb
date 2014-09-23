@@ -5,14 +5,18 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	    signed_up_confirm_path
 	  end
 
+	  def after_sign_in_path_for(resource)
+	  	flash[:notice] = "Signed In Successfully"
+	  	unless resource.admin?
+	  	 	
+	  	end 
+	  end
+
 	  def create
 	    build_resource(sign_up_params)
 	    resource.build_individual(sign_up_params[:individual_attributes])
 	    # this line is so we can build the User using strong parameters in method user_params
 	    #@user = User.new(user_params)
-
-
-	    puts "YOOOO INDIVIDUAL OVER HURRRR: " + resource.individual.name
 
 	    resource_saved = resource.save
 	    yield resource if block_given?
@@ -66,7 +70,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	      end
 	    else
 	      clean_up_passwords resource
-	      respond_with resource
+	      respond_with resource, location: after_sign_in_path_for(resource)
 	    end
 
 	  end
