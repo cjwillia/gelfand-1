@@ -2,6 +2,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	  def after_inactive_sign_up_path_for(resource)
 	    flash[:notice] = "Signed up...but need to confirm #{resource.email}"
+	    session[:temp_email] = resource.email
 	    signed_up_confirm_path
 	  end
 
