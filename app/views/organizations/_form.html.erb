@@ -17,7 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :is_partner, "Are you a Carnegie Mellon University organization? (This includes faculty projects and student organizations)." %>
-    <%= f.select :is_partner, [['Yes', false],['No',true]] %>
+    <%= radio_button_tag(:is_partner, "true") %>
+    <%= label_tag(:is_partner, "Yes") %>
+    <%= radio_button_tag(:is_partner, "false") %>
+    <%= label_tag(:is_partner, "No") %>
+
   </div>
   <div class="field">
     <%= f.label :description %>
