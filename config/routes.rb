@@ -57,7 +57,7 @@ Gelfand::Application.routes.draw do
 
   # Below ':controllers => ..." is so points to our custom 'registrations' controller
     # under my_devise folder which is in controllers folder
-  devise_for :users, :controllers => {:registrations => "my_devise/registrations"} 
+  devise_for :users, :controllers => {:registrations => "my_devise/registrations", :sessions => "new_sessions"} 
   root :to => "home#index"
 
 

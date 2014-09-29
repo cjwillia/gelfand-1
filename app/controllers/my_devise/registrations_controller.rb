@@ -59,17 +59,30 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 #------------------------------------------------------------------------------
 
 	      if resource.active_for_authentication?
-	        set_flash_message :notice, :signed_up if is_flashing_format?
-	        sign_up(resource_name, resource)
-	        respond_with resource, location: after_sign_up_path_for(resource)
+	      	if resource.confirmed?
+	        	set_flash_message :notice, :signed_up if is_flashing_format?
+	        	sign_up(resource_name, resource)
+	        	puts "Confirmed and Signing Up"
+	        	respond_with resource, location: after_sign_up_path_for(resource)
+	      	else
+	      		puts "Not confirmed. Should be at inactive sign up"
+	      		respond_with resource, location: after_inactive_sign_up_path_for(resource)
+	      	end
+
 	      else
 	        expire_data_after_sign_in!
-	        puts after_inactive_sign_up_path_for(resource)
+	        puts "Not confirmed. Should be first time"
 	        respond_with resource, location: after_inactive_sign_up_path_for(resource)
 	      end
 	    else
-	      clean_up_passwords resource
-	      respond_with resource, location: after_sign_in_path_for(resource)
+	    	if resource.confirmed?
+				puts "Resource not saved? Signing in normal"
+	    		clean_up_passwords resource
+	    		expire_data_after_sign_in!
+	    		respond_with resource, location: after_sign_in_path_for(resource)
+	    	else
+	    		respond_with resource, location after_inactive_sign_up_path_for(resource)
+	    	end
 	    end
 
 	  end

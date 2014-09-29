@@ -162,4 +162,17 @@ class User < ActiveRecord::Base
     p_ids.map{|p_id| Program.find(p_id)}
   end
 
+  protected
+
+  def send_confirmation_instructions
+    unless @raw_confirmation_token
+      generate_confirmation_token!
+    end
+
+    opts = pending_reconfirmation? ? { to: unconfirmed_email } : { }
+    opts[:subject] = "Please confirm your email"
+    send_devise_notification(:confirmation_instructions, @raw_confirmation_token, opts)
+  end
+
+
 end
