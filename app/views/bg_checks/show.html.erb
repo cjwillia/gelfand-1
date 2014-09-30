@@ -1,5 +1,13 @@
 <div class="row">
-  <p id="notice"><%= notice %></p>
+  <div id="alerts" class="row">
+    <!-- Alerts go here. -->
+    <% if flash[:notice] %>
+      <div data-alert class="alert-box slow-fade radius">
+        <%= flash[:notice] %>
+        <a href="#" class="close">&times;</a>
+      </div>
+    <% end %>
+  </div>
   <% if current_user.admin? %>
   <h1>Background Check for <%=@bg_check.individual.proper_name%></h1>
 
@@ -27,11 +35,24 @@
 
         <div class="row text-center">
           <% if @bg_check.status == 0 %>
-            <div class="small-3 small-offset-1 columns"><strong class="current-step">Initiate Process</strong></div>
+            <div class="small-3 small-offset-1 columns"><strong class="current-step">Started</strong></div>
             <div class="small-1 column">></div>
             <div class="small-3 columns">In Progress</div>
             <div class="small-1 column">></div>
-            <div class="small-3 columns">Complete</div>
+            <div class="small-3 columns">Finished</div>
+
+          <% elsif @bg_check.status == 1 || @bg_check.status == 3 %>
+            <div class="small-3 small-offset-1 columns">Started</div>
+            <div class="small-1 column">></div>
+            <div class="small-3 columns"><strong class="current-step">In Progress</strong></div>
+            <div class="small-1 column">></div>
+            <div class="small-3 columns">Finished</div>
+          <% else %>
+            <div class="small-3 small-offset-1 columns">Started</div>
+            <div class="small-1 column">></div>
+            <div class="small-3 columns">In Progress</div>
+            <div class="small-1 column">></div>
+            <div class="small-3 columns"><strong class="current-step">Finished</strong></div>
           <% end %>
         </div>
 

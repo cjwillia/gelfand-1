@@ -170,8 +170,6 @@ namespace :db do
                         end
                     end 
                 end
-
-                
             end
             bg_check.save!
         end
