@@ -81,7 +81,9 @@ class BgCheck < ActiveRecord::Base
             elsif self.criminal_date
                 self.status = 1
             else
-                self.status = 0
+                unless self.status
+                    self.status = 0
+                end
             end
     end
 
