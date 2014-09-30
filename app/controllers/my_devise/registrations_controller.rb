@@ -8,7 +8,12 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	  def after_sign_in_path_for(resource)
 	  	flash[:notice] = "Signed In Successfully"
-  	 	bg_checks_path 
+	  	# this code is not run
+	  	# instead, application_controller.rb runs
+	  	# unusual issue: if we take that code out and put it in here, 
+	  	# 		the code in here would still not run
+  	 	organizations_path
+
 	  end
 
 	  def create

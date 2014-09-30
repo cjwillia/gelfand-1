@@ -23,7 +23,12 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     flash[:notice] = "Signed In Successfully"
-    bg_checks_path 
+    bg_c = resource.individual.bg_check
+    if (bg_c.nil?)
+        new_bg_check_path
+    else  
+        bg_check_path(bg_c)     
+    end
   end
   
 end
