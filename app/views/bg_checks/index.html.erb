@@ -1,5 +1,5 @@
 <div class="row" data-equalizer>
-  <div class="small-2 columns leftNav"  data-equalizer-watch>
+  <div class="small-2 columns"  data-equalizer-watch>
     <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
      <ul class="side-nav">
       <%if current_user.admin%>
@@ -19,7 +19,7 @@
     <br />
   </div>
 
-  <div class="small-10 columns rightContent" data-equalizer-watch>
+  <div class="small-10 columns" data-equalizer-watch>
     <%if current_user.admin%>
       <h1>Listing Background Checks</h1>
 

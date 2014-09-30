@@ -1,9 +1,9 @@
 
 <div class="row" data-equalizer>
-    <div class="small-2 columns leftNav" data-equalizer-watch>
+    <div class="small-2 columns" data-equalizer-watch>
         <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
     </div>
-    <div class="small-10 columns rightContent" data-equalizer-watch>
+    <div class="small-10 columns" data-equalizer-watch>
         <h1>Updating <%= @bg_check.humanize_name %>'s Background Check</h1>
         <p>This background check was started on <%= @bg_check.date_requested.strftime("%m/%d/%Y") %></p>
         <%= render 'form' %>
