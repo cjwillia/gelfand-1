@@ -1,7 +1,7 @@
 class NewSessionsController < Devise::SessionsController
 
 	def after_inactive_sign_up_path_for(resource)
-	    flash[:notice] = "Signed up... but need to confirm email address: #{resource.email}"
+	    flash[:error] = "Signed up... but need to confirm email address: #{resource.email}"
 	    session[:temp_email] = resource.email
 	    signed_up_confirm_path
 	end
