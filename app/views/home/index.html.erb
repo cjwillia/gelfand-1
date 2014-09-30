@@ -1,9 +1,3 @@
-<% if current_user.nil? %>
-	<%= render "shared_partials/top_bar_with_login" %>
-<% else %>
-	<%= render "shared_partials/top_bar_with_links" %>
-<% end %>
-
 <!-- DEVISE puts its alerts in flash[:notice] -->
 <div id="alerts" class="row">
 	<!-- Alerts go here. -->
