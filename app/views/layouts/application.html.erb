@@ -14,6 +14,15 @@
   </head>
 
   <body>
+  
+  <!-- in case no one is logged in currently -->
+  <% if current_user.nil? %>
+    <%= render "shared_partials/top_bar_with_login" %>
+  <% else %>
+    <%= render "shared_partials/top_bar_with_links" %>
+  <% end %>
+
+
     <%= yield %>
 
       <%= render "shared_partials/footer" %>

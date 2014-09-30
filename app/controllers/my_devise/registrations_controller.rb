@@ -1,15 +1,19 @@
 class MyDevise::RegistrationsController < Devise::RegistrationsController
 
 	  def after_inactive_sign_up_path_for(resource)
-	    flash[:notice] = "Signed up...but need to confirm #{resource.email}"
+	    flash[:notice] = "Signed up... but need to confirm email address: #{resource.email}"
+	    session[:temp_email] = resource.email
 	    signed_up_confirm_path
 	  end
 
 	  def after_sign_in_path_for(resource)
 	  	flash[:notice] = "Signed In Successfully"
-	  	unless resource.admin?
-	  	 	bg_checks_path
-	  	end 
+	  	# this code is not run
+	  	# instead, application_controller.rb runs
+	  	# unusual issue: if we take that code out and put it in here, 
+	  	# 		the code in here would still not run
+  	 	organizations_path
+
 	  end
 
 	  def create
@@ -60,17 +64,30 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 #------------------------------------------------------------------------------
 
 	      if resource.active_for_authentication?
-	        set_flash_message :notice, :signed_up if is_flashing_format?
-	        sign_up(resource_name, resource)
-	        respond_with resource, location: after_sign_up_path_for(resource)
+	      	if resource.confirmed?
+	        	set_flash_message :notice, :signed_up if is_flashing_format?
+	        	sign_up(resource_name, resource)
+	        	puts "Confirmed and Signing Up"
+	        	respond_with resource, location: after_sign_up_path_for(resource)
+	      	else
+	      		puts "Not confirmed. Should be at inactive sign up"
+	      		respond_with resource, location: after_inactive_sign_up_path_for(resource)
+	      	end
+
 	      else
 	        expire_data_after_sign_in!
-	        puts after_inactive_sign_up_path_for(resource)
+	        puts "Not confirmed. Should be first time"
 	        respond_with resource, location: after_inactive_sign_up_path_for(resource)
 	      end
 	    else
-	      clean_up_passwords resource
-	      respond_with resource, location: after_sign_in_path_for(resource)
+	    	if resource.confirmed?
+				puts "Resource not saved? Signing in normal"
+	    		clean_up_passwords resource
+	    		expire_data_after_sign_in!
+	    		respond_with resource, location: after_sign_in_path_for(resource)
+	    	else
+	    		respond_with resource, location: after_inactive_sign_up_path_for(resource)
+	    	end
 	    end
 
 	  end

@@ -8,4 +8,8 @@
     <% end %>
 </div>
 
-After signup, need to confirm.
+<div class="row text-center">
+	<h1>Please confirm your email address</h1>
+	<p>A message has been sent to <%= session[:temp_email] %> with instructions on how to proceed further.</p>
+	<!-- Possibly add a resend button if I can figure that out. -->
+</div>

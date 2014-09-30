@@ -20,9 +20,9 @@
         <h1>New Background Check</h1>
         <%= render 'form' %>
     <%elsif current_user.individual.bg_check.nil?%>
-        <h3>You have successfully started the Background Check Process</h3>
+        <h1>Start the Background check process</h1>
 
-        <p>Click 'Continue' to see what steps you need to complete next.</p>
+        <p>Click 'Continue' to get started.</p>
 
         <%= render 'form' %>
 

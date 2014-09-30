@@ -1,5 +1,13 @@
-<p>Welcome <%= @email %>!</p>
 
-<p>You can confirm your account email through the link below:</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token) %></p>
+<p>Hello <%= @resource.individual.f_name %> <%= @resource.individual.l_name %>,</p>
+
+<!-- Filler text, as requested in the design. -->
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p>Please confirm your account's email address <%= link_to 'here', confirmation_url(@resource, :confirmation_token => @token) %>.</p>
+
+<p>If the link above doesn't work, copy and paste this link into your browser:</p>
+
+<p><%= confirmation_url(@resource, :confirmation_token => @token) %></p>
+
