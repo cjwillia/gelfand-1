@@ -80,14 +80,10 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	        respond_with resource, location: after_inactive_sign_up_path_for(resource)
 	      end
 	    else
-	    	if resource.confirmed?
-				puts "Resource not saved? Signing in normal"
-	    		clean_up_passwords resource
-	    		expire_data_after_sign_in!
-	    		respond_with resource, location: after_sign_in_path_for(resource)
-	    	else
-	    		respond_with resource, location: after_inactive_sign_up_path_for(resource)
-	    	end
+			puts "Resource not saved? Signing in normal"
+    		clean_up_passwords resource
+    		expire_data_after_sign_in!
+    		respond_with resource, location: after_sign_in_path_for(resource)
 	    end
 
 	  end
