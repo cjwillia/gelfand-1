@@ -1252,3 +1252,7 @@
 #dates input[type="text"] {
     width: 90%;
 }
+
+input[type="radio"] + label {
+    margin-left:0rem;
+}
