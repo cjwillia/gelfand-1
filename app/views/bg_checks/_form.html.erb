@@ -42,11 +42,13 @@
       </div>
     </div>
     <div class="row" id="dates">
-      <div class="small-6 columns">
+      <div class="small-4 columns">
           <%= f.input :criminal_date, :label => "Criminal Date", :as => :string, :input_html => {:class => "datepicker"} %>   
       </div>
-      <div class="small-6 columns">
+      <div class="small-4 columns">
           <%= f.input :child_abuse_date, :label => "Child Abuse Date", :as => :string, :input_html => {:class => "datepicker"} %>   
+      </div>
+      <div class="small-4 columns">
       </div>
     </div>
   <% elsif current_user.member?%>
