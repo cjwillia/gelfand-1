@@ -13,6 +13,7 @@
         <p>Click 'Start' to get started.</p>
 
         <%= render 'form' %>
+        
 
     <% else %>
         <%= link_to 'View your own status', bg_check_path(current_user.individual.bg_check) %>
