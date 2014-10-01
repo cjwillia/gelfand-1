@@ -15,7 +15,6 @@
         <%= render 'form' %>
 
     <% else %>
-        <h3>You shouldn't be here</h3>
         <%= link_to 'View your own status', bg_check_path(current_user.individual.bg_check) %>
     <% end %>
     </div>
