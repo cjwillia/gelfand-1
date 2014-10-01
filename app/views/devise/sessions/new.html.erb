@@ -1,12 +1,16 @@
 <!-- DEVISE puts its alerts in flash[:notice] -->
 <div id="alerts" class="row">
-	<!-- Alerts go here. -->
-	<!-- HEY there are two alerts here so screw it, I'm getting rid of the devise one. (flash[:notice]) -->
-	<!-- love, Cory -->
 
 	<% if flash[:notice] %>
 		<div data-alert class="alert-box slow-fade radius">
 			<%= flash[:notice] %>
+			<a href="#" class="close">&times;</a>
+		</div>
+	<% end %>
+
+	<% if flash[:alert] %>
+		<div data-alert class="alert-box slow-fade radius">
+			<%= flash[:alert] %>
 			<a href="#" class="close">&times;</a>
 		</div>
 	<% end %>

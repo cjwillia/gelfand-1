@@ -1240,6 +1240,7 @@
 // $range-slider-handle-cursor: pointer;
 
 @import 'foundation';
+@import 'foundation-datetimepicker';
 
 .alert-box {
     margin-bottom:0px;
@@ -1251,4 +1252,12 @@
 
 #dates input[type="text"] {
     width: 90%;
+}
+
+input[type="radio"] + label {
+    margin-left:0rem;
+}
+
+.datepicker.dropdown-menu{
+    max-width: 250px;
 }

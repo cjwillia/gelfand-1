@@ -64,6 +64,8 @@ group :development, :test do
 	gem 'factory_girl_rails', '4.2.1'
 	gem 'shoulda'
     gem 'sqlite3'
+    gem 'better_errors'
+    gem 'binding_of_caller'
 end
 
 
@@ -82,6 +84,7 @@ end
 
 # Use Foundation for clean CSS/JS
 gem 'foundation-rails', '5.4.3.1'
+gem 'foundation-datetimepicker-rails'
 
 gem 'simple_form'
 
