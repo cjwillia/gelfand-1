@@ -64,7 +64,7 @@ group :development, :test do
 	gem 'factory_girl_rails', '4.2.1'
 	gem 'shoulda'
     gem 'sqlite3'
-    gem 'better_errors'
+    #gem 'better_errors'  -- Commented out for Windows users
     gem 'binding_of_caller'
 end
 
