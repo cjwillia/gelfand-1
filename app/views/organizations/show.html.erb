@@ -1,13 +1,7 @@
 <div class="row" data-equalizer>
-  <div class="small-2 columns leftNav" data-equalizer-watch>
-      <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
-      <ul class="side-nav">
-        <li><%= link_to 'Create a Program', new_program_path %></li>
-        <li><%= link_to 'Edit Org', edit_organization_path(@organization) %></li>
-        <li><%= link_to 'Back', organizations_path %></li>
-      </ul>
+  <div class="small-2 columns" data-equalizer-watch>
   </div>
-  <div class="small-6 columns rightContent" data-equalizer-watch>
+  <div class="small-8 columns" data-equalizer-watch>
 
   <h1>  <%= @organization.name %></h1>
 
@@ -43,7 +37,7 @@
 
 </div>
 
-      <div class="small-4 columns addMemberPartOfOrgShowPage" data-equalizer-watch>
+      <div class="small-2 columns" data-equalizer-watch>
 
                     <% if current_user.admin || current_user.is_orgUser_for_specific_org(@organization) %>
                         <div class="Org_Show_Content">

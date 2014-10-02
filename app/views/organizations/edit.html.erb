@@ -1,10 +1,9 @@
 
 <div class="row" data-equalizer>
-  <div class="small-2 columns leftNav" data-equalizer-watch>
-      <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
+  <div class="small-2 columns" data-equalizer-watch>
   </div>
 
-  <div class="small-10 columns rightContent" data-equalizer-watch>
+  <div class="small-8 columns" data-equalizer-watch>
 		<h1>Editing: <%= @organization.name %> </h1>
 		
 		<div class="org_form">
@@ -18,4 +17,7 @@
 			<%= link_to 'My orgs', organizations_path %>
 		</div>
 	</div>
+  <div class="small-2 columns" data-equalizer-watch>
+  </div>
+
 </div>
