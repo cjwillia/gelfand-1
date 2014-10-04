@@ -12,6 +12,7 @@
  *= require foundation_and_overrides
  *= require foundation-datepicker.css
  *= require font-awesome
+ *= require chosen.css
  *= require_tree 
 
  */
