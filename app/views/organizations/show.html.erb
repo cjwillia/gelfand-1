@@ -1,52 +1,21 @@
 <div class="row" data-equalizer>
-  <div class="small-2 columns" data-equalizer-watch>
+  <div class="small-12 small-centered columns" data-equalizer-watch>
+
+    <h1>  <%= @organization.name %></h1>
+
+
+    <strong>Description:</strong>
+    <%= @organization.description %>
+
+    <br>
+
+    <strong>Is partner:</strong>
+    <%= @organization.is_partner ? "Yes" : "No"%>
+    <br>
+    <strong>Org Heads:</strong>
+    <%= @organization.users.sample.individual.name %>
+    <br>
+    <br>
+
   </div>
-  <div class="small-8 columns" data-equalizer-watch>
-
-  <h1>  <%= @organization.name %></h1>
-
-
-  <strong>Description:</strong>
-  <%= @organization.description %>
-
-  <br>
-
-  <strong>Is partner:</strong>
-  <%= @organization.is_partner ? "Yes" : "No"%>
-  <br>
-  <strong>Org Heads:</strong>
-  <%= @organization.users.sample.individual.name %>
-  <br>
-  <br>
-  <div class="Org_Show_Content">
-      <% if @organization.memberships.empty? %>
-               <h3> Currently there are no members.</h3>
-      <% else %>
-              <!-- <div class="OrgShow_title">Manage</div> -->
-              <%= render 'indivs_for_an_org' %>
-      <% end %>
-  </div>
-<br>
-<br>
-    <div class="orgs_actions">  
-          <% if current_user.admin || current_user.is_orgUser_for_specific_org(@organization) %>
-              <%= link_to 'Edit', edit_organization_path(@organization) %> |
-          <% end %>
-      <%= link_to 'My orgs', organizations_path %>
-    </div>
-
-</div>
-
-      <div class="small-2 columns" data-equalizer-watch>
-
-                    <% if current_user.admin || current_user.is_orgUser_for_specific_org(@organization) %>
-                        <div class="Org_Show_Content">
-                                <h3>Affiliated Programs</h3>
-                                <%= render 'programs_for_an_org' %>
-                        </div>
-                    <% end %>
-
-
-      </div>
-
 </div>
