@@ -3,7 +3,25 @@
 
     <h1>  <%= @organization.name %></h1>
 
+    <h3>General Info</h3>
+    
+    Contact(s):
 
+    <% count = 1 %>
+    <% @organization.get_org_users_emails.each do |email| %>
+        <%= email %>
+        <!-- add comma after all emails but last -->
+        <% if count != @organization.get_org_users_emails.length %>
+        ,
+        <% end %>
+    <% count += 1%>
+    <% end %>
+
+    <p class="text-right"><strong>CMU Organization: </strong></p>
+
+
+    <br>
+    <br>
     <strong>Description:</strong>
     <%= @organization.description %>
 

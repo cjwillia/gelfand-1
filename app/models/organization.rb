@@ -51,4 +51,9 @@ class Organization < ActiveRecord::Base
   def programs_not_already_part_of_org
       Program.all - self.affiliated_progs
   end
+
+  def get_org_users_emails
+      org_users = Organization.where(name: self.name)[0].org_users
+      return org_users.map{|ou| User.where(id: ou.user_id)[0].email}
+  end
 end
