@@ -1,24 +1,27 @@
 <div class="row" data-equalizer>
-  <div class="small-12 small-centered columns" data-equalizer-watch>
+  <div class="small-11 small-centered columns" data-equalizer-watch>
+    <div class="top_outer">
+            <h1>  <%= @organization.name %></h1>
 
-    <h1>  <%= @organization.name %></h1>
+            <h3>General Info</h3>
+            
+        <div class="left_inner" style="float:left;">
+            Contact(s):
 
-    <h3>General Info</h3>
-    
-    Contact(s):
-
-    <% count = 1 %>
-    <% @organization.get_org_users_emails.each do |email| %>
-        <%= email %>
-        <!-- add comma after all emails but last -->
-        <% if count != @organization.get_org_users_emails.length %>
-        ,
-        <% end %>
-    <% count += 1%>
-    <% end %>
-
-    <p class="text-right"><strong>CMU Organization: </strong></p>
-
+            <% count = 1 %>
+            <% @organization.get_org_users_emails.each do |email| %>
+                <%= email %>
+                <!-- add comma after all emails but last -->
+                <% if count != @organization.get_org_users_emails.length %>
+                ,
+                <% end %>
+            <% count += 1%>
+            <% end %>
+        </div>
+        <div class="right_inner" style="float:right;">        
+            <p class="text-right"><strong>CMU Organization: </strong></p>
+        </div>
+    </div>
 
     <br>
     <br>
