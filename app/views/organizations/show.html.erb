@@ -1,42 +1,53 @@
 <div class="row" data-equalizer>
   <div class="small-11 small-centered columns" data-equalizer-watch>
-    <div class="top_outer">
+    <div class="top_outer" style="float:left;">
+        <div class="inner_left_full" style="float:left;width:100%;">
             <h1>  <%= @organization.name %></h1>
 
             <h3>General Info</h3>
-            
-        <div class="left_inner" style="float:left;">
+        
+            <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
+                <div class="inner_right_pencil" style="float:right;right:0px;bottom:100px;position:relative;">         
+                    <%= link_to "#{image_tag("pencil_edit_2.png", :alt => "rss feed")}".html_safe, edit_organization_path %>
+                </div>
+            <% end %>
+        </div>  
+
+
+        
+        <div class="inner_left" style="float:left;">
             Contact(s):
 
             <% count = 1 %>
             <% @organization.get_org_users_emails.each do |email| %>
                 <%= email %>
                 <!-- add comma after all emails but last -->
-                <% if count != @organization.get_org_users_emails.length %>
-                ,
-                <% end %>
+                <% if count != @organization.get_org_users_emails.length %> , <% end %>
             <% count += 1%>
             <% end %>
         </div>
-        <div class="right_inner" style="float:right;">        
-            <p class="text-right"><strong>CMU Organization: </strong></p>
+        <div class="inner_right" style="float:right;">
+            <p class="text-right">CMU Organization:
+                <% if !@organization.is_partner %> Yes <% else %> No <% end %>
+            </p>
         </div>
+
+    </div>
+    <div class="inner_left" style="float:left;">
+
+        <h5>Description:</h5>
+        <%= @organization.description %>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <h3>Programs <%= @organization.name %> is participating in </h3>
+
+
     </div>
 
-    <br>
-    <br>
-    <strong>Description:</strong>
-    <%= @organization.description %>
-
-    <br>
-
-    <strong>Is partner:</strong>
-    <%= @organization.is_partner ? "Yes" : "No"%>
-    <br>
-    <strong>Org Heads:</strong>
-    <%= @organization.users.sample.individual.name %>
-    <br>
-    <br>
 
   </div>
 </div>
