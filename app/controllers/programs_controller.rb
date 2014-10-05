@@ -5,6 +5,8 @@ class ProgramsController < ApplicationController
 def new
   @program = Program.new
   @contact = Contact.new
+  @cmu_orgs = Organization.cmu_orgs
+  @partner_orgs = Organization.partner_orgs
 end
 
 def individuals_list

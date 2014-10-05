@@ -46,6 +46,11 @@ $(document).ready(function(){
    });
 
 
+  //chosen code (autocomplete)
+  $('.chosen-select').chosen({
+
+  });
+
 });
 
 $(function(){ $(document).foundation(); });
