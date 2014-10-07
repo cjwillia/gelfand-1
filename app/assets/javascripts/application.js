@@ -16,6 +16,7 @@
 //= require foundation
 //= require foundation.equalizer.js
 //= require foundation-datepicker.js
+//= require chosen.jquery.min.js
 //= require_tree .
 
 // MENTION this: if user doesnt include the @ in the email, then a cool notification pops up
@@ -44,6 +45,11 @@ $(document).ready(function(){
       $(this).delay(2000).fadeOut();
    });
 
+
+  //chosen code (autocomplete)
+  $('.chosen-select').chosen({
+
+  });
 
 });
 
