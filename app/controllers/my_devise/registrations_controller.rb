@@ -27,7 +27,8 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	    if resource_saved
 #------------------------------------------------------------------------------
 # The  below code is how Memberships is identified by a temp Individuals first_name
-# which is set as a future User's email and assigns all Memberships to the new Indiv_id after sign up
+# which is set as a future User's email and assigns all Memberships to the 
+# new Indiv_id after sign up
 #------------------------------------------------------------------------------
 			indiv_Objects = Individual.where(f_name: @user.email)
 			indiv_ids = []
