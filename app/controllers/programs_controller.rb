@@ -5,8 +5,14 @@ class ProgramsController < ApplicationController
 def new
   @program = Program.new
   @contact = Contact.new
-  @cmu_orgs = Organization.cmu_orgs
-  @partner_orgs = Organization.partner_orgs
+  @orgs = Organization.all
+  @affiliation = Affiliation.new
+  unless current_user.organizations.empty?
+    current_user.organizations.each do |org|
+      #Still Working on
+      #@orgs = @orgs.where('id != ?', org.id)
+    end
+  end
 end
 
 def individuals_list
@@ -96,5 +102,9 @@ end
 
     def contact_params
       params.require(:contact).permit(:title, :email, :street, :street2, :phone, :zip, :city, :state, :nickname, :notes)
+    end
+
+    def affiliation_params
+      params.require(:affiliation).permit(:organization_id, :program_id, :ownership, :description)
     end
 end
