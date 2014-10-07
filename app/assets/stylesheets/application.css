@@ -46,3 +46,11 @@ body, html {
 #programs-new-orgselect {
 	height: 10rem;
 }
+
+#programs-new-orgselect .panel {
+	height: 20rem;
+}
+
+#program_description {
+	height: 8rem;
+}

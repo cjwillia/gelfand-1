@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140915031952) do
+ActiveRecord::Schema.define(version: 20141007145544) do
 
   create_table "affiliations", force: true do |t|
     t.integer  "organization_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140915031952) do
     t.boolean  "followed_process"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "ownership"
   end
 
   create_table "bg_checks", force: true do |t|
@@ -74,7 +75,6 @@ ActiveRecord::Schema.define(version: 20140915031952) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.boolean  "is_partner"
     t.text     "description"
     t.boolean  "active"
     t.string   "department"
