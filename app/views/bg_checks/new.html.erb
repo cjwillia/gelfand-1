@@ -1,16 +1,14 @@
 <div class="row" data-equalizer>
-    <div class="small-4 columns" data-equalizer-watch>
+<!--     <div class="small-2 columns" data-equalizer-watch>
         
     <br />
-    </div>
-    <div class="small-8 columns" data-equalizer-watch>
+    </div> -->
+    <div class="small-12 columns" data-equalizer-watch>
     <%if current_user.admin?%>
         <h1>New Background Check</h1>
         <%= render 'form' %>
     <%elsif current_user.individual.bg_check.nil?%>
         <h1>Start a Background Check</h1>
-
-        <p>Click 'Start' to get started.</p>
 
         <%= render 'form' %>
         
