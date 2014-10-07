@@ -8,7 +8,7 @@
         
             <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
                 <div class="inner_right_pencil" style="float:right;right:0px;bottom:100px;position:relative;">         
-                    <%= link_to "#{image_tag("pencil_edit_2.png", :alt => "rss feed")}".html_safe, edit_organization_path %>
+                   <%=link_to fa_icon("edit"), edit_organization_path, class:"edit-icon" %>
                 </div>
             <% end %>
         </div>  
