@@ -27,9 +27,7 @@
             <% end %>
         </div>
         <div class="inner_right" style="float:right;">
-            <p class="text-right">CMU Organization:
-                <% if !@organization.is_partner %> Yes <% else %> No <% end %>
-            </p>
+            <br>
         </div>
 
     </div>
@@ -44,7 +42,11 @@
     <br>
 
     <h3>Programs <%= @organization.name %> is participating in </h3>
+        <% if @organization.affiliated_progs.empty? %>
+            Currently there are no programs available.
+        <% else %>
 
+        <% end %>
 
     </div>
 
