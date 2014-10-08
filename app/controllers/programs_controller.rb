@@ -2,36 +2,46 @@ class ProgramsController < ApplicationController
   load_and_authorize_resource
   before_action :set_program, only: [:edit, :update, :destroy]
 
-def new
-  @program = Program.new
-  @contact = Contact.new
-  @orgs = Organization.all
-  @affiliation = Affiliation.new
-  unless current_user.organizations.empty?
-    current_user.organizations.each do |org|
-      #Still Working on
-      #@orgs = @orgs.where('id != ?', org.id)
+  def new
+    @program = Program.new
+    if params[:org_id]
+      @program.organizations << Organization.find(params[:org_id])
     end
   end
-end
 
-def individuals_list
-  @program = Program.find(params[:id])
-  @cleared = @program.cleared_participants
-  @not_cleared = @program.uncleared_participants
-end
+  # POST /programs
+  # POST /programs.json
+  def create
+    @program = Program.new(program_params)
+    if @program.save
+      redirect_to @program, notice: "Program created successfully"
+    else
+      redirect_to '/programs/new', notice: "Error creating program"
+    end
+  end
 
-def ongoing
-  @ongoing = Program.current
-end
+  # These controller actions are probably deprecated. Made them a while back -Cory
+  # begin
 
-def completed
-  @completed = Program.completed
-end
+  def individuals_list
+    @program = Program.find(params[:id])
+    @cleared = @program.cleared_participants
+    @not_cleared = @program.uncleared_participants
+  end
 
-def upcoming
-  @upcoming = Program.upcoming
-end
+  def ongoing
+    @ongoing = Program.current
+  end
+
+  def completed
+    @completed = Program.completed
+  end
+
+  def upcoming
+    @upcoming = Program.upcoming
+  end
+
+  # end
 
   # GET /programs
   # GET /programs.json
@@ -46,23 +56,8 @@ end
     @affiliation = Affiliation.new
   end
 
-  # POST /programs
-  # POST /programs.json
-  def create
-    @program = Program.new(program_params)
-    @contact = Contact.new(contact_params)
-    @contact.save!
-    @program.contact_id = @contact.id
-    respond_to do |format|
-      if @program.save        
-        format.html { redirect_to @program, notice: 'Program was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @program }
-      else
-        @contact.delete
-        format.html { render action: 'new' }
-        format.json { render json: @program.errors, status: :unprocessable_entity }
-      end
-    end
+  def edit
+    @orgs = Organization.all
   end
 
   # PATCH/PUT /programs/1
@@ -97,14 +92,11 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def program_params
-      params.require(:program).permit(:name, :description, :start_date, :end_date, :cmu_facilities, :off_campus_facilities, :num_minors, :num_adults_supervising, :irb_approval, :contact_id, affiliations_attributes: [:id, :organization_id, :program_id, :description, :followed_process, :_destroy])
+      params.require(:program).permit(:name, :description, :start_date, :end_date, :cmu_facilities, :off_campus_facilities, :num_minors, :num_adults_supervising, :irb_approval, :contact_id, :organization_ids, :individual_ids, affiliations_attributes: [:id, :organization_id, :program_id, :description, :followed_process, :_destroy])
     end
 
-    def contact_params
-      params.require(:contact).permit(:title, :email, :street, :street2, :phone, :zip, :city, :state, :nickname, :notes)
+    def affiliations_params
+      params.require(:affiliations).permit(:organization_ids)
     end
 
-    def affiliation_params
-      params.require(:affiliation).permit(:organization_id, :program_id, :ownership, :description)
-    end
 end

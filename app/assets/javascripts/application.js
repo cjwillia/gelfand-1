@@ -46,7 +46,7 @@ $(document).ready(function(){
    });
 
 
-  //chosen code (autocomplete)
+  //chosen (autocomplete) code
   $('.chosen-select').chosen({
 
   });

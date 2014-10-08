@@ -16,14 +16,6 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :is_partner, "Are you a Carnegie Mellon University organization? (This includes faculty projects and student organizations)." %>
-    <%= radio_button_tag(:is_partner, "true") %>
-    <%= label_tag(:is_partner, "Yes") %>
-    <%= radio_button_tag(:is_partner, "false") %>
-    <%= label_tag(:is_partner, "No") %>
-
-  </div>
-  <div class="field">
     <%= f.label :description %>
     <%= f.text_area :description %>
   </div>

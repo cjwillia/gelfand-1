@@ -49,7 +49,7 @@
             <div class="row progShowPanel">
                 <h3>Affiliated Organizations</h3>
                     <% if @program.organizations.empty? %>
-                        <!-- do nothing -->
+                        No organizations to show
                     <% else %>
                         <ul>
                         <% @program.organizations.each do |org| %>

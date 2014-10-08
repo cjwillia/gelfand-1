@@ -1,29 +1,24 @@
 
 <div class="row">
-	<h1>Create a Program</h1>	
+	<div class="row">
+		<h1>Create a Program</h1>
+	</div>		
 </div>
+
 <%= form_for(@program) do |f| %>
 	<div class="row">
-		<h3>General Info</h3>
+		<div class="row">
+			<h3>General Info</h3>
+		</div>
 	</div>
 	<br />
 	<div class="row">
-		<label>What is the name of your program?</label>
+		<div class="row">
+			<label>What is the name of your program?</label>
+		</div>
 		<div class="row">
 			<div class="small-6 columns">
 				<%= f.text_field :name %>
-			</div>
-		</div>
-	</div>
-
-	<div class="row">
-		<label>Which organizations will be hosting this program?</label>
-		<br />
-		<!-- Why are we splitting between CMU and partner organizations in the creation? Makes some extra work for the controller. -->
-		<div id="programs-new-orgselect" class="row">
-			<div class="small-5 columns panel">
-				<label>CMU Organizations</label>
-				<%= f.select :organizations, @orgs.alphabetical.map{ |o| [o.name, o.id] }, {:include_blank => true}, {:class => "chosen-select", :multiple => true} %>
 			</div>
 		</div>
 	</div>
@@ -64,10 +59,10 @@
 			<div class="small-1 columns">
 				<%= f.text_field :start_date, :as => :string, :class => "datepicker" %>
 			</div>
-			<div class="small-2 small-offset-7 columns">
+			<div class="small-2 small-offset-3 columns">
 				<label>End Date?</label>
 			</div>
-			<div class="small-1 columns">
+			<div class="small-1 columns end">
 				<%= f.text_field :end_date, :as => :string, :class => "datepicker" %>
 			</div>
 		</div>
@@ -82,7 +77,10 @@
 	</div>
 
 	<div class="row">
-		<%= f.submit "Submit", :class => "button right" %>
+		<div class="row">
+			<%= f.submit "Submit", :class => "button right" %>
+		</div>
+		
 	</div>
 
 
