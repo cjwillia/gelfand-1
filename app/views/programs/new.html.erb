@@ -77,6 +77,10 @@
 	</div>
 
 	<div class="row">
+		<%= f.select :organization_ids, @program.organizations.map(&:id), {:allow_blank => false}, {} %>
+	</div>
+
+	<div class="row">
 		<div class="row">
 			<%= f.submit "Submit", :class => "button right" %>
 		</div>
