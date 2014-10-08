@@ -63,3 +63,9 @@ body, html {
 .inline-spacer{
     margin-left:20px;
 }
+
+.program-edit{
+    float:right;
+    margin-top:1.2rem;
+    font-size:3rem;
+}
