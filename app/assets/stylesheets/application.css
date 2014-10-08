@@ -14,6 +14,7 @@
  *= require font-awesome
  *= require chosen.css
  *= require_tree 
+ *= require font-awesome
 
  */
 
@@ -39,7 +40,6 @@ body, html {
     display:none;
 }
 
-
 /* Programs */
 
 
@@ -53,4 +53,9 @@ body, html {
 
 #program_description {
 	height: 8rem;
+}
+
+/* Icon Classes */
+.edit-icon {
+    font-size: 3rem;
 }

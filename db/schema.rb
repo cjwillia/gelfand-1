@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141007145544) do
+ActiveRecord::Schema.define(version: 20141007165600) do
 
   create_table "affiliations", force: true do |t|
     t.integer  "organization_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20141007145544) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "ownership"
+    t.boolean  "is_owner"
   end
 
   create_table "bg_checks", force: true do |t|
