@@ -53,7 +53,7 @@
                 <tbody>
                     <% @organization.programs. each do |program| %>
                         <tr>
-                            <td><%= program.name %></td>
+                            <td><%= link_to program.name, program_path(program) %></td>
                             <td><%= program.start_date.strftime "%m/%d/%y" %></td>
                             <td><%= program.end_date.strftime "%m/%d/%y" %></td>
                         </tr>
