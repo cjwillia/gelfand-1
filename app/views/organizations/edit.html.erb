@@ -12,6 +12,10 @@
 
 		<br>
 
+		<%= link_to "Create a Program for your Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %>
+
+		<br />
+
 		<div class="orgs_actions">
 			<%= link_to 'Back', @organization %> |
 			<%= link_to 'My orgs', organizations_path %>
