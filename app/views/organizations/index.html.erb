@@ -10,7 +10,6 @@
                       <thead>
                         <tr>
                           <th>Name</th>
-                          <th>Is a partner</th>
                           <th>Active</th>
                           <th>Org head</th>
                         </tr>
@@ -18,7 +17,6 @@
                       <tbody>
                       <% @organizations.each do |org|  %>
                         <tr class="rows_in_admin_org_home"><td><%= link_to org.name, org %> </td>
-                            <td><%= org.is_partner ? "Yes" : "No" %></td>
                             <td><%= org.active ? "Yes" : "No" %></td> 
                             <% orgUser = OrgUser.for_organization(org).first %>
 

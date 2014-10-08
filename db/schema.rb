@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20141007165600) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_owner"
+    t.boolean  "ownership"
   end
 
   create_table "bg_checks", force: true do |t|
@@ -75,7 +76,6 @@ ActiveRecord::Schema.define(version: 20141007165600) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.boolean  "is_partner"
     t.text     "description"
     t.boolean  "active"
     t.string   "department"
