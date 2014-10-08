@@ -57,7 +57,6 @@ namespace :db do
 
         organization = Organization.new
         organization.name = Faker::Lorem.word.capitalize+" "+["Club","Organization","Center"].sample
-        organization.is_partner = [true,false].sample
         organization.description = Faker::Lorem.paragraph
         organization.active = true
         organization.department = ["History","Information Systems", "Computer Science","Engineering","Business","English","Linguistics","Cognitive Science","Art","Architecture","Drama","Philosophy","Psycholog","Statistics","Economics"].sample
