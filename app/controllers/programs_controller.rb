@@ -13,7 +13,7 @@ class ProgramsController < ApplicationController
   # POST /programs.json
   def create
     @program = Program.new(program_params)
-    @program.save!
+    @program.save
     redirect_to @program, notice: "Program created successfully"
   end
 
