@@ -26,15 +26,15 @@
           <li><a href="#">FAQ</a></li>
           <li class="divider"></li>
           <% unless current_user.individual.organizations.empty? %>
-            <li><label>View</label></li>
-            <% current_user.individual.organizations.each do |org| %>
-              <li><%= link_to org.name, organization_path(org) %></li>
-            <% end %>
             <% unless current_user.organizations.empty? %>
               <li><label>Manage</label></li>
               <% current_user.organizations.each do |org| %>
                 <li><%= link_to org.name, edit_organization_path(org) %></li>
               <% end %>
+            <% end %>
+            <li><label>View</label></li>
+            <% current_user.individual.organizations.each do |org| %>
+              <li><%= link_to org.name, organization_path(org) %></li>
             <% end %>
           <% end %>
         </ul>

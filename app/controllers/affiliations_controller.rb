@@ -4,6 +4,23 @@ class AffiliationsController < ApplicationController
   	@affiliations = Affiliation.all
   end
 
+  def new
+    unless params[:org_id].nil?
+      @affiliation = Affiliation.new
+      @program = Program.new
+      @affiliation.organization_id = params[:org_id]
+      @affiliation.program_id = @program.id
+    else
+      redirect_to '/', notice: "Permissions Error: Requires Organization Leadership"
+    end
+  end
+
+  # This is a hacky synonym for "create" for the new program creation
+  def start
+    @affiliation = Affiliation.new(affiliation_params)
+    @program = Program.new(program_params)
+  end
+
   def create
     @affiliation = Affiliation.new(affiliation_params)
     if @affiliation.save!
@@ -41,7 +58,11 @@ class AffiliationsController < ApplicationController
 
   private
   def affiliation_params
-    params.require(:affiliation).permit(:organization_id, :program_id, :description, :followed_process)
+    params.require(:affiliation).permit(:organization_id, :program_id, :description, :followed_process, :ownership)
+  end
+
+  def program_params
+    params.require(:program).permit(:name, :description, :num_minors, :num_adults_supervising, :start_date, :end_date)
   end
 
 end

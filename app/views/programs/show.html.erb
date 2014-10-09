@@ -1,93 +1,43 @@
-
-<div class="row" data-equalizer>
-    <div class="small-2 columns leftNav" data-equalizer-watch>
-        <%= render 'sidebar_from_inside' %>  
-    </div>
-    <div class="small-10 columns rightContent" data-equalizer-watch>
-        <p id="notice"><%= notice %></p>
-        <h1><%= @program.name %></h1>
-        <div class="cushionWrapper">
-            <div class="row">
-                <div class="small-2 columns">
-                    <strong>Start Date: </strong><%= @program.start_date.strftime("%m/%d/%y") %>
-                </div>
-                <div class="small-2 offset-8 columns">
-                    <strong>End Date: </strong><%= @program.end_date.strftime("%m/%d/%y") %>
-                </div>
+<div class="row">
+    <%=link_to fa_icon("edit"), edit_program_path, class:"program-edit" %>
+    <h1><%= @program.name %></h1>
+    <h2>General Info</h2>
+    <h3><%= "Organization".pluralize(@program.organizations.size) %></h3>
+        <% @program.organizations.each do |org| %>
+            <p>
+                <%= link_to org.name, org %>
+            </p>
+        <% end %>
+        <div class="row">
+            <div class="small-4 columns">
+                Start Date: <%= @program.start_date.strftime "%m/%d/%y" %>
             </div>
-            <br />
-
-            <div class="row text-center">
-                <i><%= @program.description %></i>
+            <div class="small-4 columns">
+                End Date: <%= @program.end_date.strftime "%m/%d/%y" %>
             </div>
-
-            <div class="row">
-                <strong>Contact Email: </strong>
-                <% if @program.contact %>
-                    <%= @program.contact.email %>
-                <% else %>
-                    None assigned. <%= link_to "Edit Program?", edit_program_path(@program) %>
-                <% end %>
-            </div>
-
-            <div class="row">
-                <div class="progShowPanel">
-                    <h3>Participating Members</h3>
-                    <% if @program.cleared_participants.empty? %>
-                        There is no one assigned to this program.
-                    <% else %>
-                        <% @program.cleared_participants.each do |ind| %>
-                            <%= link_to ind.name, ind %> <br>
-                        <% end %>
-                    <% end %>
-                    <br />
-                    <%= link_to "See all members...", "#{@program.id}/individuals_list" %>
-                    <br />
-                </div>
-            </div>
-            
-            <div class="row progShowPanel">
-                <h3>Affiliated Organizations</h3>
-                    <% if @program.organizations.empty? %>
-                        <!-- do nothing -->
-                    <% else %>
-                        <ul>
-                        <% @program.organizations.each do |org| %>
-                            <li><%= link_to org.name, org %></li>
-                        </ul>
-                        <% end %>
-                    <% end %>
-
-                <br />
-                <div class="small-4 columns rightContent" data-equalizer-watch>
-                    <%= render 'quick_affiliate_with_an_org' %>
-                </div>
-                <div class="small-8 columns rightContent" data-equalizer-watch>
-                </div>
-                <br />
-            </div>
-
-            <div class="row progShowPanel"><h3>Additional Information</h3></div>
-
-            <div class="row">
-                <p><strong>Cmu Facilities:</strong>
-                    <%= @program.cmu_facilities %></p>
-            </div>
-
-            <div class="row">
-                <p><strong>Off Campus Facilities:</strong>
-                    <%= @program.off_campus_facilities %></p>
-            </div>
-
-            <div class="row">
-                <p><strong>Number of Minors Involved:</strong>
-                    <%= @program.num_minors %></p>
-            </div>
-
-            <div class="row">
-                <p><strong>Number of Supervising Adults:</strong>
-                    <%= @program.num_adults_supervising %></p>
+            <div class="small-4 columns">
+                Number of Minors: <%= @program.num_minors %>
             </div>
         </div>
-    </div>
+    <h3>Description</h3>
+        <p><%= @program.description %>
+    <h2>People Participating in the Program</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Cleared</th>
+            </tr>
+        </thead>
+      <tbody>
+        <% @program.participants. each do |participant| %>
+            <tr>
+                <td><%= participant.individual.f_name %> <%= participant.individual.l_name %></td>
+                <td><%= participant.individual.contact.email %></td>
+                <td><%= fa_icon(boolean_icon participant.individual.bg_check_complete?) %></td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
 </div>

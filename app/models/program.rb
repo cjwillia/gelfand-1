@@ -6,9 +6,10 @@ class Program < ActiveRecord::Base
     # ------------- 
     has_many :participants
     has_many :individuals, through: :participants
-    has_many :affiliations
-    has_many :organizations, through: :affiliations
+    has_many :affiliations, autosave: true
+    has_many :organizations, through: :affiliations, autosave: true
     belongs_to :contact
+    accepts_nested_attributes_for :affiliations
 
     # Validations
     # -----------

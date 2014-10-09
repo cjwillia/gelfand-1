@@ -1,12 +1,91 @@
 
-<div class="row" data-equalizer>
-	<div class="small-2 columns leftNav" data-equalizer-watch>
-		<%= render "sidebar_from_inside" %>
+<div class="row">
+	<div class="row">
+		<h1>Create a Program</h1>
+	</div>		
+</div>
+
+<%= form_for(@program) do |f| %>
+	<div class="row">
+		<div class="row">
+			<h3>General Info</h3>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="row">
+			<label>What is the name of your program?</label>
+		</div>
+		<div class="row">
+			<div class="small-6 columns">
+				<%= f.text_field :name %>
+			</div>
+		</div>
 	</div>
 
-	<div class="small-10 columns rightContent" data-equalizer-watch>
-		<h1>New Program</h1>
-		<%= render 'form' %>
+	<br />
+
+	<div class="row">
+		<div class="row">
+			<div class="small-3 columns">
+				<label>How many minors will be attending? </label>
+			</div>
+			<div class="small-1 columns end">
+				<%= f.number_field :num_minors %>
+			</div>
+		</div>	
 	</div>
-	
-</div>
+
+	<br />
+
+	<div class="row">
+		<div class="row">
+			<div class="small-3 columns">
+				<label>How many adults will be supervising?</label>
+			</div>
+			<div class="small-1 columns end">
+				<%= f.number_field :num_adults_supervising %>
+			</div>
+		</div>	
+	</div>
+
+	<br />
+
+	<div class="row">
+		<div class="row">
+			<div class="small-2 columns">
+				<label>Start Date?</label>
+			</div>
+			<div class="small-1 columns">
+				<%= f.text_field :start_date, :as => :string, :class => "datepicker" %>
+			</div>
+			<div class="small-2 small-offset-3 columns">
+				<label>End Date?</label>
+			</div>
+			<div class="small-1 columns end">
+				<%= f.text_field :end_date, :as => :string, :class => "datepicker" %>
+			</div>
+		</div>
+	</div>
+	<br />
+	<br />
+	<div class="row">
+		<label>Tell us about this program. This is a good place for specifics (Location, Time, etc.)</label>
+		<div class="row">
+			<%= f.text_area :description  %>
+		</div>
+	</div>
+
+	<div class="row">
+		<%= f.select :organization_ids, @program.organizations.map(&:id), {:allow_blank => false}, {} %>
+	</div>
+
+	<div class="row">
+		<div class="row">
+			<%= f.submit "Submit", :class => "button right" %>
+		</div>
+		
+	</div>
+
+
+<% end %>

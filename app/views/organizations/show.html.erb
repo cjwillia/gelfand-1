@@ -45,10 +45,31 @@
         <% if @organization.affiliated_progs.empty? %>
             Currently there are no programs available.
         <% else %>
-
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @organization.programs. each do |program| %>
+                        <tr>
+                            <td><%= link_to program.name, program_path(program) %></td>
+                            <td><%= program.start_date.strftime "%m/%d/%y" %></td>
+                            <td><%= program.end_date.strftime "%m/%d/%y" %></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
         <% end %>
 
     </div>
+
+    <br />
+
+    <%= link_to "Create a Program for your Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %>
 
 
   </div>

@@ -37,7 +37,7 @@ Gelfand::Application.routes.draw do
     end
   end
 
-    # need these 2 routes so do not receive GET or POST error for routes when creating an affiliation
+  # need these 2 routes so do not receive GET or POST error for routes when creating an affiliation
   get 'affiliations', to: 'affiliations#index'
   post 'affiliations', to: 'affiliations#create'
 

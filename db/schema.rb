@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20141007165600) do
     t.boolean  "followed_process"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "ownership"
     t.boolean  "is_owner"
   end
 
@@ -75,7 +76,6 @@ ActiveRecord::Schema.define(version: 20141007165600) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.boolean  "is_partner"
     t.text     "description"
     t.boolean  "active"
     t.string   "department"
