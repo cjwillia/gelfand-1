@@ -6,8 +6,6 @@
         <% @program.organizations.each do |org| %>
             <p>
                 <%= link_to org.name, org %>
-                <span class="inline-spacer">Contact: <%= org.contact.email %>
-                </span>
             </p>
         <% end %>
         <div class="row">

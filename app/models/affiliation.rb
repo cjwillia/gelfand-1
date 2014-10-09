@@ -9,8 +9,8 @@ class Affiliation < ActiveRecord::Base
     scope :for_program, lambda {|program_id| where("program_id = ?", program_id)}
 
 
-    validates_numericality_of :organization_id, :only_integer => true, :greater_than => 0
-    validates_numericality_of :program_id, :only_integer => true, :greater_than => 0
+    #validates_numericality_of :organization_id, :only_integer => true, :greater_than => 0
+    #validates_numericality_of :program_id, :only_integer => true, :greater_than => 0
 
 =begin
 Commenting this stuff out for now because otherwise cant save Affiliation in database (currently done in program controller show action)
