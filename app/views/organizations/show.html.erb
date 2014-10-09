@@ -1,13 +1,13 @@
 <div class="row" data-equalizer>
   <div class="small-11 small-centered columns" data-equalizer-watch>
-    <div class="top_outer" style="float:left;">
-        <div class="top_inner_left_full" style="float:left;width:100%;height:125px;">
+    <div class="top_outer">
+        <div class="top_inner_left_full">
             <h1>  <%= @organization.name %></h1>
 
             <h3>General Info</h3>
         
             <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
-                <div class="inner_right_pencil" style="float:right;right:0px;bottom:100px;position:relative;">         
+                <div class="inner_right_pencil">         
                    <%=link_to fa_icon("edit"), edit_organization_path, class:"edit-icon" %>
                 </div>
             <% end %>
@@ -15,7 +15,7 @@
 
 
         
-        <div class="inner_left" style="float:left;">
+        <div class="inner_left">
             Contact(s):
 
             <% count = 1 %>
@@ -26,12 +26,12 @@
             <% count += 1%>
             <% end %>
         </div>
-        <div class="inner_right" style="float:right;">
+        <div class="inner_right">
             <br>
         </div>
 
     </div>
-    <div class="inner_left" style="float:left;">
+    <div class="inner_left">
 
         <h5>Description:</h5>
         <%= @organization.description %>
