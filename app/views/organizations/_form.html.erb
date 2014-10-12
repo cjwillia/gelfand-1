@@ -30,7 +30,7 @@
     <div class="row">
     <div id="programs-new-orgselect" class="row">
         <div class="small-5 columns">
-        <%= f.select :individuals, Individual.all.alphabetical.map{ |indiv| [indiv.name, indiv.id] }, {:include_blank => true}, {:class => "chosen-select", :multiple => true} %>
+        <%= f.select :memberships, Individual.all.alphabetical.map{ |indiv| [indiv.name, indiv.id] }, {:include_blank => true}, {:class => "chosen-select", :multiple => true} %>
         </div>
       </div>
     </div>  
