@@ -14,7 +14,8 @@
   </head>
 
   <body>
-  
+
+
   <!-- in case no one is logged in currently -->
   <% if current_user.nil? %>
     <%= render "shared_partials/top_bar_with_login" %>
@@ -22,7 +23,13 @@
     <%= render "shared_partials/top_bar_with_links" %>
   <% end %>
 
-
+<% if !flash[:error].nil? || !flash[:notice].nil? || !flash[:alert].nil? %>
+    <div data-alert class="alert-box slow-fade radius">
+      <%= flash[:notice] %>
+      <%= flash[:error] %>
+      <%= flash[:alert] %>
+    </div>
+<% end %>
     <%= yield %>
 
       <%= render "shared_partials/footer" %>

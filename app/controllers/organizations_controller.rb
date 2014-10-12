@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_organization, only: [:show, :update, :destroy]
+  before_action :set_organization, only: [:show, :edit, :update, :destroy]
 
   # GET /organizations
   # GET /organizations.json
@@ -23,10 +23,6 @@ class OrganizationsController < ApplicationController
   def show
     @organizatoin = Organization.find(params[:id])
     @affiliation = Affiliation.new
-  end
-
-  def edit
-    @possible_indivs = Individual.all
   end
 
   def org_overview
@@ -137,6 +133,6 @@ class OrganizationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def organization_params
-      params.require(:organization).permit(:name, :is_partner, :description, :activr, :department, :contact_id)
+      params.require(:organization).permit(:name, :is_partner, :description, :active, :department, :contact_id, memberships_attributes: [:id, :organization_id, :individual_id, :_destroy])
     end
 end
