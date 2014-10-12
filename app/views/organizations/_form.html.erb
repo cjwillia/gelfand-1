@@ -25,6 +25,17 @@
     <%= f.text_field :department %>
   </div>
 
+    <h3>Add People to your Organization</h3>
+
+    <div class="row">
+    <div id="programs-new-orgselect" class="row">
+        <div class="small-5 columns">
+        <label>Possible <%= @organization.name %> members</label>
+        <%= f.select :tets, @possible_indivs, {:include_blank => true}, {:class => "chosen-select", :multiple => true} %>
+        </div>
+      </div>
+    </div>  
+
   <div class="actions">
     <%= f.submit "Submit", :class => "button" %>
   </div>

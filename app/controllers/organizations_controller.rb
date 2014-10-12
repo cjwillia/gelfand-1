@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:show, :update, :destroy]
 
   # GET /organizations
   # GET /organizations.json
@@ -23,6 +23,10 @@ class OrganizationsController < ApplicationController
   def show
     @organizatoin = Organization.find(params[:id])
     @affiliation = Affiliation.new
+  end
+
+  def edit
+    @possible_indivs = Individual.all
   end
 
   def org_overview
