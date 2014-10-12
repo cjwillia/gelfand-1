@@ -4,8 +4,10 @@ class ProgramsController < ApplicationController
 
   def new
     @program = Program.new
-    if params[:org_id]
+    if current_user.organizations.include?(Organization.find(params[:org_id]))
       @program.organizations << Organization.find(params[:org_id])
+    else
+      redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
     end
   end
 
@@ -13,8 +15,11 @@ class ProgramsController < ApplicationController
   # POST /programs.json
   def create
     @program = Program.new(program_params)
-    @program.save
-    redirect_to @program, notice: "Program created successfully"
+    if @program.save
+      redirect_to @program, notice: "Program created successfully"
+    else
+      render action: 'new'  
+    end
   end
 
   # These controller actions are probably deprecated. Made them a while back -Cory
@@ -60,6 +65,9 @@ class ProgramsController < ApplicationController
   # PATCH/PUT /programs/1
   # PATCH/PUT /programs/1.json
   def update
+
+
+
     respond_to do |format|
       if @program.update(program_params)
         format.html { redirect_to @program, notice: 'Program was successfully updated.' }

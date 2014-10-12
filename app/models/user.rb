@@ -7,12 +7,28 @@ class User < ActiveRecord::Base
     has_one :individual
     accepts_nested_attributes_for :individual
 
-
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
          
+
+  # Class Methods
+  # -------------
+
+  def self.that_runs(org_id)
+    res = []
+    self.find_each do |u|
+      if u.organizations.map(&:id).include?(org_id)
+        res.push(u)
+      end
+    end
+    res
+  end
+
+  # Instance Methods
+  # ----------------
+
 
   def admin?
   	admin # this is a boolean that holds a true or false value
