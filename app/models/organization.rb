@@ -56,4 +56,9 @@ class Organization < ActiveRecord::Base
       org_users = Organization.where(name: self.name)[0].org_users
       return org_users.map{|ou| User.where(id: ou.user_id)[0].email}
   end
+
+  def get_org_users
+      org_users = Organization.where(name: self.name)[0].org_users
+      return org_users.map{|ou| User.where(id: ou.user_id)[0]}
+  end
 end
