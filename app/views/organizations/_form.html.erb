@@ -25,6 +25,19 @@
     <%= f.text_field :department %>
   </div>
 
+    <h3>Add People to your Organization</h3>
+
+    <br>
+    <h5>Search by Name</h5>
+
+    <div class="row">
+    <div id="programs-new-orgselect" class="row">
+        <div class="small-5 columns">
+        <%= f.select :memberships, Individual.all.alphabetical.map{ |indiv| [indiv.name, indiv.id] }, {:include_blank => true}, {:class => "chosen-select", :multiple => true} %>
+        </div>
+      </div>
+    </div>  
+
   <div class="actions">
     <%= f.submit "Submit", :class => "button" %>
   </div>

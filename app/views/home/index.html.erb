@@ -1,15 +1,3 @@
-<!-- DEVISE puts its alerts in flash[:notice] -->
-<div id="alerts" class="row">
-	<!-- Alerts go here. -->
-	<% if flash[:notice] %>
-		<div data-alert class="alert-box slow-fade radius">
-			<%= flash[:notice] %>
-			<a href="#" class="close">&times;</a>
-		</div>
-	<% end %>
-</div>
-
-
 <div class="row" data-equalizer>
 
 	<% if (current_user != nil) && current_user.admin? %>
