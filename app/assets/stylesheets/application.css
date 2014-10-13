@@ -65,3 +65,16 @@ body, html {
     margin-top:1.2rem;
     font-size:3rem;
 }
+
+/* css for org show page */
+.close_icon_custom{
+    pointer-events: none; 
+    cursor: default;
+    color: red;
+}
+
+.check_icon_custom{
+    pointer-events: none; 
+    cursor: default;
+    color: green;
+}

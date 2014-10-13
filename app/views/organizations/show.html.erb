@@ -84,12 +84,10 @@
                             <td><%= indiv.proper_name %></td>
                             <td><%= User.where(id: indiv.user_id)[0].email %></td>
                             <td>
-                                <% if indiv.bg_check.nil? %>
-                                    <%=link_to fa_icon("close"), edit_organization_path %> 
-                                <% elsif indiv.bg_check.status == 2 %>
-                                    <%=link_to fa_icon("check"), edit_organization_path %>
+                                <% if indiv.bg_check.nil? || indiv.bg_check.status != 2 %>
+                                    <%=link_to fa_icon("close"), edit_organization_path, class: "close_icon_custom"  %> 
                                 <% else %>
-                                    <%=link_to fa_icon("close"), edit_organization_path %>
+                                    <%=link_to fa_icon("check"), edit_organization_path, class: "check_icon_custom" %>
                                 <% end %>
                             </td>
                         </tr>
