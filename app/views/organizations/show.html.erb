@@ -67,7 +67,7 @@
     <br>
     <br>
     <h3>People in the Organization</h3>
-    <% if current_user.admin? || @organization.users.include?(current_user) %>
+    <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
         <%= link_to "Add a Member to this Organization", edit_organization_path, :class => "button" %>
     <%end%>
 
