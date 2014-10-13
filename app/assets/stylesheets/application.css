@@ -26,6 +26,10 @@ body, html {
     color:black;
 }
 
+.subheading{
+    margin-top: 1rem;
+}
+
 /*bg check status page*/
 .bg-status-bar {
     border-style: solid;
