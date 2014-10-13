@@ -1,5 +1,5 @@
 <div class="row">
-    <%=link_to fa_icon("edit"), edit_program_path, class:"program-edit" %>
+    <%=link_to fa_icon("edit"), edit_program_path, class:"edit-icon" %>
     <h1><%= @program.name %></h1>
     <h2>General Info</h2>
     <h4><%= "Affiliated Organization".pluralize(@program.organizations.size) +":" %></h4>
