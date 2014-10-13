@@ -39,8 +39,6 @@
     <%= link_to "Create a Program for your Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %>
 
     <br>
-
-
         <% if @organization.affiliated_progs.empty? %>
             Currently there are no programs available.
         <% else %>
