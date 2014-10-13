@@ -65,6 +65,20 @@ body, html {
 /* Icon Classes */
 .edit-icon {
     font-size: 3rem;
+    float:right;
+    margin-top: 1.2rem;
+}
+
+.close_icon{
+    pointer-events: none; 
+    cursor: default;
+    color: red;
+}
+
+.check_icon{
+    pointer-events: none; 
+    cursor: default;
+    color: green;
 }
 
 .program-edit{
@@ -73,15 +87,8 @@ body, html {
     font-size:3rem;
 }
 
-/* css for org show page */
-.close_icon_custom{
-    pointer-events: none; 
-    cursor: default;
-    color: red;
-}
+/* css for org*/
 
-.check_icon_custom{
-    pointer-events: none; 
-    cursor: default;
-    color: green;
+.org-text-area{
+    height: 10rem;
 }

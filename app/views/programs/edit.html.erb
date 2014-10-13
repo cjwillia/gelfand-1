@@ -52,21 +52,39 @@
 	<div class="row">
 		<div class="row">
 			<div class="small-2 columns">
-				<label>Start Date?</label>
+				<label>Start Date:</label>
 			</div>
-			<div class="small-1 columns">
+			<div class="small-2 columns">
 				<%= f.text_field :start_date, :as => :string, :class => "datepicker" %>
 			</div>
 			<div class="small-2 small-offset-3 columns">
-				<label>End Date?</label>
+				<label>End Date:</label>
 			</div>
-			<div class="small-1 columns end">
+			<div class="small-2 columns end">
 				<%= f.text_field :end_date, :as => :string, :class => "datepicker" %>
 			</div>
 		</div>
 	</div>
 	<br />
 	<br />
+
+	<!-- if the current user runs any of this program's affiliated organizations -->
+	<% @program.organizations.each do |org| %>
+		<% if current_user.organizations.include?(org) %>
+		<div class="row">
+			<h3>Add People from <%= org.name %> to this program</h3>
+		</div>
+		<div class="row">
+			<div class="small-6 columns panel chosen-select-panel">
+				<%= f.collection_select :individual_ids, org.individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+			</div>
+		</div>
+		
+		<% end %>
+	<% end %>
+
+	<br />
+
 	<div class="row">
 		<label>Tell us about this program. This is a good place for specifics (Location, Time, etc.)</label>
 		<div class="row">
@@ -74,16 +92,10 @@
 		</div>
 	</div>
 
-	<br />
+	
 
-	<!-- if the current user runs any of this program's affiliated organizations -->
-	<% @program.organizations.each do |org| %>
-		<% if current_user.organizations.include?(org) %>
-		<div class="row panel chosen-select-panel">
-			<%= f.collection_select :individual_ids, org.individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
-		</div>
-		<% end %>
-	<% end %>
+	
+
 
 	<div class="row">
 		<div class="row">

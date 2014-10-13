@@ -31,7 +31,7 @@ class Program < ActiveRecord::Base
     scope :current, -> { past.where('end_date > ?', Date.today) }
     scope :completed, -> { where('end_date <= ?', Date.today) }
 
-    # Class Methods
+    # Instance Methods
     # -------------
 
     def status
@@ -45,6 +45,16 @@ class Program < ActiveRecord::Base
         else
             return "Data Error"
         end 
+    end
+
+    def managers
+        res = []
+        self.organizations.each do |org|
+            org.users.each do |u|
+                res.push(u)
+            end
+        end
+        res
     end
 
     def uncleared_participants
