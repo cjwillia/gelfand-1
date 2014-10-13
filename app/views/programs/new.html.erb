@@ -72,20 +72,18 @@
 	<div class="row">
 		<label>Tell us about this program. This is a good place for specifics (Location, Time, etc.)</label>
 		<div class="row">
-			<%= f.text_area :description  %>
+			<%= f.text_area :description %>
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row hide">
 		<%= f.select :organization_ids, @program.organizations.map(&:id), {:allow_blank => false}, {} %>
 	</div>
 
 	<div class="row">
 		<div class="row">
 			<%= f.submit "Submit", :class => "button right" %>
-		</div>
-		
+		</div>	
 	</div>
-
 
 <% end %>

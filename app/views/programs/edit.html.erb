@@ -80,7 +80,7 @@
 	<% @program.organizations.each do |org| %>
 		<% if current_user.organizations.include?(org) %>
 		<div class="row panel chosen-select-panel">
-			<%= f.collection_select :individual_ids, org.individuals, :id, :name, {}, {:class => "chosen-select", :multiple => "true"} %>
+			<%= f.collection_select :individual_ids, org.individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
 		</div>
 		<% end %>
 	<% end %>

@@ -65,17 +65,16 @@ class ProgramsController < ApplicationController
   # PATCH/PUT /programs/1
   # PATCH/PUT /programs/1.json
   def update
+    @newparticipants = params[:program][:individual_ids]
+    @newparticipants.reject!(&:blank?)
+    @newparticipants.each do |i|
+      @program.individuals << Individual.find(i)
+    end
 
-
-
-    respond_to do |format|
-      if @program.update(program_params)
-        format.html { redirect_to @program, notice: 'Program was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @program.errors, status: :unprocessable_entity }
-      end
+    if @program.update(program_params)
+      redirect_to @program, notice: 'Program was successfully updated.'
+    else
+      render action: 'edit'
     end
   end
 
