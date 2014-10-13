@@ -2,6 +2,16 @@
   <div class="small-8 columns">
         <h1>  <%= @organization.name %></h1>
         <h3>General Info</h3>
+
+        Contact <br>
+
+        <% count = 1 %>
+        <% @organization.get_org_users.each do |ou| %>
+            <%= ou.individual.f_name + ' ' + ou.individual.l_name + ': ' + ou.email%>
+            <!-- add <br> after all emails but last -->
+            <% if count != @organization.get_org_users_emails.length %> ,<br> <% end %>
+        <% count += 1%>
+        <% end %>
     </div>
 
     <div class="small-4 columns">
@@ -18,17 +28,7 @@
 <div class="row" data-equalizer>
   <div class="small-12 small-centered columns" data-equalizer-watch>
 
-        Contact(s):
-
-        <% count = 1 %>
-        <% @organization.get_org_users_emails.each do |email| %>
-            <%= email %>
-            <!-- add comma after all emails but last -->
-            <% if count != @organization.get_org_users_emails.length %> , <% end %>
-        <% count += 1%>
-        <% end %>
-
-    <h5>Description:</h5>
+    <h5 class="subheading">Description:</h5>
     <%= @organization.description %>
 
     <br>
@@ -79,17 +79,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% @organization.get_all_individuals.each do |indiv| %>
+                    <% @organization.get_all_individuals.sort.each do |indiv| %>
                         <tr>
                             <td><%= indiv.proper_name %></td>
                             <td><%= User.where(id: indiv.user_id)[0].email %></td>
                             <td>
-                                <% if indiv.bg_check.nil? %>
-                                    <%=link_to fa_icon("close"), edit_organization_path %> 
-                                <% elsif indiv.bg_check.status == 2 %>
-                                    <%=link_to fa_icon("check"), edit_organization_path %>
+                                <% if indiv.bg_check.nil? || indiv.bg_check.status != 2 %>
+                                    <%=link_to fa_icon("close"), edit_organization_path, class: "close_icon_custom"  %> 
                                 <% else %>
-                                    <%=link_to fa_icon("close"), edit_organization_path %>
+                                    <%=link_to fa_icon("check"), edit_organization_path, class: "check_icon_custom" %>
                                 <% end %>
                             </td>
                         </tr>

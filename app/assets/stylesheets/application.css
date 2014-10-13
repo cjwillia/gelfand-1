@@ -26,6 +26,10 @@ body, html {
     color:black;
 }
 
+.subheading{
+    margin-top: 1rem;
+}
+
 /*bg check status page*/
 .bg-status-bar {
     border-style: solid;
@@ -67,4 +71,17 @@ body, html {
     float:right;
     margin-top:1.2rem;
     font-size:3rem;
+}
+
+/* css for org show page */
+.close_icon_custom{
+    pointer-events: none; 
+    cursor: default;
+    color: red;
+}
+
+.check_icon_custom{
+    pointer-events: none; 
+    cursor: default;
+    color: green;
 }

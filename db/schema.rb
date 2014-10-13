@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20141007165600) do
     t.boolean  "followed_process"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "ownership"
     t.boolean  "is_owner"
+    t.boolean  "ownership"
   end
 
   create_table "bg_checks", force: true do |t|
