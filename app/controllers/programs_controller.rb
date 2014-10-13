@@ -23,26 +23,23 @@ class ProgramsController < ApplicationController
   end
 
   # These controller actions are probably deprecated. Made them a while back -Cory
-  # begin
 
-  def individuals_list
-    @program = Program.find(params[:id])
-    @cleared = @program.cleared_participants
-    @not_cleared = @program.uncleared_participants
-  end
+  # def individuals_list
+  #   @program = Program.find(params[:id])
+  #   @cleared = @program.cleared_participants
+  #   @not_cleared = @program.uncleared_participants
+  # end
 
-  def ongoing
-    @ongoing = Program.current
-  end
+  # def ongoing
+  #   @ongoing = Program.current
+  # end
 
-  def completed
-    @completed = Program.completed
-  end
+  # def completed
+  #   @completed = Program.completed
+  # end
 
-  def upcoming
-    @upcoming = Program.upcoming
-  end
-
+  # def upcoming
+  #   @upcoming = Program.upcoming
   # end
 
   # GET /programs
@@ -59,7 +56,8 @@ class ProgramsController < ApplicationController
   end
 
   def edit
-    @orgs = Organization.all
+    if current_user.orgs
+      @orgs = Organization.all
   end
 
   # PATCH/PUT /programs/1

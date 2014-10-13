@@ -1,47 +1,44 @@
-<div class="row" data-equalizer>
-  <div class="small-11 small-centered columns" data-equalizer-watch>
-    <div class="top_outer">
-        <div class="top_inner_left_full">
-            <h1><%= @organization.name %></h1>
-
-            <h3>General Info</h3>
-        
-            <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
-                <div class="inner_right_pencil">         
-                   <%=link_to fa_icon("edit"), edit_organization_path, class:"edit-icon" %>
-                </div>
-            <% end %>
-        </div>  
-
-
-
-        <div class="inner_left">
-            Contact(s):
-
-            <% count = 1 %>
-            <% @organization.get_org_users_emails.each do |email| %>
-                <%= email %>
-                <!-- add comma after all emails but last -->
-                <% if count != @organization.get_org_users_emails.length %> , <% end %>
-            <% count += 1%>
-            <% end %>
-        </div>
-        <div class="inner_right">
-            <br>
-        </div>
-
+<div class="row">
+  <div class="small-8 columns">
+        <h1>  <%= @organization.name %></h1>
+        <h3>General Info</h3>
     </div>
-    <div class="inner_left">
 
-        <h5>Description:</h5>
-        <%= @organization.description %>
+    <div class="small-4 columns">
+        <div class="text-right">                
+            <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
+               <%=link_to fa_icon("edit"), edit_organization_path, class:"edit-icon" %>
+            <% end %>
+        </div>
+    </div>
+</div>
 
-    <br>
+<br>
+  
+<div class="row" data-equalizer>
+  <div class="small-12 small-centered columns" data-equalizer-watch>
+
+        Contact(s):
+
+        <% count = 1 %>
+        <% @organization.get_org_users_emails.each do |email| %>
+            <%= email %>
+            <!-- add comma after all emails but last -->
+            <% if count != @organization.get_org_users_emails.length %> , <% end %>
+        <% count += 1%>
+        <% end %>
+
+    <h5>Description:</h5>
+    <%= @organization.description %>
+
     <br>
     <br>
     <br>
 
     <h3>Programs <%= @organization.name %> is participating in </h3>
+    <%= link_to "Create a Program for your Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %>
+
+    <br>
         <% if @organization.affiliated_progs.empty? %>
             Currently there are no programs available.
         <% else %>
@@ -65,12 +62,47 @@
             </table>
         <% end %>
 
-    </div>
+    <br>
+    <br>
+    <h3>People in the Organization</h3>
+    <%= link_to "Add a Member to your Organization", edit_organization_path, :class => "button" %>
+
+<<<<<<< HEAD
+    <div class="inner_left"><%= link_to "Create a Program for your Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %></div>
+=======
+        <% if @organization.get_all_individuals.empty? %>
+            Currently there are no members
+        <% else %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Cleared?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @organization.get_all_individuals.each do |indiv| %>
+                        <tr>
+                            <td><%= indiv.proper_name %></td>
+                            <td><%= User.where(id: indiv.user_id)[0].email %></td>
+                            <td>
+                                <% if indiv.bg_check.nil? %>
+                                    <%=link_to fa_icon("close"), edit_organization_path %> (Not started)
+                                <% elsif indiv.bg_check.status == 2 %>
+                                    <%=link_to fa_icon("check"), edit_organization_path %>
+                                <% else %>
+                                    <%=link_to fa_icon("close"), edit_organization_path %> (Somewhere in process)
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        <% end %>    
+>>>>>>> aceb1788a9f3befc6eca880b9420787254b2b0ed
 
     <br />
 
-    <div class="inner_left"><%= link_to "Create a Program for your Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %></div>
-
-
-  </div>
+</div>
 </div>
