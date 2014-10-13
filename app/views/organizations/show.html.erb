@@ -67,9 +67,6 @@
     <h3>People in the Organization</h3>
     <%= link_to "Add a Member to your Organization", edit_organization_path, :class => "button" %>
 
-<<<<<<< HEAD
-    <div class="inner_left"><%= link_to "Create a Program for your Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %></div>
-=======
         <% if @organization.get_all_individuals.empty? %>
             Currently there are no members
         <% else %>
@@ -100,8 +97,6 @@
                 </tbody>
             </table>
         <% end %>    
->>>>>>> aceb1788a9f3befc6eca880b9420787254b2b0ed
-
     <br />
 
 </div>

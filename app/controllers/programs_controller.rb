@@ -55,9 +55,7 @@ class ProgramsController < ApplicationController
     @affiliation = Affiliation.new
   end
 
-  def edit
-    if current_user.orgs
-      @orgs = Organization.all
+  def edit    
   end
 
   # PATCH/PUT /programs/1
