@@ -2,7 +2,7 @@
     <%=link_to fa_icon("edit"), edit_program_path, class:"program-edit" %>
     <h1><%= @program.name %></h1>
     <h2>General Info</h2>
-    <h3><%= "Organization".pluralize(@program.organizations.size) %></h3>
+    <%= "Affiliated Organization".pluralize(@program.organizations.size) +":" %>
         <% @program.organizations.each do |org| %>
             <p>
                 <%= link_to org.name, org %>
@@ -19,7 +19,7 @@
                 Number of Minors: <%= @program.num_minors %>
             </div>
         </div>
-    <h3>Description</h3>
+    <h3 class="subheading">Description</h3>
         <p><%= @program.description %>
     <h2>People Participating in the Program</h2>
     <table>
@@ -35,7 +35,15 @@
             <tr>
                 <td><%= participant.individual.f_name %> <%= participant.individual.l_name %></td>
                 <td><%= participant.individual.contact.email %></td>
-                <td><%= fa_icon(boolean_icon participant.individual.bg_check_complete?) %></td>
+                <td>
+                    <% if participant.individual.bg_check.nil? %>
+                        <%=fa_icon("close", class: "close_icon") %>
+                    <% elsif participant.individual.bg_check.status == 2 %>
+                        <%=fa_icon("check", class: "check_icon")%>
+                    <% else %>
+                        <%=fa_icon("close", class: "close_icon")%>
+                    <% end %>
+                </td>
             </tr>
         <% end %>
       </tbody>
