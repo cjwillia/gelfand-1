@@ -79,7 +79,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% @organization.get_all_individuals.each do |indiv| %>
+                    <% @organization.get_all_individuals.sort.each do |indiv| %>
                         <tr>
                             <td><%= indiv.proper_name %></td>
                             <td><%= User.where(id: indiv.user_id)[0].email %></td>

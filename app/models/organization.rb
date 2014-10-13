@@ -30,7 +30,7 @@ class Organization < ActiveRecord::Base
   def get_all_individuals
     self.memberships.map{|mems| Individual.find(mems.individual_id) }
   end
-
+  
   def get_membership_size
     self.memberships.length
   end
