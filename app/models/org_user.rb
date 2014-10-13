@@ -6,8 +6,8 @@ class OrgUser < ActiveRecord::Base
     belongs_to :organization
 
     #valdiations
-    validates_numericality_of :user_id, :only_integer => true, :greater_than => 0
-    validates_numericality_of :organization_id, :only_integer => true, :greater_than => 0
+    #validates_numericality_of :user_id, :only_integer => true, :greater_than => 0
+    #validates_numericality_of :organization_id, :only_integer => true, :greater_than => 0
 
     # Scopes
     scope :for_organization, lambda {|organization_id| where("organization_id = ?", organization_id) }

@@ -14,4 +14,8 @@ class HomeController < ApplicationController
     def signed_up_confirm
         render 'home/sign_up_confirm'
     end
+
+    def restricted_access
+        render 'home/restricted_access'
+    end
 end

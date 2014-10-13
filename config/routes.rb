@@ -26,6 +26,7 @@ Gelfand::Application.routes.draw do
   resources :bg_checks 
 
   get 'signed_up_confirm' => "home#signed_up_confirm", :as => :signed_up_confirm
+  get 'restricted_access' => "home#restricted_access", :as => :restricted_access
   #match 'organizations/overview' => 'organizations#overview', :via => [:get], :as => :org_overview
 
   # below is so I can add the 'delete_multiple' action and url along with the regular 7 we get from 
@@ -60,7 +61,7 @@ Gelfand::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "my_devise/registrations"} 
   root :to => "home#index"
 
-
+  get ':action' => 'static#:action' 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
