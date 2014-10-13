@@ -62,6 +62,42 @@
             </table>
         <% end %>
 
+    <br>
+    <br>
+    <h3>People in the Organization</h3>
+    <%= link_to "Add a Member to your Organization", edit_organization_path, :class => "button" %>
+
+        <% if @organization.get_all_individuals.empty? %>
+            Currently there are no members
+        <% else %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Cleared?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @organization.get_all_individuals.each do |indiv| %>
+                        <tr>
+                            <td><%= indiv.proper_name %></td>
+                            <td><%= User.where(id: indiv.user_id)[0].email %></td>
+                            <td>
+                                <% if indiv.bg_check.nil? %>
+                                Not started
+                                <% elsif indiv.bg_check.status == 2 %>
+                                Yes
+                                <% else %>
+                                No
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        <% end %>    
+
     <br />
 
 </div>
