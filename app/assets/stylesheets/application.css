@@ -74,13 +74,13 @@ body, html {
 }
 
 /* css for org show page */
-.close_icon_custom{
+.close_icon{
     pointer-events: none; 
     cursor: default;
     color: red;
 }
 
-.check_icon_custom{
+.check_icon{
     pointer-events: none; 
     cursor: default;
     color: green;
