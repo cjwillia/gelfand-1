@@ -2,11 +2,16 @@
     <%=link_to fa_icon("edit"), edit_program_path, class:"program-edit" %>
     <h1><%= @program.name %></h1>
     <h2>General Info</h2>
-    <%= "Affiliated Organization".pluralize(@program.organizations.size) +":" %>
+    <h4><%= "Affiliated Organization".pluralize(@program.organizations.size) +":" %></h4>
         <% @program.organizations.each do |org| %>
-            <p>
+        <div class="row">
+            <div class="small-6 columns">
                 <%= link_to org.name, org %>
-            </p>
+            </div>
+            <div class="small-6 columns">
+            </div>
+        </div>
+            
         <% end %>
         <div class="row">
             <div class="small-4 columns">

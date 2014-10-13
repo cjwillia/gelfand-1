@@ -4,7 +4,9 @@ class ProgramsController < ApplicationController
 
   def new
     @program = Program.new
-    if current_user.organizations.include?(Organization.find(params[:org_id]))
+    if params[:org_id].nil?
+      redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
+    elsif current_user.organizations.include?(Organization.find(params[:org_id]))
       @program.organizations << Organization.find(params[:org_id])
     else
       redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
@@ -55,16 +57,23 @@ class ProgramsController < ApplicationController
     @affiliation = Affiliation.new
   end
 
-  def edit    
+  def edit
+    if @program.managers.include?(current_user)
+      @orgs = Organization.all
+    else
+      redirect_to "/restricted_access", notice: "You must be running an organization that manages a program to edit it."
+    end    
   end
 
-  # PATCH/PUT /programs/1
-  # PATCH/PUT /programs/1.json
   def update
+    # Grab the new people's ids, clear blank entries, and add them to the program here.
     @newparticipants = params[:program][:individual_ids]
     @newparticipants.reject!(&:blank?)
     @newparticipants.each do |i|
-      @program.individuals << Individual.find(i)
+      ind = Individual.find(i)
+      unless @program.individuals.include?(ind)
+        @program.individuals << ind
+      end
     end
 
     if @program.update(program_params)
