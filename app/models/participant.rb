@@ -6,8 +6,8 @@ class Participant < ActiveRecord::Base
     belongs_to :individual
 
     #validations
-    validates_numericality_of :program_id, :only_integer => true, :greater_than => 0
-    validates_numericality_of :individual_id, :only_integer => true, :greater_than => 0
+    #validates_numericality_of :program_id, :only_integer => true, :greater_than => 0
+    #validates_numericality_of :individual_id, :only_integer => true, :greater_than => 0
     #validate :program_is_active_in_system, :on => :create
     #validate :individual_is_active_in_system, :on => :create
     #validate :participant_is_not_already_in_system, :on => :create

@@ -79,7 +79,9 @@
 	<!-- if the current user runs any of this program's affiliated organizations -->
 	<% @program.organizations.each do |org| %>
 		<% if current_user.organizations.include?(org) %>
-			<%= f.collection_select :individual_ids, org.individuals, :id, :name, {}, {:class => "chosen-select", :multiple => "true"} %>
+		<div class="row panel chosen-select-panel">
+			<%= f.collection_select :individual_ids, org.individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+		</div>
 		<% end %>
 	<% end %>
 

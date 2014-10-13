@@ -42,6 +42,9 @@ body, html {
 
 /* Programs */
 
+.panel.chosen-select-panel {
+    height: 20rem;
+}
 
 #programs-new-orgselect {
 	height: 10rem;
