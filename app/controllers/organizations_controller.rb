@@ -60,6 +60,18 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1
   # PATCH/PUT /organizations/1.json
   def update
+    member_ids = params[:organization][:individual_ids]
+    member_ids.reject!(&:blank?) # only 1st element might come up as empty quotes, but doing for all just in case
+    # member_ids may already be in the system, so need to subtract this set 
+    #   from the set thats already in memberships.individuals  
+
+    # need to_s since member_ids are strings and need to do when doing "-" on the arrays
+    existing_member_ids = @organization.individuals.map{|indiv| indiv.id.to_s}
+    new_member_ids = member_ids - existing_member_ids
+    new_member_ids.each do |m|
+      @organization.individuals << Individual.find(m)
+    end
+
     respond_to do |format|
       if @organization.update(organization_params)
         format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
