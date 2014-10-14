@@ -96,44 +96,65 @@ class OrganizationsController < ApplicationController
   def send_sign_up_notice_if_no_indiv_exists
       # doing stuff here so take care of redundant code
       @orgMailer = OrganizationMailer.new(params[:organization_mailer])
-      @membership = Membership.new
+      @emails = @orgMailer.currently_registered_email.split(',')
+      # TO DO
+      #   1. perform validation on each email in emails
+      #       if 1 email is not proper, redirect back to org manage with error  
+      #   2. For each email create memberships 
+      #   
       org_id = params[:organization_id]
-      @membership.organization_id = org_id
-      # this is so can get the User from the passed in email from params hash
-      @user = User.find_by email: @orgMailer.currently_registered_email      
 
-      # send notice if no User exists, 
-      # if User exists make the Membership with existing Individual since if User exists, the
-          # connected Individual must also exist because this happens when signing up
-      if (!@user.nil?)
-          @indiv = Individual.find_by user_id: @user.id
-           @membership.individual_id = @indiv.id
-           if @membership.save
-              redirect_to organization_path(org_id), notice: "Added member: #{@indiv.f_name}"
-           else
-              redirect_to edit_organization_path(org_id),  notice: "Could not add member."
-            end
-     
-      else
-            # making the temporary membership when an Admin user enters in an email
-            #---------------------------------------------------------------------
-                    # making the indiv for the temp membership
-                    @indiv = Individual.new
-                    @indiv.f_name = @orgMailer.currently_registered_email
-                    @indiv.l_name = "Temp: " 
-                    @indiv.role = 0
-                    @indiv.save
-                @membership.individual_id = @indiv.id
-                @membership.save
-            #---------------------------------------------------------------------
+      # use this count variable to check how many emails were valid
+      @count = 0
+      # perform stuff for each email
+      @emails.each do |email_of_single|
+          @membership = Membership.new
+          @membership.organization_id = org_id
+          @user = User.find_by email: email_of_single
+    
 
-            if @orgMailer.deliver
-              redirect_to organization_path(org_id), notice: "Notice sent to \"#{@orgMailer.currently_registered_email}\""
-            else
-              redirect_to edit_organization_path(org_id)
-              flash[:error] = 'Could not send notice.'
-            end
-      end 
+          # send notice if no User exists, 
+          # if User exists make the Membership with existing Individual since if User exists, the
+              # connected Individual must also exist because this happens when signing up
+          if (!@user.nil?)
+              @indiv = Individual.find_by user_id: @user.id
+               @membership.individual_id = @indiv.id
+               if @membership.save
+                  redirect_to organization_path(org_id), notice: "Added member: #{@indiv.f_name}"
+                  
+               else
+                  redirect_to edit_organization_path(org_id),  notice: "Could not add member."
+                end
+         
+          else
+                # this line pertinent -- before can deliver, need to change object's email to single email
+                @orgMailer.currently_registered_email = email_of_single
+
+                # making the temporary membership when an Admin user enters in an email
+                #---------------------------------------------------------------------
+                        # making the indiv for the temp membership
+                        @indiv = Individual.new
+                        @indiv.f_name = @orgMailer.currently_registered_email
+                        @indiv.l_name = "Temp: " 
+                        @indiv.role = 0
+                        @indiv.save
+                    @membership.individual_id = @indiv.id
+                    @membership.save
+                #---------------------------------------------------------------------
+                
+                if @orgMailer.deliver
+                    @count = @count+1
+                else
+                  redirect_to edit_organization_path(org_id)
+                  flash[:error] = 'Could not send notice.'
+                end
+          end 
+      end
+      # Only redirect if: we were able to deliver to all emails
+      if @count == @emails.length
+        redirect_to organization_path(org_id), notice: "Notice sent to \"#{@orgMailer.currently_registered_email}\""
+      end
+
   end  
 
   private
