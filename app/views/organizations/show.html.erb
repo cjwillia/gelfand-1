@@ -85,9 +85,23 @@
                 <tbody>
                     <% @organization.get_all_individuals.sort.each do |indiv| %>
                         <tr>
-                            <td><%= indiv.proper_name %></td>
-                            <td><%= User.where(id: indiv.user_id)[0].email %></td>
+                            <td><!-- check if temp indiv -->
+                                <% if indiv.proper_name.include? "Temp:"%>
+                                Temporary user -- sign up pending
+                                <% else %>
+                                    <%= indiv.proper_name %>
+                                <% end %>
+                            </td>
                             <td>
+                                <!-- email based on temp creation, since temp created has no actual email -->
+                                <% if indiv.proper_name.include? "Temp:"%>
+                                    <%= indiv.proper_name.slice!(0..(indiv.proper_name.length-8)) %>
+
+                                <% else %>
+                                    <%= User.where(id: indiv.user_id)[0].email %>
+                                <% end %>
+                            </td>
+                            <td><!-- icon based on bg_check status -->
                                 <% if indiv.bg_check.nil? %>
                                     <%=fa_icon("close", class: "close_icon") %>
                                 <% elsif indiv.bg_check.status == 2 %>
