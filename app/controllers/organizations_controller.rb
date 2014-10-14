@@ -152,7 +152,14 @@ class OrganizationsController < ApplicationController
       end
       # Only redirect if: we were able to deliver to all emails
       if @count == @emails.length
-        redirect_to organization_path(org_id), notice: "Notice sent to \"#{@orgMailer.currently_registered_email}\""
+        notice_string = ""
+        @emails.each do |email|
+          notice_string+=(email+", ")
+        end
+        # take out last comma
+        notice_string = notice_string.at(0..-3)
+        # redirect to show page
+        redirect_to organization_path(org_id), notice: "Notice sent to: "+notice_string
       end
 
   end  
