@@ -6,7 +6,7 @@ class ProgramsController < ApplicationController
     @program = Program.new
     if params[:org_id].nil?
       redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
-    elsif current_user.organizations.include?(Organization.find(params[:org_id]))
+    elsif current_user.organizations.include?(Organization.find(params[:org_id])) || current_user.admin?
       @program.organizations << Organization.find(params[:org_id])
     else
       redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
@@ -58,8 +58,8 @@ class ProgramsController < ApplicationController
   end
 
   def edit
-    if @program.managers.include?(current_user)
-      @orgs = Organization.all.reject!{|o| o.programs.include?(@program)}
+    if @program.managers.include?(current_user) || current_user.admin?
+      @orgs = Organization.alphabetical.reject!{|o| o.programs.include?(@program)}
     else
       redirect_to "/restricted_access", notice: "You must be running an organization that manages a program to edit it."
     end    
@@ -67,6 +67,7 @@ class ProgramsController < ApplicationController
 
   def update
     # Grab the new people's ids, clear blank entries, and add them to the program here.
+    params[:saltfish].crash
     @newparticipants = params[:program][:individual_ids]
     @newparticipants.reject!(&:blank?)
     @newparticipants.each do |i|
