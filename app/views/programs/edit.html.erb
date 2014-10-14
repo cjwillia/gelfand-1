@@ -72,7 +72,7 @@
 	<% @program.organizations.each do |org| %>
 		<% if current_user.organizations.include?(org) %>
 		<div class="row">
-			<h3>Add People from <%= org.name %> to this program</h3>
+			<h3>Add People from <%= org.name %> to <%= @program.name %></h3>
 		</div>
 		<div class="row">
 			<div class="small-6 columns panel chosen-select-panel">
@@ -84,6 +84,15 @@
 	<% end %>
 
 	<br />
+
+	<div class="row">
+		<h3>Add Additional Organizations to <%= @program.name %></h3>
+	</div>
+	<div class="row">
+		<div class="small-6 columns panel chosen-select-panel">
+			<%= f.collection_select :organization_ids, @orgs.alphabetical, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+		</div>
+	</div>
 
 	<div class="row">
 		<label>Tell us about this program. This is a good place for specifics (Location, Time, etc.)</label>

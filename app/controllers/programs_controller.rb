@@ -59,7 +59,7 @@ class ProgramsController < ApplicationController
 
   def edit
     if @program.managers.include?(current_user)
-      @orgs = Organization.all
+      @orgs = Organization.all.reject!{|o| o.programs.include?(@program)}
     else
       redirect_to "/restricted_access", notice: "You must be running an organization that manages a program to edit it."
     end    
