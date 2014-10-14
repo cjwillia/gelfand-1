@@ -1,33 +1,33 @@
 <div class="row" data-equalizer>
   <div class="small-12">
-    <h1>Organizations</h1>
-  <br>
-      <% if current_user.admin %>
-                    <table id="org_home_table">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Active</th>
-                          <th>Contact</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <% @organizations.each do |org|  %>
-                        <tr class="rows_in_admin_org_home"><td><%= link_to org.name, org %> </td>
-                            <td><%= org.active ? "Yes" : "No" %></td> 
-                            <% orgUser = OrgUser.for_organization(org).first %>  
-                            <td><%= orgUser.user.email %></td>                       
-                            <td class="row_actions"><%= link_to "Edit", edit_organization_path(org) %></td>
-                        </tr>
-                      <% end %>
-                    </tbody>
-                   </table>   
-        <% elsif current_user.member %>  
-
-            <%= render 'org_home_for_regular_user' %>
-        
+    <% if current_user.admin %>
+      <h1>Organizations</h1>
+      <table id="org_home_table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Active</th>
+            <th>Contact</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @organizations.each do |org|  %>
+          <tr class="rows_in_admin_org_home"><td><%= link_to org.name, org %> </td>
+              <td><%= org.active ? "Yes" : "No" %></td> 
+              <% orgUser = OrgUser.for_organization(org).first %>  
+              <td><%= orgUser.user.email %></td>                       
+              <td class="row_actions"><%= link_to "Edit", edit_organization_path(org) %></td>
+          </tr>
         <% end %>
+      </tbody>
+     </table>   
+    <% elsif current_user.member %>  
+
+        <h1>Whoa!</h1>
+        <p>It looks like you don't have permission to view this page.</p>
+    
+    <% end %>
     
    </div>
  </div>
