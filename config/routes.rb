@@ -49,9 +49,10 @@ Gelfand::Application.routes.draw do
   resources :org_users
   
 
-  # this route is for the form in Org show page
+  # this route is for the form in Org manage page
   match '/organization_mailers',     to: 'organizations#send_sign_up_notice_if_no_indiv_exists',  via: 'post'
 
+  # these routes are for contact form
   match '/mailers',     to: 'mailers#new',             via: 'get'
   resources "mailers", only: [:new, :create]
 
