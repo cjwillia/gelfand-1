@@ -27,6 +27,11 @@
     <h3 class="subheading">Description</h3>
         <p><%= @program.description %>
     <h2>People Participating in the Program</h2>
+
+    <a href=<%= edit_program_path %> class="button">
+        <%= fa_icon("plus") %> Add People
+    </a>
+
     <table>
         <thead>
             <tr>

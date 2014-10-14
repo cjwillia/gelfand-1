@@ -55,6 +55,11 @@ body, html {
 	height: 10rem;
 }
 
+/* This panel is set to be a little bigger
+than the maximum size my browser makes a
+select drop-down without making it scrollable.
+-Cory (Chrome Version 37.0.2062.124 but that's
+probably stable) */
 #programs-new-orgselect .panel {
 	height: 20rem;
 }
