@@ -48,10 +48,6 @@ Gelfand::Application.routes.draw do
   # need this so can delete orgUser
   resources :org_users
   
-
-  # this route is for the form in Org manage page
-  match '/organization_mailers',     to: 'organizations#send_sign_up_notice_if_no_indiv_exists',  via: 'post'
-
   # these routes are for contact form
   match '/mailers',     to: 'mailers#new',             via: 'get'
   resources "mailers", only: [:new, :create]

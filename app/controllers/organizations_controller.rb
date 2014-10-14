@@ -60,6 +60,12 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1
   # PATCH/PUT /organizations/1.json
   def update
+
+    # check orgMailer 
+      @orgMailer = OrganizationMailer.new(params[:organization_mailer])
+      @emails = @orgMailer.currently_registered_email.split(',')
+      params[:asdf] = asdf
+
     member_ids = params[:organization][:individual_ids]
     member_ids.reject!(&:blank?) # only 1st element might come up as empty quotes, but doing for all just in case
     # member_ids may already be in the system, so need to subtract this set 
