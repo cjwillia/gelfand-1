@@ -97,7 +97,6 @@ class OrganizationsController < ApplicationController
       # doing stuff here so take care of redundant code
       @orgMailer = OrganizationMailer.new(params[:organization_mailer])
       @membership = Membership.new
-      # this is so dont have to add org_id to @mem in the if AND else clauses
       org_id = params[:organization_id]
       @membership.organization_id = org_id
       # this is so can get the User from the passed in email from params hash
