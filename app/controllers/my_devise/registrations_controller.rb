@@ -44,7 +44,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 				# By here should have populated indiv_ids and membership_ids
 				
 				# Note 1: membership_ids and indiv_ids should be the same size because currently in the Org
-					# show page a new Membership and Indiv is created (thus a new Indiv id created for each new Indiv)
+					# edit page a new Membership and Indiv is created (thus a new Indiv id created for each new Indiv)
 				# Note 2: where returns Active Record relation (basically an array) even if there is only 1 object 
 					# that meets the criteria, BUT find_by always returns the single object itself
 				indiv_ids.each do |i_id|

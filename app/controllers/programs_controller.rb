@@ -4,7 +4,9 @@ class ProgramsController < ApplicationController
 
   def new
     @program = Program.new
-    if current_user.organizations.include?(Organization.find(params[:org_id]))
+    if params[:org_id].nil?
+      redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
+    elsif current_user.organizations.include?(Organization.find(params[:org_id])) || current_user.admin?
       @program.organizations << Organization.find(params[:org_id])
     else
       redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
@@ -55,16 +57,34 @@ class ProgramsController < ApplicationController
     @affiliation = Affiliation.new
   end
 
-  def edit    
+  def edit
+    if @program.managers.include?(current_user) || current_user.admin?
+      @orgs = Organization.alphabetical.reject!{|o| o.programs.include?(@program)}
+    else
+      redirect_to "/restricted_access", notice: "You must be running an organization that manages a program to edit it."
+    end    
   end
 
-  # PATCH/PUT /programs/1
-  # PATCH/PUT /programs/1.json
   def update
-    @newparticipants = params[:program][:individual_ids]
-    @newparticipants.reject!(&:blank?)
+    # Grab the new people and organization ids, clear blank entries, and add them to the program here.
+    # (I don't know why the chosen select sends an empty string first index. Maybe there's a way 
+    # to fix it client-side to clean this up?)
+
+    @newparticipants = params[:program][:individual_ids].reject!(&:blank?)
+    @neworgs = params[:program][:organization_ids].reject!(&:blank?)
+
     @newparticipants.each do |i|
-      @program.individuals << Individual.find(i)
+      ind = Individual.find(i)
+      unless @program.individuals.include?(ind)
+        @program.individuals << ind
+      end
+    end
+
+    @neworgs.each do |o|
+      org = Organization.find(o)
+      unless @program.organizations.include?(org)
+        @program.organizations << org
+      end
     end
 
     if @program.update(program_params)

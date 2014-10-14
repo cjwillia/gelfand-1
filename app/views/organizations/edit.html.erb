@@ -1,4 +1,3 @@
-
 <div class="row" data-equalizer>
   <div class="small-10 small-centered columns" data-equalizer-watch>
 		<h1>Manage <%= @organization.name %> </h1>
@@ -17,7 +16,7 @@
 	            <tbody>
 	                <tr><td class="OrgShowAddMemForm">
 	                    <%= simple_form_for OrganizationMailer.new, :html => {:class => 'form-horizontal' } do |f| %>
-	                      <%= f.input :currently_registered_email, :label => "Email", :required => true %>
+	                      <%= f.input :currently_registered_email, :label => "Email", :required => true, :input_html => { :id => "tags"} %>
 	                        <%= f.hidden_field :nickname, :hint => 'Leave this field blank!' %>
 	                        <%= f.hidden_field :org_name, :input_html => { :value => @organization.name } %>
 	                        <%= f.hidden_field :NOTICE, :input_html => { :value => 
@@ -33,7 +32,6 @@
 	          </tbody>
 	    <% end %>
     <!-- -->
-
 	</div>
 
 </div>
