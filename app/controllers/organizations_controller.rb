@@ -64,12 +64,80 @@ class OrganizationsController < ApplicationController
     #   Org multiple email add
     #   Org regular multiple add
     #   Org change in model (ie. name, description, etc)
+    #   
+    # Using 5 new arrays
+    #   bad_emails    - improper emails, ie. john@@yahoo.com, john@yahoo, etc..
+    #   good_emails   - these emails passed validate check
+    #   not_in_app    - subset of good_emails - emails not in app
+    #   in_app        - subset of good_emails - emails in app (will map this to ids)
+    #   all_new_unique_mem_ids - add new_member_ids and those in_app, then remove duplicates
+    
+    bad_emails  = []
+    good_emails = []
+    not_in_app  = []
+    in_app = []
+    all_new_unique_mem_ids = []
+
+        # THIS SECTION: populate new_member_ids from regular non-email multiple select
+        member_ids = params[:organization][:individual_ids]
+        member_ids.reject!(&:blank?) # only 1st element might come up as empty quotes, but doing for all just in case
+        # member_ids may already be in the system, so need to subtract this set 
+        #   from the set thats already in memberships.individuals  
+
+        # need to_s since member_ids are strings and need to do when doing "-" on the arrays
+        existing_member_ids = @organization.individuals.map{|indiv| indiv.id.to_s}
+        new_member_ids = member_ids - existing_member_ids
+
+    # Add ids from regular non-email multiple select
+    new_member_ids.each do |id|
+        all_new_unique_mem_ids << id
+    end
+
+    # get the string of emails, then split them into an array using comma delimiter
+    @emails = (params[:organization][:new_emails]).split(',')
+
+    # Validate all emails, then split them into good, bad group
+    good_emails = @emails.find_all {|email| email =~ /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i }
+    bad_emails = @emails - good_emails
+
+    # Separate associated indiv_ids in app from those that don't exist yet from list of good_emails (validated emails)
+    good_emails.each do |email_of_single|
+        @user = User.find_by email: email_of_single
+        if (!@user.nil?)
+            in_app << @user.individual.id
+        else
+            not_in_app << email_of_single
+        end
+    end
+
+    # Add those in app from multiple email select
+    in_app.each do |id|
+        all_new_unique_mem_ids << id
+    end
+
+    # May have duplicate values due to selecting from regular non-email multiple select and email multiple select
+    all_new_unique_mem_ids.uniq!
+
+    # Make the memberships
+    all_new_unique_mem_ids.each do |id|
+      @organization.individuals << Individual.find(id)
+    end
+
     @orgMailer = OrganizationMailer.new
     @orgMailer.org_name = @organization.name
     @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
     
-    # get the string of emails, then split them into arrays using comma delimiter
-    @emails = (params[:organization][:new_emails]).split(',')
+=begin
+
+a - unique indiv ids in system, that are not part of org
+not_in_app - emails for new prospective users
+
+Notice will be:
+Added: a's
+Sent notice to: not_in_app's
+Improper emails entered: bad_email's
+  - Emails that didn’t pass validation test
+=end
 
       org_id = @organization.id
       # use this count variable to check how many emails were valid
@@ -127,18 +195,6 @@ class OrganizationsController < ApplicationController
 
 
     #params[:asdf] = asdf
-
-    member_ids = params[:organization][:individual_ids]
-    member_ids.reject!(&:blank?) # only 1st element might come up as empty quotes, but doing for all just in case
-    # member_ids may already be in the system, so need to subtract this set 
-    #   from the set thats already in memberships.individuals  
-
-    # need to_s since member_ids are strings and need to do when doing "-" on the arrays
-    existing_member_ids = @organization.individuals.map{|indiv| indiv.id.to_s}
-    new_member_ids = member_ids - existing_member_ids
-    new_member_ids.each do |m|
-      @organization.individuals << Individual.find(m)
-    end
 
     respond_to do |format|
       if @organization.update(organization_params)
