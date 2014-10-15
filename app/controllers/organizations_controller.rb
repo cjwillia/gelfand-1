@@ -63,6 +63,8 @@ class OrganizationsController < ApplicationController
 
     # check orgMailer 
       @orgMailer = OrganizationMailer.new(params[:organization_mailer])
+      @orgMailer.org_name = @organization.name
+      @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
       @emails = @orgMailer.currently_registered_email.split(',')
       params[:asdf] = asdf
 
