@@ -12,25 +12,8 @@
 
 		<!-- add member -->
 		<h5>Add them by Email</h5>
-	    <% if (current_user.admin || current_user.is_orgUser_for_specific_org(@organization)) %>
-	            <tbody>
-	                <tr><td class="OrgShowAddMemForm">
-	                    <%= simple_form_for OrganizationMailer.new, :html => {:class => 'form-horizontal' } do |f| %>
-	                      <%= f.input :currently_registered_email, :label => "Email", :required => true, :input_html => { :id => "tags"} %>
-	                        <%= f.hidden_field :nickname, :hint => 'Leave this field blank!' %>
-	                        <%= f.hidden_field :org_name, :input_html => { :value => @organization.name } %>
-	                        <%= f.hidden_field :NOTICE, :input_html => { :value => 
-	                          "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
-	                         } %>
-	                      <%= hidden_field_tag :organization_id, @organization.id %>
-	                      <div>
-	                        </br>
-	                        <%= f.button :submit, 'Add', :class => "button", :id=> "addingFormButton" %>
-	                      </div>
-	                    <% end %>
-	              </td></tr>
-	          </tbody>
-	    <% end %>
+	                      
+
     <!-- -->
 	</div>
 
