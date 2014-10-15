@@ -39,11 +39,15 @@
       </div>
     </div>  
     <!-- see: http://stackoverflow.com/questions/11349508/rails-simpleform-with-non-model-inputs -->
-  <%= f.label :Add_by_email %>
-  <%= f.text_field :new_emails, :required => true, :input_html => { :id => "tags"} %> 
+  <h5>Add by email</h5>
+  <%= f.text_field :new_emails, :required => true, :id => "tags" %> 
 
+
+  <br>
+  <br>
 
   <div class="actions">
     <%= f.submit "Submit", :class => "button" %>
   </div>
+
 <% end %>
