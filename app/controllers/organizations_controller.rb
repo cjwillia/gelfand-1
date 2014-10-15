@@ -110,6 +110,13 @@ class OrganizationsController < ApplicationController
         end
     end
 
+    # Have to do this because even though user may be in app, he/she may already be member of organization
+    #     Ex: jack is in app and part of SigEp, but orgHead types in jack@yahoo.com
+    #     If dont have below exclusion, then jack will get added into SigEp for 2nd time
+    # First have to map existing_member_ids to integers instead of "12" 
+    existing_member_ids = existing_member_ids.map{|num| num.to_i}
+    in_app = in_app - existing_member_ids
+
     # Add those in app from multiple email select
     in_app.each do |id|
         all_new_unique_mem_ids << id
@@ -162,29 +169,45 @@ Added: all_new_unique_mem_ids
 Sent notice to: not_in_app's
 Improper emails entered: bad_email's
   - Emails that didn’t pass validation test
-
-    # Make the notice
-    if @count == @emails.length
-      notice_string = ""
-      @emails.each do |email|
-        notice_string+=(email+", ")
-      end
-      # take out last comma
-      notice_string = notice_string.at(0..-3)
-      # redirect to show page
-      redirect_to organization_path(@organization.id), notice: "Notice sent to: "+notice_string
-      return
-    end
-
+  - Dont have this yet (Not necessary?)
 =end
 
+    # Make the notice
+      notice_string = ""
+      not_in_app.each do |email|
+        notice_string+=(email+", ")
+      end
+      
+      if (!not_in_app.empty?)
+          notice_string = "Sent notice to: "+notice_string
+          # take out last comma
+          notice_string = notice_string.at(0..-3)
+      end
 
 
-    #params[:asdf] = asdf
+      # add regular member (not sending email)
+      if (!all_new_unique_mem_ids.empty?)
+          unless (not_in_app.empty?)
+              notice_string += " | "
+          end
+
+          notice_string = "Added member(s): "+notice_string  
+          # put all_new_unique_mem_ids into notice string
+          all_new_unique_mem_ids.each do |id|
+              notice_string += ((Individual.find(id)).proper_name+", ")
+          end
+          # take out last comma
+          notice_string = notice_string.at(0..-3)
+      end
+
+    # if a regular update to Organization
+    if (not_in_app.empty? and all_new_unique_mem_ids.empty?)
+        notice_string = "Organization succesfully updated -- No new members added/requested."
+    end
 
     respond_to do |format|
       if @organization.update(organization_params)
-        format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
+        format.html { redirect_to @organization, notice: notice_string }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
