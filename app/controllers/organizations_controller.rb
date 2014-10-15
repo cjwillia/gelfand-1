@@ -118,11 +118,43 @@ class OrganizationsController < ApplicationController
     # May have duplicate values due to selecting from regular non-email multiple select and email multiple select
     all_new_unique_mem_ids.uniq!
 
-    # Make the memberships
+    # Make memberships for those already in system
     all_new_unique_mem_ids.each do |id|
       @organization.individuals << Individual.find(id)
     end
 
+
+    # Sending the email using @orgMailer    
+
+    @orgMailer = OrganizationMailer.new
+    @orgMailer.org_name = @organization.name
+    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
+
+    # perform stuff for each email
+    not_in_app.each do |email_of_single|
+        # Recall: not_in_app only has users not in system
+
+        # this line pertinent -- before can deliver, need to change object's email to single email
+        @orgMailer.currently_registered_email = email_of_single
+
+        # making the temporary membership when an Admin user enters in an email
+        #---------------------------------------------------------------------
+            # making the indiv for the temp membership
+            @indiv = Individual.new
+            @indiv.f_name = @orgMailer.currently_registered_email
+            @indiv.l_name = "Temp: " 
+            @indiv.role = 0
+            @indiv.save
+            # make the membership
+            @membership = Membership.new
+            @membership.organization_id = @organization.id
+            @membership.individual_id = @indiv.id
+            @membership.save
+        #---------------------------------------------------------------------
+        
+        @orgMailer.deliver
+    end
+      
 =begin
 
 Notice will be:
@@ -130,65 +162,22 @@ Added: all_new_unique_mem_ids
 Sent notice to: not_in_app's
 Improper emails entered: bad_email's
   - Emails that didn’t pass validation test
+
+    # Make the notice
+    if @count == @emails.length
+      notice_string = ""
+      @emails.each do |email|
+        notice_string+=(email+", ")
+      end
+      # take out last comma
+      notice_string = notice_string.at(0..-3)
+      # redirect to show page
+      redirect_to organization_path(@organization.id), notice: "Notice sent to: "+notice_string
+      return
+    end
+
 =end
-    
-    @orgMailer = OrganizationMailer.new
-    @orgMailer.org_name = @organization.name
-    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
-    
-      org_id = @organization.id
-      # use this count variable to check how many emails were valid
-      @count = 0
-      # perform stuff for each email
-      @emails.each do |email_of_single|
-          @membership = Membership.new
-          @membership.organization_id = org_id
-          @user = User.find_by email: email_of_single
-    
 
-          # send notice if no User exists, 
-          # if User exists make the Membership with existing Individual since if User exists, the
-              # connected Individual must also exist because this happens when signing up
-          if (!@user.nil?)
-              @indiv = Individual.find_by user_id: @user.id
-               @membership.individual_id = @indiv.id         
-          else
-                # this line pertinent -- before can deliver, need to change object's email to single email
-                @orgMailer.currently_registered_email = email_of_single
-
-                # making the temporary membership when an Admin user enters in an email
-                #---------------------------------------------------------------------
-                        # making the indiv for the temp membership
-                        @indiv = Individual.new
-                        @indiv.f_name = @orgMailer.currently_registered_email
-                        @indiv.l_name = "Temp: " 
-                        @indiv.role = 0
-                        @indiv.save
-                    @membership.individual_id = @indiv.id
-                    @membership.save
-                #---------------------------------------------------------------------
-                
-                if @orgMailer.deliver
-                    @count = @count+1
-                else
-                  redirect_to edit_organization_path(org_id)
-                  flash[:error] = 'Could not send notice.'
-                  return
-                end
-          end 
-      end
-      # Only redirect if: we were able to deliver to all emails
-      if @count == @emails.length
-        notice_string = ""
-        @emails.each do |email|
-          notice_string+=(email+", ")
-        end
-        # take out last comma
-        notice_string = notice_string.at(0..-3)
-        # redirect to show page
-        redirect_to organization_path(org_id), notice: "Notice sent to: "+notice_string
-        return
-      end
 
 
     #params[:asdf] = asdf
