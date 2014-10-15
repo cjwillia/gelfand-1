@@ -3,6 +3,7 @@ class BgCheck < ActiveRecord::Base
     # Relationships
     # -------------
     belongs_to :individual
+    has_many :issues
     
 	# Validations
 	# -----------
@@ -27,7 +28,7 @@ class BgCheck < ActiveRecord::Base
     scope :expired, -> { where('bg_checks.child_abuse_date <= ?', Date.today<<36)}
 
 
-   	# Class Methods
+   	# Instance Methods
    	# -------------
 
    	def complete?
