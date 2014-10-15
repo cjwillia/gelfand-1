@@ -123,22 +123,19 @@ class OrganizationsController < ApplicationController
       @organization.individuals << Individual.find(id)
     end
 
-    @orgMailer = OrganizationMailer.new
-    @orgMailer.org_name = @organization.name
-    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
-    
 =begin
 
-a - unique indiv ids in system, that are not part of org
-not_in_app - emails for new prospective users
-
 Notice will be:
-Added: a's
+Added: all_new_unique_mem_ids
 Sent notice to: not_in_app's
 Improper emails entered: bad_email's
   - Emails that didn’t pass validation test
 =end
-
+    
+    @orgMailer = OrganizationMailer.new
+    @orgMailer.org_name = @organization.name
+    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
+    
       org_id = @organization.id
       # use this count variable to check how many emails were valid
       @count = 0
