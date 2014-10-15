@@ -67,7 +67,6 @@ class OrganizationsController < ApplicationController
     @orgMailer = OrganizationMailer.new
     @orgMailer.org_name = @organization.name
     @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
-    @orgMailer.nickname = "cool_name"
     
     # get the string of emails, then split them into arrays using comma delimiter
     @emails = (params[:organization][:new_emails]).split(',')
@@ -87,14 +86,7 @@ class OrganizationsController < ApplicationController
               # connected Individual must also exist because this happens when signing up
           if (!@user.nil?)
               @indiv = Individual.find_by user_id: @user.id
-               @membership.individual_id = @indiv.id
-               if @membership.save
-                  redirect_to organization_path(org_id), notice: "Added member: #{@indiv.f_name}"
-                  
-               else
-                  redirect_to edit_organization_path(org_id),  notice: "Could not add member."
-                end
-         
+               @membership.individual_id = @indiv.id         
           else
                 # this line pertinent -- before can deliver, need to change object's email to single email
                 @orgMailer.currently_registered_email = email_of_single
@@ -116,6 +108,7 @@ class OrganizationsController < ApplicationController
                 else
                   redirect_to edit_organization_path(org_id)
                   flash[:error] = 'Could not send notice.'
+                  return
                 end
           end 
       end
@@ -129,10 +122,11 @@ class OrganizationsController < ApplicationController
         notice_string = notice_string.at(0..-3)
         # redirect to show page
         redirect_to organization_path(org_id), notice: "Notice sent to: "+notice_string
+        return
       end
 
 
-      params[:asdf] = asdf
+    #params[:asdf] = asdf
 
     member_ids = params[:organization][:individual_ids]
     member_ids.reject!(&:blank?) # only 1st element might come up as empty quotes, but doing for all just in case
