@@ -60,21 +60,154 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1
   # PATCH/PUT /organizations/1.json
   def update
-    member_ids = params[:organization][:individual_ids]
-    member_ids.reject!(&:blank?) # only 1st element might come up as empty quotes, but doing for all just in case
-    # member_ids may already be in the system, so need to subtract this set 
-    #   from the set thats already in memberships.individuals  
+    # Essentially 3 parts
+    #   Org multiple email add
+    #   Org regular multiple add
+    #   Org change in model (ie. name, description, etc)
+    #   
+    # Using 5 new arrays
+    #   bad_emails    - improper emails, ie. john@@yahoo.com, john@yahoo, etc..
+    #   good_emails   - these emails passed validate check
+    #   not_in_app    - subset of good_emails - emails not in app
+    #   in_app        - subset of good_emails - emails in app (will map this to ids)
+    #   all_new_unique_mem_ids - add new_member_ids and those in_app, then remove duplicates
+    
+    bad_emails  = []
+    good_emails = []
+    not_in_app  = []
+    in_app = []
+    all_new_unique_mem_ids = []
 
-    # need to_s since member_ids are strings and need to do when doing "-" on the arrays
-    existing_member_ids = @organization.individuals.map{|indiv| indiv.id.to_s}
-    new_member_ids = member_ids - existing_member_ids
-    new_member_ids.each do |m|
-      @organization.individuals << Individual.find(m)
+        # THIS SECTION: populate new_member_ids from regular non-email multiple select
+        member_ids = params[:organization][:individual_ids]
+        member_ids.reject!(&:blank?) # only 1st element might come up as empty quotes, but doing for all just in case
+        # member_ids may already be in the system, so need to subtract this set 
+        #   from the set thats already in memberships.individuals  
+
+        # need to_s since member_ids are strings and need to do when doing "-" on the arrays
+        existing_member_ids = @organization.individuals.map{|indiv| indiv.id.to_s}
+        new_member_ids = member_ids - existing_member_ids
+
+    # Add ids from regular non-email multiple select
+    new_member_ids.each do |id|
+        all_new_unique_mem_ids << id
+    end
+
+    # get the string of emails, then split them into an array using comma delimiter
+    @emails = (params[:organization][:new_emails]).split(',')
+
+    # Validate all emails, then split them into good, bad group
+    good_emails = @emails.find_all {|email| email =~ /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i }
+    bad_emails = @emails - good_emails
+
+    # Separate associated indiv_ids in app from those that don't exist yet from list of good_emails (validated emails)
+    good_emails.each do |email_of_single|
+        @user = User.find_by email: email_of_single
+        if (!@user.nil?)
+            in_app << @user.individual.id
+        else
+            not_in_app << email_of_single
+        end
+    end
+
+    # Have to do this because even though user may be in app, he/she may already be member of organization
+    #     Ex: jack is in app and part of SigEp, but orgHead types in jack@yahoo.com
+    #     If dont have below exclusion, then jack will get added into SigEp for 2nd time
+    # First have to map existing_member_ids to integers instead of "12" 
+    existing_member_ids = existing_member_ids.map{|num| num.to_i}
+    in_app = in_app - existing_member_ids
+
+    # Add those in app from multiple email select
+    in_app.each do |id|
+        all_new_unique_mem_ids << id
+    end
+
+    # May have duplicate values due to selecting from regular non-email multiple select and email multiple select
+    all_new_unique_mem_ids.uniq!
+
+    # Make memberships for those already in system
+    all_new_unique_mem_ids.each do |id|
+      @organization.individuals << Individual.find(id)
+    end
+
+
+    # Sending the email using @orgMailer    
+
+    @orgMailer = OrganizationMailer.new
+    @orgMailer.org_name = @organization.name
+    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
+
+    # perform stuff for each email
+    not_in_app.each do |email_of_single|
+        # Recall: not_in_app only has users not in system
+
+        # this line pertinent -- before can deliver, need to change object's email to single email
+        @orgMailer.currently_registered_email = email_of_single
+
+        # making the temporary membership when an Admin user enters in an email
+        #---------------------------------------------------------------------
+            # making the indiv for the temp membership
+            @indiv = Individual.new
+            @indiv.f_name = @orgMailer.currently_registered_email
+            @indiv.l_name = "Temp: " 
+            @indiv.role = 0
+            @indiv.save
+            # make the membership
+            @membership = Membership.new
+            @membership.organization_id = @organization.id
+            @membership.individual_id = @indiv.id
+            @membership.save
+        #---------------------------------------------------------------------
+        
+        @orgMailer.deliver
+    end
+      
+=begin
+
+Notice will be:
+Added: all_new_unique_mem_ids
+Sent notice to: not_in_app's
+Improper emails entered: bad_email's
+  - Emails that didn’t pass validation test
+  - Dont have this yet (Not necessary?)
+=end
+
+    # Make the notice
+      notice_string = ""
+      not_in_app.each do |email|
+        notice_string+=(email+", ")
+      end
+      
+      if (!not_in_app.empty?)
+          notice_string = "Sent notice to: "+notice_string
+          # take out last comma
+          notice_string = notice_string.at(0..-3)
+      end
+
+
+      # add regular member (not sending email)
+      if (!all_new_unique_mem_ids.empty?)
+          unless (not_in_app.empty?)
+              notice_string += " | "
+          end
+
+          notice_string = "Added member(s): "+notice_string  
+          # put all_new_unique_mem_ids into notice string
+          all_new_unique_mem_ids.each do |id|
+              notice_string += ((Individual.find(id)).proper_name+", ")
+          end
+          # take out last comma
+          notice_string = notice_string.at(0..-3)
+      end
+
+    # if a regular update to Organization
+    if (not_in_app.empty? and all_new_unique_mem_ids.empty?)
+        notice_string = "Organization succesfully updated -- No new members added/requested."
     end
 
     respond_to do |format|
       if @organization.update(organization_params)
-        format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
+        format.html { redirect_to @organization, notice: notice_string }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -92,77 +225,6 @@ class OrganizationsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  def send_sign_up_notice_if_no_indiv_exists
-      # doing stuff here so take care of redundant code
-      @orgMailer = OrganizationMailer.new(params[:organization_mailer])
-      @emails = @orgMailer.currently_registered_email.split(',')
-      # TO DO
-      #   1. perform validation on each email in emails
-      #       if 1 email is not proper, redirect back to org manage with error  
-      #   2. For each email create memberships 
-      #   
-      org_id = params[:organization_id]
-
-      # use this count variable to check how many emails were valid
-      @count = 0
-      # perform stuff for each email
-      @emails.each do |email_of_single|
-          @membership = Membership.new
-          @membership.organization_id = org_id
-          @user = User.find_by email: email_of_single
-    
-
-          # send notice if no User exists, 
-          # if User exists make the Membership with existing Individual since if User exists, the
-              # connected Individual must also exist because this happens when signing up
-          if (!@user.nil?)
-              @indiv = Individual.find_by user_id: @user.id
-               @membership.individual_id = @indiv.id
-               if @membership.save
-                  redirect_to organization_path(org_id), notice: "Added member: #{@indiv.f_name}"
-                  
-               else
-                  redirect_to edit_organization_path(org_id),  notice: "Could not add member."
-                end
-         
-          else
-                # this line pertinent -- before can deliver, need to change object's email to single email
-                @orgMailer.currently_registered_email = email_of_single
-
-                # making the temporary membership when an Admin user enters in an email
-                #---------------------------------------------------------------------
-                        # making the indiv for the temp membership
-                        @indiv = Individual.new
-                        @indiv.f_name = @orgMailer.currently_registered_email
-                        @indiv.l_name = "Temp: " 
-                        @indiv.role = 0
-                        @indiv.save
-                    @membership.individual_id = @indiv.id
-                    @membership.save
-                #---------------------------------------------------------------------
-                
-                if @orgMailer.deliver
-                    @count = @count+1
-                else
-                  redirect_to edit_organization_path(org_id)
-                  flash[:error] = 'Could not send notice.'
-                end
-          end 
-      end
-      # Only redirect if: we were able to deliver to all emails
-      if @count == @emails.length
-        notice_string = ""
-        @emails.each do |email|
-          notice_string+=(email+", ")
-        end
-        # take out last comma
-        notice_string = notice_string.at(0..-3)
-        # redirect to show page
-        redirect_to organization_path(org_id), notice: "Notice sent to: "+notice_string
-      end
-
-  end  
 
   private
     # Use callbacks to share common setup or constraints between actions.
