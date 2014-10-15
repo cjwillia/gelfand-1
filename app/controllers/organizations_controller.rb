@@ -62,11 +62,11 @@ class OrganizationsController < ApplicationController
   def update
 
     # check orgMailer 
-      @orgMailer = OrganizationMailer.new(params[:organization_mailer])
+      @orgMailer = OrganizationMailer.new
       @orgMailer.org_name = @organization.name
       @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
       @orgMailer.nickname = "cool_name"
-      @emails = @orgMailer.currently_registered_email.split(',')
+      #@emails = @orgMailer.new_emails.split(',')
       params[:asdf] = asdf
 
     member_ids = params[:organization][:individual_ids]
