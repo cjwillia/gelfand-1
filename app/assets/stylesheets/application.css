@@ -45,6 +45,16 @@ body, html {
     display:none;
 }
 
+/*bg check admin index*/
+
+/*Stole from: http://codepen.io/gosupernova/pen/zCKcy*/
+.f-dropdown .divider {
+  border-top: solid 1px #1a1a1a;
+  clear: both;
+  height: 1px;
+  width: 100%;
+}
+
 /* Programs */
 
 .panel.chosen-select-panel {
