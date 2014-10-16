@@ -35,42 +35,59 @@
       <label><strong>Picked Up/Mailed</strong></label>
     </div>
   </div>
-
   <br />
-
   <% count = 0 %>
-  <dl class="accordion" data-accordion>
-    <% @bg_checks.each do |bg_check| %>
-      <% count += 1 %>
-      <dd class="accordion-navigation">
+  <% @bg_checks.each do |bg_check| %>
+    <% count += 1 %>
+    <div class="row">
+      <div id="toggler<%=count%>" class="small-1 column text-right issues-toggler">
+        <p class="closed-arrow"><%= fa_icon('angle-right') %></p>
+        <p class="open-arrow"><%= fa_icon('angle-down') %></p>
+      </div>
+      <div class="small-3 columns">
+        <%= link_to bg_check.individual.name, bg_check %>
+      </div>
+      <div class="small-2 columns text-center">
+        <%= fa_icon('check', class: 'check_icon') %>
+      </div>
+      <div class="small-2 columns text-center">
+        <%= fa_icon('ellipsis-h') %>
+      </div>
+      <div class="small-2 columns text-center">
+        <!-- <%= fa_icon('ellipsis-h') %> -->
+      </div>
+      <div class="small-2 columns text-center">
+        <!-- <%= fa_icon('ellipsis-h') %> -->
+      </div>
+    </div>
+
+    
+
+    <div id="hiddenpanel<%=count%>" class="hide bg-check-index-issue">
+      <div class="row">
+        <br />
+        <div class="small-4 columns panel">
+          <p>This is an issue</p>
+        </div>
+        <div class="small-4 columns panel">
+          <p>This is another issue</p>
+        </div>
+        <div class="small-4 columns panel">
+          <p>Yet another issue</p>
+        </div>
         <div class="row">
-          <div class="small-1 column text-right">
-            <a href="#panel<%=count%>"><%= fa_icon('angle-down') %></a>
+          <div class="small-2 columns">
+            <a href="#" class="button">Delete app</a>
           </div>
-          <div class="small-3 columns">
-            <%= link_to bg_check.individual.name, bg_check %>
+          <div class="small-10 columns">
+            <p>That button doesn't do anything. You can put aaaanything you want in here.</p>
           </div>
-          <div class="small-2 columns text-center">
-            <%= fa_icon('check', class: 'check_icon') %>
-          </div>
-          <div class="small-2 columns text-center">
-            <%= fa_icon('ellipsis-h') %>
-          </div>
-          <!--<div class="small-2 columns text-center">
-            <%= fa_icon('ellipsis-h') %>
-          </div>
-          <div class="small-2 columns text-center">
-            <%= fa_icon('ellipsis-h') %>
-          </div>-->
-          <br />
-          <hr>
         </div>
-        <div id="panel<%=count%>" class="row content">
-          Issue information would go right on in here.
-        </div>
-      </dd>
-      
-    <% end %>
-  </dl>
+      </div>
+    </div>
+
+    <hr>
+  
+  <% end %>
 
 </div>
