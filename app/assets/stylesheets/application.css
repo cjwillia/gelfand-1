@@ -55,6 +55,22 @@ body, html {
   width: 100%;
 }
 
+.issues-toggler p.open-arrow {
+    display: none;
+}
+
+.issues-toggler p.closed-arrow {
+    display: block;
+}
+
+.issues-toggler.open p.open-arrow {
+    display: block;
+}
+
+.issues-toggler.open p.closed-arrow {
+    display: none;
+}
+
 /* Programs */
 
 .panel.chosen-select-panel {
