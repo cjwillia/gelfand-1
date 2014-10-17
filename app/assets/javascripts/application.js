@@ -23,6 +23,56 @@
 // MENTION this: if user doesnt include the @ in the email, then a cool notification pops up
 $(document).ready(function(){
 
+
+
+  /* BG_Check Index custom jquery dropdown */
+
+  function toggleOpen(id) {
+    //If there are any open dropdowns, close them
+    if( $(".open").length > 0) {
+      toggleClosed($(".open")[0].id.replace(/[\D]+/, ""));
+    }
+
+    //Get the corresponding divs
+    var toggler = $('#toggler' + id);
+    var hiddenPanel = $('#hiddenpanel' + id);
+
+    hiddenPanel.slideDown();
+
+    //add a class to the toggler container and style changes can be put in the css
+    toggler.addClass('open');
+
+    //unbind the last action and bind the close action
+    toggler.unbind();
+    toggler.click(function() {
+      toggleClosed(id);
+    });
+  }
+
+  function toggleClosed(id) {
+    //Get corresponding divs
+    var toggler = $('#toggler' + id);
+    var hiddenPanel = $('#hiddenpanel' + id);
+
+    hiddenPanel.slideUp();
+
+    //remove open class for css style changes
+    toggler.removeClass('open');
+
+    //unbind the last action and bind the open action
+    toggler.unbind();
+    toggler.click(function() {
+      toggleOpen(id);
+    });
+  }
+
+  $('.issues-toggler').click(function() {
+    //Get the id number of the toggler
+    var id = this.id.replace(/[\D]+/, "");
+    toggleOpen(id);
+  });
+
+
   //datepicker code
   $('.datepicker').fdatepicker({
     format: 'yyyy-mm-dd'

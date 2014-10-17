@@ -45,6 +45,32 @@ body, html {
     display:none;
 }
 
+/*bg check admin index*/
+
+/*Stole from: http://codepen.io/gosupernova/pen/zCKcy*/
+.f-dropdown .divider {
+  border-top: solid 1px #1a1a1a;
+  clear: both;
+  height: 1px;
+  width: 100%;
+}
+
+.issues-toggler p.open-arrow {
+    display: none;
+}
+
+.issues-toggler p.closed-arrow {
+    display: block;
+}
+
+.issues-toggler.open p.open-arrow {
+    display: block;
+}
+
+.issues-toggler.open p.closed-arrow {
+    display: none;
+}
+
 /* Programs */
 
 .panel.chosen-select-panel {

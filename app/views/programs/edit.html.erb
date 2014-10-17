@@ -1,68 +1,67 @@
 <div class="row">
-	<div class="row">
-		<h1>Manage <%= @program.name %></h1>
-	</div>
+	<h1>Manage <%= @program.name %></h1>
 </div>
+
 
 <%= form_for(@program) do |f| %>
 
 	<div class="row">
-		<div class="row">
-			<h3>General Info</h3>
-		</div>
+		<h3>General Info</h3>
 	</div>
-	<br />
 	<div class="row">
 		<div class="row">
-			<label>What is the name of your program?</label>
+			<label class="small-10 small-centered medium-6 medium-uncentered columns">What is the name of your program?</label>
 		</div>
+		
 		<div class="row">
-			<div class="small-6 columns">
+			<div class="small-10 small-centered medium-6 medium-uncentered columns">
 				<%= f.text_field :name %>
 			</div>
 		</div>
 	</div>
 
-	<br />
 
 	<div class="row">
 		<div class="row">
-			<div class="small-3 columns">
+			<div class="small-10 small-centered medium-3 medium-uncentered columns">
 				<label>How many minors will be attending? </label>
 			</div>
-			<div class="small-1 columns end">
-				<%= f.number_field :num_minors %>
+			<div class="small-10 small-centered medium-2 medium-offset-1 medium-uncentered columns end">
+				<%= f.number_field :num_minors, :class => "text-center" %>
 			</div>
 		</div>	
 	</div>
 
 	<div class="row">
 		<div class="row">
-			<div class="small-3 columns">
+			<div class="small-10 small-centered medium-3 medium-uncentered columns">
 				<label>How many adults will be supervising?</label>
 			</div>
-			<div class="small-1 columns end">
-				<%= f.number_field :num_adults_supervising %>
+			<div class="small-10 small-centered medium-2 medium-offset-1 medium-uncentered columns end">
+				<%= f.number_field :num_adults_supervising, :class => "text-center" %>
 			</div>
 		</div>	
 	</div>
 
-	<br />
-
 	<div class="row">
 		<div class="row">
-			<div class="small-2 columns">
+			<div class="small-10 small-centered medium-2 medium-uncentered columns">
 				<label>Start Date:</label>
 			</div>
-			<div class="small-2 columns">
+			<div class="small-10 small-centered medium-2 medium-offset-2 medium-uncentered columns">
 				<%= f.text_field :start_date, :as => :string, :class => "datepicker" %>
 			</div>
-			<div class="small-2 small-offset-3 columns">
+			<div class="show-for-small-only"><br /></div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="small-10 small-centered medium-2 medium-uncentered columns">
 				<label>End Date:</label>
 			</div>
-			<div class="small-2 columns end">
+			<div class="small-10 small-centered medium-2 medium-offset-2 medium-uncentered columns">
 				<%= f.text_field :end_date, :as => :string, :class => "datepicker" %>
 			</div>
+			<div class="show-for-small-only"><br /></div>
 		</div>
 	</div>
 	<br />
@@ -75,7 +74,7 @@
 			<h3>Add People from <%= org.name %> to <%= @program.name %></h3>
 		</div>
 		<div class="row">
-			<div class="small-6 columns panel chosen-select-panel">
+			<div class="small-10 small-centered medium-6 medium-uncentered columns panel chosen-select-panel">
 				<%= f.collection_select :individual_ids, org.individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
 			</div>
 		</div>

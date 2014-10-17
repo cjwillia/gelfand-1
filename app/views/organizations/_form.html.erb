@@ -34,7 +34,9 @@
     <div class="row">
     <div id="programs-new-orgselect" class="row">
         <div class="small-5 columns">
-        <%= f.collection_select :individual_ids, Individual.all, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+          <!-- This is something that should be done in the controller -Cory -->
+          <% @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) } %>
+          <%= f.collection_select :individual_ids, @individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
         </div>
       </div>
     </div>  

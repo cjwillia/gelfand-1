@@ -5,7 +5,11 @@ class BgChecksController < ApplicationController
   # GET /bg_checks
   # GET /bg_checks.json
   def index
-    @bg_checks = BgCheck.all
+    if current_user.admin?
+      @bg_checks = BgCheck.all
+    else
+      redirect_to current_user.individual.bg_check
+    end
   end
 
   # POST /bg_checks
@@ -27,6 +31,12 @@ class BgChecksController < ApplicationController
         format.html { render action: 'new' }
         format.json { render json: @bg_check.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def show
+    unless current_user.individual.bg_check.id == @bg_check.id || current_user.admin?
+      redirect_to '/restricted_access', notice: "Cannot access this background check."
     end
   end
 
