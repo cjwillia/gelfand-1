@@ -102,7 +102,7 @@ $(document).ready(function(){
 
   });
 
-$('#tags').tagsInput();
+$('#tags').tagsInput({'defaultText':'Add email'});
 
 });
 
