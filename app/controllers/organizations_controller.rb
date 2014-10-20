@@ -96,6 +96,8 @@ class OrganizationsController < ApplicationController
     # get the string of emails, then split them into an array using comma delimiter
     @emails = (params[:organization][:new_emails]).split(',')
 
+
+
     # Validate all emails, then split them into good, bad group
     good_emails = @emails.find_all {|email| email =~ /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i }
     bad_emails = @emails - good_emails
