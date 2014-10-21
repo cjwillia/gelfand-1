@@ -48,16 +48,54 @@
         <%= link_to bg_check.individual.name, bg_check %>
       </div>
       <div class="small-2 columns text-center">
-        <%= fa_icon('check', class: 'check_icon') %>
+        <% if bg_check.status == 0 %>
+          <% if bg_check.issues.empty? %>
+            <%= fa_icon('ellipsis-h') %>
+          <% else %>
+            <%= fa_icon('warning', class: 'warning-icon') %>
+          <% end %>
+        <% else %>
+          <%= fa_icon('check', class: 'check_icon') %>
+        <% end %>
       </div>
       <div class="small-2 columns text-center">
-        <%= fa_icon('ellipsis-h') %>
+        <% if bg_check.status > 0 %>
+          <% if bg_check.status == 1 %>
+            <% if bg_check.issues.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check_icon') %>
+          <% end %>
+        <% end %>
       </div>
       <div class="small-2 columns text-center">
-        <!-- <%= fa_icon('ellipsis-h') %> -->
+        <% if bg_check.status > 1 %>
+          <% if bg_check.status == 2 %>
+            <% if bg_check.issues.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check_icon') %>
+          <% end %>
+        <% end %>
       </div>
       <div class="small-2 columns text-center">
-        <!-- <%= fa_icon('ellipsis-h') %> -->
+        <% if bg_check.status > 2 %>
+          <% if bg_check.status == 3 %>
+            <% if bg_check.issues.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check_icon') %>
+          <% end %>
+        <% end %>
       </div>
     </div>
 

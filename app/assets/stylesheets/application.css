@@ -113,6 +113,12 @@ probably stable) */
     color: green;
 }
 
+.warning-icon {
+    pointer-event: none;
+    cursor: default;
+    color: yellow;
+}
+
 .program-edit{
     float:right;
     margin-top:1.2rem;
