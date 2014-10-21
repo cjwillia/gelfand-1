@@ -7,7 +7,7 @@ class BgCheck < ActiveRecord::Base
     
 	# Validations
 	# -----------
-  	validates :status, :numericality => {:only_integer => true, :less_than_or_equal_to => 5, :greater_than_or_equal_to => 0}
+  	validates :status, :numericality => {:only_integer => true, :less_than_or_equal_to => 6, :greater_than_or_equal_to => 0}
     validates :individual_id, :presence => true, :numericality => {:only_integer => true, :greater_than_or_equal_to => 0 }
     validates_date :date_requested, :allow_blank => true, :on_or_before => :today
     validates_date :criminal_date, :after => :date_requested, :allow_blank => true
