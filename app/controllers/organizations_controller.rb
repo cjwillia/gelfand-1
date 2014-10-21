@@ -161,7 +161,11 @@ class OrganizationsController < ApplicationController
             @membership.save
         #---------------------------------------------------------------------
         
-        @orgMailer.deliver
+        if !@orgMailer.deliver
+            redirect_to edit_organization_path(org_id)
+            flash[:error] = 'Could not send notice.'
+        end
+
     end
       
 =begin
