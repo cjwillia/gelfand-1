@@ -102,12 +102,8 @@
                                 <% end %>
                             </td>
                             <td><!-- icon based on bg_check status -->
-                                <% if indiv.bg_check.nil? %>
-                                    <%=fa_icon("close", class: "close_icon") %>
-                                <% elsif indiv.bg_check.status == 2 %>
+                                <% if !indiv.bg_check.nil? and indiv.bg_check.status == 2 %>
                                     <%=fa_icon("check", class: "check_icon")%>
-                                <% else %>
-                                    <%=fa_icon("close", class: "close_icon")%>
                                 <% end %>
                             </td>
                         </tr>
