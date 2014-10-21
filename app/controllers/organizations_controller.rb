@@ -137,7 +137,7 @@ class OrganizationsController < ApplicationController
 
     @orgMailer = OrganizationMailer.new
     @orgMailer.org_name = @organization.name
-    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
+    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://localhost:3000/users/sign_up"
 
     # perform stuff for each email
     not_in_app.each do |email_of_single|
