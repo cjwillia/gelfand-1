@@ -96,6 +96,8 @@ class OrganizationsController < ApplicationController
     # get the string of emails, then split them into an array using comma delimiter
     @emails = (params[:organization][:new_emails]).split(',')
 
+
+
     # Validate all emails, then split them into good, bad group
     good_emails = @emails.find_all {|email| email =~ /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i }
     bad_emails = @emails - good_emails
@@ -135,7 +137,7 @@ class OrganizationsController < ApplicationController
 
     @orgMailer = OrganizationMailer.new
     @orgMailer.org_name = @organization.name
-    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://gelfand-gelfand.rhcloud.com/users/sign_up"
+    @orgMailer.NOTICE = "You have been temporarily given a Membership to \"#{@organization.name}\". To officially be in the system, sign up at: http://localhost:3000/users/sign_up"
 
     # perform stuff for each email
     not_in_app.each do |email_of_single|
@@ -159,7 +161,11 @@ class OrganizationsController < ApplicationController
             @membership.save
         #---------------------------------------------------------------------
         
-        @orgMailer.deliver
+        if !@orgMailer.deliver
+            redirect_to edit_organization_path(org_id)
+            flash[:error] = 'Could not send notice.'
+        end
+
     end
       
 =begin
