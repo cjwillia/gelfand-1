@@ -67,6 +67,7 @@ class OrganizationsController < ApplicationController
     #   
     # Using 5 new arrays
     #   bad_emails    - improper emails, ie. john@@yahoo.com, john@yahoo, etc..
+    #                 - may be good to have 
     #   good_emails   - these emails passed validate check
     #   not_in_app    - subset of good_emails - emails not in app
     #   in_app        - subset of good_emails - emails in app (will map this to ids)
@@ -112,6 +113,16 @@ class OrganizationsController < ApplicationController
         end
     end
 
+    # only purpose of this loop: so duplicate temp indivs for same email not added 
+        # Ex: john@andrew.cmu.edu added by Gelfand admin and john@andrew.cmu.edu may be added by org Manage
+    not_in_app.each do |email|
+        @indiv = Individual.find_by f_name: email
+        # delete email if there is already a temp indiv
+        if (!@indiv.nil?)
+            not_in_app.delete(email)
+        end
+    end
+        
     # Have to do this because even though user may be in app, he/she may already be member of organization
     #     Ex: jack is in app and part of SigEp, but orgHead types in jack@yahoo.com
     #     If dont have below exclusion, then jack will get added into SigEp for 2nd time
@@ -193,11 +204,13 @@ Improper emails entered: bad_email's
 
       # add regular member (not sending email)
       if (!all_new_unique_mem_ids.empty?)
-          unless (not_in_app.empty?)
-              notice_string += " | "
+          if (not_in_app.empty?)
+              notice_string += "No members were requested"
           end
 
-          notice_string = "Added member(s): "+notice_string  
+          notice_string += " | " # need divider if not_in_app empty / not empty
+
+          notice_string = notice_string + "Added member(s): " 
           # put all_new_unique_mem_ids into notice string
           all_new_unique_mem_ids.each do |id|
               notice_string += ((Individual.find(id)).proper_name+", ")
@@ -208,7 +221,7 @@ Improper emails entered: bad_email's
 
     # if a regular update to Organization
     if (not_in_app.empty? and all_new_unique_mem_ids.empty?)
-        notice_string = "Organization succesfully updated -- No new members added/requested."
+        notice_string = "Organization succesfully updated -- No new members were able to be added or requested."
     end
 
     respond_to do |format|
