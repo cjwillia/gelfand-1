@@ -141,19 +141,19 @@ namespace :db do
             bg_check.individual_id = indiv.id
             bg_check.status = rand(7)
 
+            # Give it a default date requested
+            dr = Date.today - r.rand(15...60)
+            bg_check.date_requested = dr
+
             # Exclude the just created case
             if bg_check.status > 1
                 # If it's expired, give it old dates
-                if bg_check.status == 5
+                if bg_check.status == 6
                     old = Date.today << r.rand(60...100)
                     bg_check.date_requested = old - r.rand(2...8)
                     bg_check.criminal_date = old
                     bg_check.child_abuse_date = old + r.rand(2...15)
                 else
-                   # Otherwise, give it a date_requested first...
-                    dr = Date.today - r.rand(15...60)
-                    bg_check.date_requested = dr
-
                     # If things have cleared, give it clearance dates
                     if bg_check.status < 5
                         bg_check.criminal_date = dr + r.rand(2...5)
@@ -165,7 +165,10 @@ namespace :db do
                     else
                         # If they are not cleared, uh..... This should work already???
                         if bg_check.status == 5
+
+                        # This would be an error.
                         else
+
                         end
                     end 
                 end
@@ -191,13 +194,7 @@ namespace :db do
                 participant.program_id = program.id
                 participant.save!
             end
-
         end
-        # vvvvvvvvvvv These are done now -Cory vvvvvvvvvvvvv
-
-        # If they are a member of an org, have them sign up for some of their programs as participants
-
-        # for 2/3 create a background check, randomizing the status for each
     end
 
     # Now that we have organizations with users in them, make one member the Organization Head
