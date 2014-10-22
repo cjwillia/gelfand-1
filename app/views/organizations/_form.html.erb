@@ -31,9 +31,8 @@
 
     <h5>Search by Name</h5>
 
-    <div class="row">
-      <div id="programs-new-orgselect" class="row">
-        <div class="small-5 columns">
+    <div id="programs-new-orgselect" class="row">
+        <div class="small-5 columns panel chosen-select-panel">
           <!-- This is something that should be done in the controller -Cory -->
           <% @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) } %>
           <%= f.collection_select :individual_ids, @individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
@@ -41,8 +40,8 @@
       </div>
     </div>  
     <!-- see: http://stackoverflow.com/questions/11349508/rails-simpleform-with-non-model-inputs -->
-  <h5>Add by email</h5>
-  <%= f.text_field :new_emails, :id => "tags" %> 
+    <h5>Add by email</h5>
+    <%= f.text_field :new_emails, :id => "tags" %> 
 
 
   <br>

@@ -1,0 +1,18 @@
+<div id="issue<%= issue.id %>" class="panel">
+	<div class="row">
+		<div class="small-4 columns">
+			<h4><%= issue.category %></h4>
+		</div>
+	</div>
+	<div class="row" data-equalizer>
+		<div class="small-6 columns" data-equalizer-watch>
+			<p class="panel callout"><%= issue.description %></p>
+		</div>
+		<div class="small-3 columns text-center" data-equalizer-watch>
+			<%= link_to "Resolve", '/issues/resolve/#issue.id', class: "button" %>
+		</div>
+		<div class="small-3 columns text-center" data-equalizer-watch>
+			<a href="issues/destroy/<%= issue.id %>"><%= fa_icon('trash', class: 'large-trash-icon') %></a>
+		</div>
+	</div>
+</div>

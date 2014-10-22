@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141014181740) do
+ActiveRecord::Schema.define(version: 20141016195618) do
 
   create_table "affiliations", force: true do |t|
     t.integer  "organization_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20141014181740) do
     t.string   "category"
     t.text     "description"
     t.datetime "resolved"
+    t.integer  "bg_check_id"
   end
 
   create_table "memberships", force: true do |t|

@@ -95,6 +95,11 @@ probably stable) */
 }
 
 /* Icon Classes */
+
+a .large-trash-icon {
+    color: red;
+    font-size: 2rem;
+}
 .edit-icon {
     font-size: 3rem;
     float:right;
@@ -111,6 +116,12 @@ probably stable) */
     pointer-events: none; 
     cursor: default;
     color: green;
+}
+
+.warning-icon {
+    pointer-event: none;
+    cursor: default;
+    color: yellow;
 }
 
 .program-edit{

@@ -1,69 +1,84 @@
+<% stages=["Submitted", "Criminal Passed", "Child Abuse Passed", "Picked Up/Mailed"] %>
+<% num_stages = 4 %>
 <div class="row">
+    <h1>My Background Check Status</h1>
+    <br>
+    <h3>Current step<h3>
+</div>
 
-  <% if current_user.admin? %>
-  <h1>Background Check for <%=@bg_check.individual.proper_name%></h1>
-
-  <p>
-    <strong>Status:</strong>
-    <%= @bg_check.status %>
-  </p>
-
-  <p>
-    <strong>Criminal date:</strong>
-    <%= @bg_check.criminal_date %>
-  </p>
-
-  <p>
-    <strong>Child abuse date:</strong>
-    <%= @bg_check.child_abuse_date %>
-  </p>
-    <%= link_to 'Edit', edit_bg_check_path(@bg_check) %> |
-    <%= link_to 'Back', bg_checks_path %>
-
-  <% else %>
-    <h1 class="text-center">My Background Check Status</h1>
-    <div class="bg-wrapper">
-      <div class="bg-status-bar">
-
-        <div class="row text-center">
-          <% if @bg_check.status == 0 %>
-            <div class="small-3 small-offset-1 columns"><strong class="current-step">Started</strong></div>
-            <div class="small-1 column">></div>
-            <div class="small-3 columns">In Progress</div>
-            <div class="small-1 column">></div>
-            <div class="small-3 columns">Finished</div>
-
-          <% elsif @bg_check.status == 1 || @bg_check.status == 3 %>
-            <div class="small-3 small-offset-1 columns">Started</div>
-            <div class="small-1 column">></div>
-            <div class="small-3 columns"><strong class="current-step">In Progress</strong></div>
-            <div class="small-1 column">></div>
-            <div class="small-3 columns">Finished</div>
-          <% else %>
-            <div class="small-3 small-offset-1 columns">Started</div>
-            <div class="small-1 column">></div>
-            <div class="small-3 columns">In Progress</div>
-            <div class="small-1 column">></div>
-            <div class="small-3 columns"><strong class="current-step">Finished</strong></div>
-          <% end %>
+<div class="row">
+    <% for i in 0..(num_stages-1) %>
+        <div class="small-3 columns">
+        <%= stages[i] %>
         </div>
+    <% end %>
+</div>
 
+<!-- i represents which stage (not related to ith element of stages) -->
+<div class="row">
+    <% for i in 0..(num_stages-1) %>
+      <div class="small-3 columns">
+          <% if i==0 and @bg_check.status == 0 %>
+              ...
+          <% elsif i==0 and @bg_check.status >= 1 %>
+              <%=fa_icon("check", class: "check_icon")%>
+          
+          <!-- can also be 5 if not cleared-->
+          <% elsif i==1 and (@bg_check.status == 1 || @bg_check.status == 5) %>
+              ...
+              <!-- only if not at not cleared (bg status != 5) load these so no checks show --> 
+              <% elsif i==1 and (@bg_check.status >= 2 and !(@bg_check.status == 5)) %>
+                  <%=fa_icon("check", class: "check_icon")%>
+              
+              <% elsif i==2 and @bg_check.status == 2 %>
+                  ...
+              
+              <% elsif i==2 and (@bg_check.status >= 3 and !(@bg_check.status == 5)) %>
+                  <%=fa_icon("check", class: "check_icon")%>
+              
+              <% elsif i==3 and @bg_check.status == 3 %>
+                  ...
+              
+              <% elsif i==3 and @bg_check.status == 4 %>
+                  <%=fa_icon("check", class: "check_icon")%>
+              
+          <% end %>
       </div>
-      <br>
-      <div class="bg-body">
-        <% if @bg_check.status == 0 %>
-              <%= render 'requested' %>
-        <% elsif @bg_check.status == 1 %>
-              <%= render 'crim_passed' %>
-        <% elsif @bg_check.status == 2 %>
-              <%= render 'all_passed'%>
-        <% elsif @bg_check.status == 3 %>
-              <%= render 'under_review' %>
-        <% elsif @bg_check.status == 4 %>
-              <%= render 'excluded'%>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>Issue(s)</h3>
+    <% if @bg_check.issues.empty? %>
+      There are no issues at this time
+    <% end %>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>Description</h3>
+
+    <% if @bg_check.status == 0 %>
+          <%= render 'requested' %>
+    <% elsif @bg_check.status == 1 %>
+          We are currently reviewing your forms for attaining criminal clearance.
+    <% elsif @bg_check.status == 2 %>
+          <%= render 'crim_passed' %>
+    <% elsif @bg_check.status == 3 %>
+          <%= render 'all_passed'%>
+    <% elsif @bg_check.status == 4 %>
+          You have been cleared and your forms were picked up.
+    <% elsif @bg_check.status == 5 %>
+          <%= render 'under_review' %>
+    <% end %>
 
 </div>
+
+<br>
+
+
+
+

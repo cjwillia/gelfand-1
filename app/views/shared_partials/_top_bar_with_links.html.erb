@@ -8,17 +8,21 @@
   <section class="top-bar-section">
     <!-- Right Nav Section -->
     <ul class="right">
-		  <li class="has-dropdown">
-        <a href="#">Background Check</a>
-        <ul class="dropdown">
-          <% unless current_user.individual.bg_check.nil? %>
-            <li><%= link_to "My Status", bg_check_path(current_user.individual.bg_check) %></li>
-          <% else %>
-            <li><a href="/bg_checks/new">My Status</a></li>
-          <% end %>
-          <li><a href="#">FAQ</a></li> <!-- Where does this go??? -->
-        </ul>
-      </li>
+
+      <% unless current_user.admin %>
+    		  <li class="has-dropdown">
+            <a href="#">Background Check</a>
+            <ul class="dropdown">
+              <% unless current_user.individual.bg_check.nil? %>
+                <li><%= link_to "My Status", bg_check_path(current_user.individual.bg_check) %></li>
+              <% else %>
+                <li><a href="/bg_checks/new">My Status</a></li>
+              <% end %>
+              <li><a href="#">FAQ</a></li> <!-- Where does this go??? -->
+            </ul>
+          </li>
+      <% end %>
+
       <li class="has-dropdown">
         <a>Organizations</a>
         <ul class="dropdown">
