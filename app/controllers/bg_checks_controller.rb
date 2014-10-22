@@ -2,11 +2,20 @@ class BgChecksController < ApplicationController
   load_and_authorize_resource
   before_action :set_bg_check, only: [:show, :edit, :update, :destroy]
 
+  def new
+    @bg_check = BgCheck.new
+    @issues = @bg_check.issues
+  end
+
+  def edit
+    @issues = @bg_check.issues
+  end
+
   # GET /bg_checks
   # GET /bg_checks.json
   def index
     if current_user.admin?
-      @bg_checks = BgCheck.all
+      @bg_checks = BgCheck.all.joins(:individual).order('l_name, f_name')
     else
       redirect_to current_user.individual.bg_check
     end
@@ -35,8 +44,10 @@ class BgChecksController < ApplicationController
   end
 
   def show
-    unless current_user.individual.bg_check.id == @bg_check.id || current_user.admin?
-      redirect_to '/restricted_access', notice: "Cannot access this background check."
+    unless current_user.admin?
+      unless current_user.individual.bg_check.id == @bg_check.id
+        redirect_to '/restricted_access', notice: "Cannot access this background check."
+      end
     end
   end
 

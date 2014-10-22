@@ -41,6 +41,9 @@
         </div>  
       </div>
     </div>
+
+    <br />
+
     <div class="row" id="dates">
       <div class="small-4 columns">
           <%= f.input :criminal_date, :label => "Criminal Date", :as => :string, :input_html => {:class => "datepicker"} %>   
@@ -51,6 +54,7 @@
       <div class="small-4 columns">
       </div>
     </div>
+
   <% elsif current_user.member?%>
     <%= f.hidden_field :status, :value => 0, :readonly => true %>
   <% end %>
@@ -66,3 +70,5 @@
     </div>
   </div>
 <% end %>
+
+<div class="row"><%= render "issues_editor" %></div>
