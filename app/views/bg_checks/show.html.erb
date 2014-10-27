@@ -1,17 +1,29 @@
 <% stages=["Submitted", "Criminal Passed", "Child Abuse Passed", "Picked Up/Mailed"] %>
 <% num_stages = 4 %>
 <div class="row">
+  <div class="small-9 columns">
     <h1>My Background Check Status</h1>
     <br>
-    <h3>Current step<h3>
+  </div>
+  <div class="small-3 columns">
+    <% if current_user.admin?%>
+       <%=link_to fa_icon("edit"), edit_bg_check_path, class:"edit-icon" %>
+    <% end %>
+  </div>
 </div>
 
 <div class="row">
+  <div class="small-12 columns">
+    <h3>Current Step</h3>
+  </div>
+</div>
+<div class="row">  
     <% for i in 0..(num_stages-1) %>
         <div class="small-3 columns">
         <%= stages[i] %>
         </div>
     <% end %>
+  </div>
 </div>
 
 <!-- i represents which stage (not related to ith element of stages) -->
@@ -49,16 +61,19 @@
     <br>
     <br>
     <br>
+</div>
 
+<div class="row">
+  <div class="small-12 columns">
     <h3>Issue(s)</h3>
     <% if @bg_check.issues.empty? %>
       There are no issues at this time
     <% end %>
+  </div>
+</div>
 
-    <br>
-    <br>
-    <br>
-
+<div class="row">
+  <div class="small-12 columns">
     <h3>Description</h3>
 
     <% if @bg_check.status == 0 %>
@@ -74,7 +89,7 @@
     <% elsif @bg_check.status == 5 %>
           <%= render 'under_review' %>
     <% end %>
-
+  </div>
 </div>
 
 <br>
