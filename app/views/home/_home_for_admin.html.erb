@@ -35,40 +35,50 @@
 	<!-- Criminal passed -->
 	<div class="small-2 large-2 columns">
 		<!-- content -->
-		<% @bgChecks_pCriminal.each do |bgcheck| %>
-			<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+		<% if @bgChecks_pCriminal %>
+			<% @bgChecks_pCriminal.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+			<% end %>
 		<% end %>
 	</div>
 
 	<!-- Child Abuse passed -->
 	<div class="small-2 large-2 columns">
 		<!-- content -->
-		<% @bgChecks_pChildAbuse.each do |bgcheck| %>
-			<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+		<% if @bgChecks_pChildAbuse %>
+			<% @bgChecks_pChildAbuse.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+			<% end %>
 		<% end %>
 	</div>
 
 	<!-- Under review -->
 	<div class="small-2 large-2 columns">
 		<!-- content -->
-		<% @bgChecks_underReview.each do |bgcheck| %>
-			<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+		<% if @bgChecks_underReview %>
+			<% @bgChecks_underReview.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+			<% end %>
 		<% end %>
 	</div>
 
 	<!-- Not cleared  -->
 	<div class="small-2 large-2 columns">
 		<!-- content -->
-		<% @bgChecks_nCleared.each do |bgcheck| %>
-			<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+		<% if @bgChecks_nCleared %>
+			<% @bgChecks_nCleared.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+			<% end %>
 		<% end %>
 	</div>
 
 	<!-- Expired  -->
 	<div class="small-2 large-2 columns">
 		<!-- content -->
-		<% @bgChecks_expired.each do |bgcheck| %>
-			<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+		<% if @bgChecks_expired %>
+			<% @bgChecks_expired.each do |bgcheck| %>
+				<div class="panel"><%= link_to bgcheck.individual.name, bg_check_path(bgcheck) %></div>
+			<% end %>
 		<% end %>
 	</div>
 </div>

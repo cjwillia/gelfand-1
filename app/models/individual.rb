@@ -15,7 +15,7 @@ class Individual < ActiveRecord::Base
     validates :l_name, :presence => true
 
     # TBD by future ERD
-    validates :role, :presence => true, :numericality => {:only_integer => true, :less_than_or_equal_to => 2, :greater_than_or_equal_to => 0}
+    validates :role, :presence => true, :numericality => {:only_integer => true, :less_than_or_equal_to => 3, :greater_than_or_equal_to => 0}
 
 
     # Callbacks
@@ -34,6 +34,7 @@ class Individual < ActiveRecord::Base
 
     # Select Lists
     # -------
+    
     ROLES_LIST = [["CMU Student", 0],["CMU Faculty", 1],["CMU Staff", 2],["External Contractor", 3]]
 
     # Class Methods
@@ -48,7 +49,11 @@ class Individual < ActiveRecord::Base
             when 2
                 return "Faculty"
             when 3
+<<<<<<< HEAD
                 return "Contractor"
+=======
+                return "External Contractor"
+>>>>>>> 8a35adb08615e432a730f89d0db40c4e9ef81971
             else
                 return "Unknown"
     	end
