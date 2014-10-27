@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    flash[:notice] = "Signed In Successfully"
+    #flash[:notice] = "Signed In Successfully"
     bg_c = resource.individual.bg_check
     if (resource.admin)
         root_url

@@ -11,6 +11,11 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
+
+  #check for andrew email is cmu person
+  validates_format_of :email, :with => /\A([^@\s]+)@(andrew.(?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, if: :cmu_person? 
+  #check for contractors without andrew
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
          
 
   # Class Methods
@@ -40,6 +45,17 @@ class User < ActiveRecord::Base
 
   def has_individual?
     return !self.individual.nil?
+  end
+
+  def cmu_person?
+    if self.individual.role.nil?
+        return false
+    end
+    if self.individual.role >= 0 && self.individual.role <= 2
+      return true
+    else
+      return false
+    end
   end
 
   # have to do "== []" check because self.org_users returns empty array not 'nil' if empty
