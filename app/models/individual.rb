@@ -25,16 +25,17 @@ class Individual < ActiveRecord::Base
     # Scopes
     # ------
     default_scope { where(active: true) }
-    scope :alphabetical, -> { order('l_name') }
-    scope :alpha_by_first, -> { order('f_name') }
+    scope :alphabetical, -> { order('l_name, f_name') }
+    scope :alpha_by_first, -> { order('f_name, l_name') }
     scope :students, -> { where(role: 0) }
     scope :faculty, -> { where(role: 1) }
-    scope :off_campus, -> { where(role: 2) }
+    scope :staff, -> { where(role: 2) }
+    scope :contractor, -> { where(role: 3)}
     scope :inactive, -> { where(active: false) }
 
     # Select Lists
     # -------
-    
+
     ROLES_LIST = [["CMU Student", 0],["CMU Faculty", 1],["CMU Staff", 2],["External Contractor", 3]]
 
     # Class Methods
@@ -49,11 +50,7 @@ class Individual < ActiveRecord::Base
             when 2
                 return "Faculty"
             when 3
-<<<<<<< HEAD
-                return "Contractor"
-=======
                 return "External Contractor"
->>>>>>> 8a35adb08615e432a730f89d0db40c4e9ef81971
             else
                 return "Unknown"
     	end
