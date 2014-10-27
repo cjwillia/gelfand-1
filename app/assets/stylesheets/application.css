@@ -121,7 +121,7 @@ a .large-trash-icon {
 .warning-icon {
     pointer-event: none;
     cursor: default;
-    color: yellow;
+    color: #ffcc33;
 }
 
 .program-edit{
