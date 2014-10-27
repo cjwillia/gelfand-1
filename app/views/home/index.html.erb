@@ -51,7 +51,7 @@
 						<div class="small-6 columns"><%= f.password_field :password, :placeholder => "Confirm Password" %></div>
 					</div>
 					<div class="row">
-						<div class="small-12 columns"><%= individual_f.select :role, Individual::ROLES_LIST, :include_blank => "Select which describes you best..." %></div>
+						<div class="small-12 columns"><%= individual_f.select :role, Individual::ROLES_LIST, :include_blank => "Which role describes you best?" %></div>
 					</div>
 
 					<br />
