@@ -25,19 +25,19 @@
               <%= f.label :status, "Requested", :value => 0, :class => bg_check_button_class(@bg_check, 0)  %>
 
               <%= f.radio_button :status, 1, :checked => @bg_check.status==1 %>
-              <%= f.label :status, "Criminal Passed", :value => 1, :class => bg_check_button_class(@bg_check, 1) %>
+              <%= f.label :status, "Submitted", :value => 1, :class => bg_check_button_class(@bg_check, 1) %>
 
               <%= f.radio_button :status, 2 , :checked => @bg_check.status==2 %>
-              <%= f.label :status, "Child Abuse Passed", :value => 2, :class => bg_check_button_class(@bg_check, 2) %>
+              <%= f.label :status, "Criminal Passed", :value => 2, :class => bg_check_button_class(@bg_check, 2) %>
               
               <%= f.radio_button :status, 3, :checked => @bg_check.status==3 %>
-              <%= f.label :status, "Under Review", :value => 3, :class => bg_check_button_class(@bg_check, 3) %>
+              <%= f.label :status, "Child Abuse Passed", :value => 3, :class => bg_check_button_class(@bg_check, 3) %>
 
               <%= f.radio_button :status, 4, :checked => @bg_check.status==4 %>
-              <%= f.label :status, "Not Cleared", :value => 4, :class => bg_check_button_class(@bg_check, 4) %>
+              <%= f.label :status, "Picked Up/Mailed", :value => 4, :class => bg_check_button_class(@bg_check, 4) %>
 
               <%= f.radio_button :status, 5, :checked => @bg_check.status==5 %>
-              <%= f.label :status, "Expired", :value => 5, :class => bg_check_button_class(@bg_check, 5) %>
+              <%= f.label :status, "Not Cleared", :value => 5, :class => bg_check_button_class(@bg_check, 5) %>
         </div>  
       </div>
     </div>
