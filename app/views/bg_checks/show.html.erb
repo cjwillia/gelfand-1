@@ -19,8 +19,8 @@
 </div>
 <div class="row">  
     <% for i in 0..(num_stages-1) %>
-        <div class="small-3 columns">
-        <%= stages[i] %>
+        <div class="small-3 columns text-center">
+         <strong><%= stages[i] %></strong>
         </div>
     <% end %>
   </div>
@@ -28,35 +28,58 @@
 
 <!-- i represents which stage (not related to ith element of stages) -->
 <div class="row">
-    <% for i in 0..(num_stages-1) %>
-      <div class="small-3 columns">
-          <% if i==0 and @bg_check.status == 0 %>
-              ...
-          <% elsif i==0 and @bg_check.status >= 1 %>
-              <%=fa_icon("check", class: "check_icon")%>
-          
-          <!-- can also be 5 if not cleared-->
-          <% elsif i==1 and (@bg_check.status == 1 || @bg_check.status == 5) %>
-              ...
-              <!-- only if not at not cleared (bg status != 5) load these so no checks show --> 
-              <% elsif i==1 and (@bg_check.status >= 2 and !(@bg_check.status == 5)) %>
-                  <%=fa_icon("check", class: "check_icon")%>
-              
-              <% elsif i==2 and @bg_check.status == 2 %>
-                  ...
-              
-              <% elsif i==2 and (@bg_check.status >= 3 and !(@bg_check.status == 5)) %>
-                  <%=fa_icon("check", class: "check_icon")%>
-              
-              <% elsif i==3 and @bg_check.status == 3 %>
-                  ...
-              
-              <% elsif i==3 and @bg_check.status == 4 %>
-                  <%=fa_icon("check", class: "check_icon")%>
-              
+      <div class="small-3 columns text-center">
+        <% if @bg_check.status == 0 %>
+          <% if @bg_check.issues.empty? %>
+            <%= fa_icon('ellipsis-h') %>
+          <% else %>
+            <%= fa_icon('warning', class: 'warning-icon') %>
           <% end %>
+        <% else %>
+          <%= fa_icon('check', class: 'check_icon') %>
+        <% end %>
       </div>
-    <% end %>
+      <div class="small-3 columns text-center">
+        <% if @bg_check.status > 0 %>
+          <% if @bg_check.status == 1 %>
+            <% if @bg_check.issues.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check_icon') %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="small-3 columns text-center">
+        <% if @bg_check.status > 1 %>
+          <% if @bg_check.status == 2 %>
+            <% if @bg_check.issues.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check_icon') %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="small-3 columns text-center">
+        <% if @bg_check.status > 2 %>
+          <% if @bg_check.status == 3 %>
+            <% if @bg_check.issues.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check_icon') %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
     <br>
     <br>
@@ -67,32 +90,37 @@
   <div class="small-12 columns">
     <h3>Issue(s)</h3>
     <% if @bg_check.issues.empty? %>
-      There are no issues at this time
-    <% else %>
-          <table>
-          <thead>
-              <tr>
-                  <th>Category</th>
-                  <th>Description</th>
-                  <th>Resolved</th>
-              </tr>
-          </thead>
-          <tbody>
-              <% @bg_check.issues.each do |issue| %>
-                  <tr>
-                      <td><%= issue.category %></td>
-                      <td><%= issue.description %></td>
-                      <td>
-                        <% if issue.resolved.nil? %>
-                          N/A
-                        <% else %>
-                          <%= issue.resolved %>
-                        <% end %>
-                      </td>
-                  </tr>
-              <% end %>
-          </tbody>
-        </table>
+      <p>There are no issues at this time</p>
+    <%else%>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Description</th>
+            <%if current_user.admin? %>
+              <th></th>
+            <%end%>
+          </tr>
+        </thead>
+        <tbody>
+          <% @bg_check.issues.each do |issue| %>
+            <tr>
+              <td>
+                <%=issue.category%>
+              </td>
+              <td>
+                <%=issue.description%>
+              </td>
+              <%if current_user.admin?%>
+                <td><!-- icon based on bg_check status -->
+                  <!--CORY I'LL LET YOU USE THIS SPACE FOR RESOLVE -->
+                </td>
+              <%end%>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
     <% end %>
   </div>
 </div>
@@ -101,7 +129,11 @@
   <div class="small-12 columns">
     <h3>Description</h3>
 
-    <% if @bg_check.status == 0 %>
+    <% if @bg_check.status == 5 %>
+          <%= render 'under_review' %>
+    <% elsif !@bg_check.issues.empty? %>
+          <%= render 'has_issues' %>
+    <% elsif @bg_check.status == 0 %>
           <%= render 'requested' %>
     <% elsif @bg_check.status == 1 %>
           We are currently reviewing your forms for attaining criminal clearance.
@@ -110,9 +142,8 @@
     <% elsif @bg_check.status == 3 %>
           <%= render 'all_passed'%>
     <% elsif @bg_check.status == 4 %>
-          You have been cleared and your forms were picked up.
-    <% elsif @bg_check.status == 5 %>
-          <%= render 'under_review' %>
+          <%= render 'picked_up_mailed' %>
+    
     <% end %>
   </div>
 </div>

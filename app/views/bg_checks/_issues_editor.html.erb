@@ -4,7 +4,7 @@
 
 <hr>
 
-<%= form_for Issue.new, remote: true do |new_issue_f| %>
+<%= form_for Issue.new, url: "bg_check/#{@bg_check.id}/issues", remote: true do |new_issue_f| %>
 	<h3>New Issue</h3>
 	<div class="hide">
 		<%= new_issue_f.select :bg_check_id, [@bg_check.id] %>

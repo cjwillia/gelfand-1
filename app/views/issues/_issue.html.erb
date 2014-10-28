@@ -9,7 +9,7 @@
 			<p class="panel callout"><%= issue.description %></p>
 		</div>
 		<div class="small-3 columns text-center" data-equalizer-watch>
-			<%= link_to "Resolve", '/issues/resolve/#issue.id', class: "button" %>
+			<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button", remote: true} %>
 		</div>
 		<div class="small-3 columns text-center" data-equalizer-watch>
 			<a href="issues/destroy/<%= issue.id %>"><%= fa_icon('trash', class: 'large-trash-icon') %></a>
