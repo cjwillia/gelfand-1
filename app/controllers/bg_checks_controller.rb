@@ -43,7 +43,7 @@ class BgChecksController < ApplicationController
     end
   end
 
-  def show
+  def show  
     unless current_user.admin?
       unless current_user.individual.bg_check.id == @bg_check.id
         redirect_to '/restricted_access', notice: "Cannot access this background check."

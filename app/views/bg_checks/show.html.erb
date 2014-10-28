@@ -68,6 +68,31 @@
     <h3>Issue(s)</h3>
     <% if @bg_check.issues.empty? %>
       There are no issues at this time
+    <% else %>
+          <table>
+          <thead>
+              <tr>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Resolved</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% @bg_check.issues.each do |issue| %>
+                  <tr>
+                      <td><%= issue.category %></td>
+                      <td><%= issue.description %></td>
+                      <td>
+                        <% if issue.resolved.nil? %>
+                          N/A
+                        <% else %>
+                          <%= issue.resolved %>
+                        <% end %>
+                      </td>
+                  </tr>
+              <% end %>
+          </tbody>
+        </table>
     <% end %>
   </div>
 </div>
