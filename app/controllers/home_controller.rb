@@ -1,13 +1,10 @@
 class HomeController < ApplicationController
     def index
-    	@all = BgCheck.all # so BgCheck.all query done once
-    	@bgChecks_requested = @all.requested
-    	@bgChecks_pCriminal = @all.passed_criminal
-    	@bgChecks_pChildAbuse = @all.passed_child_abuse
-    	@bgChecks_nCleared = @all.not_cleared
-    	@bgChecks_expired = @all.expired.limit(30)
-
-        render 'home/index'
+        if current_user.admin?
+            redirect_to bg_checks_path
+        else
+            render 'home/index'
+        end
     end
 
     def signed_up_confirm
