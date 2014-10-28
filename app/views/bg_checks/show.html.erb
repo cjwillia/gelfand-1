@@ -105,7 +105,11 @@
   <div class="small-12 columns">
     <h3>Description</h3>
 
-    <% if @bg_check.status == 0 %>
+    <% if @bg_check.status == 5 %>
+          <%= render 'under_review' %>
+    <% elsif !@bg_check.issues.empty? %>
+          <%= render 'has_issues' %>
+    <% elsif @bg_check.status == 0 %>
           <%= render 'requested' %>
     <% elsif @bg_check.status == 1 %>
           We are currently reviewing your forms for attaining criminal clearance.
@@ -114,9 +118,8 @@
     <% elsif @bg_check.status == 3 %>
           <%= render 'all_passed'%>
     <% elsif @bg_check.status == 4 %>
-          You have been cleared and your forms were picked up.
-    <% elsif @bg_check.status == 5 %>
-          <%= render 'under_review' %>
+          <%= render 'picked_up_mailed' %>
+    
     <% end %>
   </div>
 </div>
