@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     #flash[:notice] = "Signed In Successfully"
     bg_c = resource.individual.bg_check
     if (resource.admin)
-        root_url
+        bg_checks_path
     elsif (bg_c.nil?)
         new_bg_check_path
     else
