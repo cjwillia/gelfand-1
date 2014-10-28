@@ -86,12 +86,10 @@
     <br>
 </div>
 
+<% if !@bg_check.issues.active.empty? %>
 <div class="row">
   <div class="small-12 columns">
     <h3>Issue(s)</h3>
-    <% if @bg_check.issues.empty? %>
-      <p>There are no issues at this time</p>
-    <%else%>
       <table>
         <thead>
           <tr>
@@ -120,30 +118,27 @@
           <% end %>
         </tbody>
       </table>
-
-    <% end %>
   </div>
 </div>
+<% end %>
 
 <div class="row">
   <div class="small-12 columns">
-    <h3>Description</h3>
 
     <% if @bg_check.status == 5 %>
-          <%= render 'under_review' %>
-    <% elsif !@bg_check.issues.empty? %>
+          <%= render 'excluded' %>
+    <% elsif !@bg_check.issues.active.empty? %>
           <%= render 'has_issues' %>
     <% elsif @bg_check.status == 0 %>
           <%= render 'requested' %>
     <% elsif @bg_check.status == 1 %>
-          We are currently reviewing your forms for attaining criminal clearance.
+          <%= render 'submitted' %>
     <% elsif @bg_check.status == 2 %>
           <%= render 'crim_passed' %>
     <% elsif @bg_check.status == 3 %>
           <%= render 'all_passed'%>
     <% elsif @bg_check.status == 4 %>
           <%= render 'picked_up_mailed' %>
-    
     <% end %>
   </div>
 </div>
