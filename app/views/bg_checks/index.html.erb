@@ -101,23 +101,36 @@
 
     <div id="hiddenpanel<%=count%>" class="hide bg-check-index-issue">
       <div class="row">
-        <br />
-        <div class="small-4 columns panel">
-          <p>This is an issue</p>
-        </div>
-        <div class="small-4 columns panel">
-          <p>This is another issue</p>
-        </div>
-        <div class="small-4 columns panel">
-          <p>Yet another issue</p>
-        </div>
-        <div class="row">
-          <div class="small-2 columns">
-            <a href="#" class="button">Delete app</a>
-          </div>
-          <div class="small-10 columns">
-            <p>That button doesn't do anything. You can put aaaanything you want in here.</p>
-          </div>
+        <div class="small-12 columns"> 
+          <% if !bg_check.issues.active.empty? %>
+            <strong>Issue(s)</strong>
+            <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% bg_check.issues.each do |issue| %>
+                <tr>
+                  <td>
+                    <%=issue.category%>
+                  </td>
+                  <td>
+                    <%=issue.description%>
+                  </td>
+                  <td><!-- icon based on bg_check status -->
+                    <!--CORY I'LL LET YOU USE THIS SPACE FOR RESOLVE -->
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+            </table>
+          <% else %>
+            <p>There are no issues with this background check</p>
+          <% end %>
         </div>
       </div>
     </div>
