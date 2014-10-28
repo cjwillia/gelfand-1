@@ -13,7 +13,7 @@ class Issue < ActiveRecord::Base
     # ------
 
     scope :active, -> { where(resolved: nil) }
-    scope :inactive, -> { where("resolved != ?", nil) }
+    scope :inactive, -> { where("resolved IS NOT NULL") }
 
     
     def self.all_categories
