@@ -72,5 +72,6 @@
 <% end %>
 
 <div id="test"></div>
-
-<div class="row"><%= render "issues_editor" %></div>
+<% if current_user.admin? %>
+  <div class="row"><%= render "issues_editor" %></div>
+<% end %>
