@@ -1,6 +1,17 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:show, :update, :destroy]
+
+
+  # Need new and edit to get individiuals
+  # wasnt sure how to combine code for both these actions
+  def new
+    @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
+  end
+
+  def edit
+    @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
+  end
 
   # GET /organizations
   # GET /organizations.json
