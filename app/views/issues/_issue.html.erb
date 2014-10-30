@@ -5,20 +5,24 @@
 		</div>
 	</div>
 	<div class="row" data-equalizer>
-		<div class="small-6 columns" data-equalizer-watch>
-			<p class="panel callout"><%= issue.description %></p>
+		<div class="row">
+			<div class="small-10 small-centered columns" data-equalizer-watch>
+				<p class="panel callout"><%= issue.description %></p>
+			</div>
 		</div>
-		<div class="small-3 columns text-center" data-equalizer-watch>
-			<% if issue.active? %>
-				<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button unresolve-button", remote: true} %>
-			<% else %>
-				<%= link_to "Unresolve", "issues/unresolve/#{issue.id}", {method: "patch", class: "button resolve-button", remote: true} %>
-			<% end %>
-		</div>
-		<div class="small-3 columns text-center" data-equalizer-watch>
-			<%= link_to "issues/destroy/#{issue.id}", {method: "delete", remote: true} do %>
-				<%= fa_icon('trash', class: 'large-trash-icon') %>
-			<% end %>
+		<div class="row">
+			<div class="small-6 columns text-center" data-equalizer-watch>
+				<% if issue.active? %>
+					<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button unresolve-button", remote: true} %>
+				<% else %>
+					<%= link_to "Unresolve", "issues/unresolve/#{issue.id}", {method: "patch", class: "button resolve-button", remote: true} %>
+				<% end %>
+			</div>
+			<div class="small-6 columns text-center" data-equalizer-watch>
+				<%= link_to "issues/destroy/#{issue.id}", {method: "delete", remote: true} do %>
+					<%= fa_icon('trash', class: 'large-trash-icon') %>
+				<% end %>
+			</div>
 		</div>
 	</div>
 </div>
