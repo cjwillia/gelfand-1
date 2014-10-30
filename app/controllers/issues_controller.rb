@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-	before_action :set_issue, only: [:resolve, :destroy]
+	before_action :set_issue, only: [:resolve, :unresolve, :destroy]
 
 	def new
 	end
@@ -29,13 +29,31 @@ class IssuesController < ApplicationController
 			end
 		end
 	end
-	def destroy
-		@issue.destroy
+
+	def unresolve
+		@issue.resolved = nil
+
 		respond_to do |format|
-			format.js {}
-			format.html {
-				redirect_to bg_checks_path, notice: "Issue Deleted"
-			}
+			if @issue.save
+				format.js {}
+				format.html {}
+			else
+				redirect_to @issue.bg_check, notice: "Error unresolving issue"
+			end
+		end
+	end
+
+	def destroy
+		@id = @issue.id
+		respond_to do |format|
+			if @issue.delete
+				format.js {}
+				format.html {
+					redirect_to bg_checks_path, notice: "Issue Deleted"
+				}
+			else
+				redirect_to @issue.bg_check notice: "Error Deleting Issue"
+			end
 		end
 	end
 

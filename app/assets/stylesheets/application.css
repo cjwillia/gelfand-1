@@ -41,6 +41,14 @@ body, html {
     border-color: #43ac6a;
 }
 
+.button.unresolve-button {
+    background-color: #43ac6a;
+}
+
+.button.resolve-button {
+    background-color: #cc5555;
+}
+
 /*bg check status page*/
 .bg-status-bar {
     border-style: solid;

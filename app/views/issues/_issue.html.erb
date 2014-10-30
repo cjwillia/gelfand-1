@@ -10,13 +10,15 @@
 		</div>
 		<div class="small-3 columns text-center" data-equalizer-watch>
 			<% if issue.active? %>
-				<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button", remote: true} %>
+				<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button unresolve-button", remote: true} %>
 			<% else %>
-				<%= link_to "Unresolve", "#", class: "button" %>
+				<%= link_to "Unresolve", "issues/unresolve/#{issue.id}", {method: "patch", class: "button resolve-button", remote: true} %>
 			<% end %>
 		</div>
 		<div class="small-3 columns text-center" data-equalizer-watch>
-			<a href="issues/destroy/<%= issue.id %>"><%= fa_icon('trash', class: 'large-trash-icon') %></a>
+			<%= link_to "issues/destroy/#{issue.id}", {method: "delete", remote: true} do %>
+				<%= fa_icon('trash', class: 'large-trash-icon') %>
+			<% end %>
 		</div>
 	</div>
 </div>
