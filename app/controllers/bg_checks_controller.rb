@@ -56,7 +56,7 @@ class BgChecksController < ApplicationController
   def update
     respond_to do |format|
       if @bg_check.update(bg_check_params)
-        format.html { redirect_to bg_checks_path, notice: 'Bg check was successfully updated.' }
+        format.html { redirect_to bg_check_path(@bg_check), notice: 'Bg check was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
