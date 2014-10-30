@@ -6,11 +6,16 @@ class OrganizationsController < ApplicationController
   # Need new and edit to get individiuals
   # wasnt sure how to combine code for both these actions
   def new
+    # dont show indivs already in org
     @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
   end
 
   def edit
+    # dont show indivs already in org
     @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
+
+    # indivs in org
+    @indivs_in_org = @organization.individuals.alphabetical
   end
 
   # GET /organizations

@@ -29,6 +29,7 @@
 
   <% if !@individuals.nil? %> 
   <!-- Only display options to add people if at org Manage page -->
+          <!-- Add existing members non-email -->
           <h3>Add People to your Organization</h3>
 
           <h5>Search by Name</h5>
@@ -39,17 +40,34 @@
               </div>
             </div>
 
+          <!-- Add existing members email; if not in system then send email for them to sign up-->
           <h5>Add by email</h5>
           <%= f.text_field :new_emails, :id => "tags" %> 
+
+
+          <br>
+          <br>
+
+          <!-- Remove members from org-->
+          <h3>Remove members from this Organization</h3>
+
+          <h5>Search by Name</h5>
+
+          <div id="programs-new-orgselect" class="row">
+              <div class="small-5 columns panel chosen-select-panel">
+                    <%= f.collection_select :individual_ids, @indivs_in_org, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+              </div>
 
   <% end %>
 
 
   <br>
-  <br>
 
-  <div class="actions">
-    <%= f.submit "Submit", :class => "button" %>
+  <div class="row">
+    <div class="small-3 columns">
+      <div class="actions">
+        <%= f.submit "Submit", :class => "button" %>
+      </div>
+    </div>
   </div>
-
 <% end %>
