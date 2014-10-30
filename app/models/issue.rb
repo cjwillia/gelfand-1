@@ -16,10 +16,15 @@ class Issue < ActiveRecord::Base
 
     scope :active, -> { where(resolved: nil) }
     scope :inactive, -> { where("resolved IS NOT NULL") }
+    scope :by_relevance, -> { order("resolved ASC") }
 
     
     def self.all_categories
     	["Incorrect Forms", "Under Review", "Pickup Required", "Other"]
+    end
+
+    def active?
+        return self.resolved.nil?
     end
 
 end

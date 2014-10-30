@@ -49,7 +49,7 @@
       </div>
       <div class="small-2 columns text-center">
         <% if bg_check.status == 0 %>
-          <% if bg_check.issues.empty? %>
+          <% if bg_check.issues.active.empty? %>
             <%= fa_icon('ellipsis-h') %>
           <% else %>
             <%= fa_icon('warning', class: 'warning-icon') %>
@@ -61,7 +61,7 @@
       <div class="small-2 columns text-center">
         <% if bg_check.status > 0 %>
           <% if bg_check.status == 1 %>
-            <% if bg_check.issues.empty? %>
+            <% if bg_check.issues.active.empty? %>
               <%= fa_icon('ellipsis-h') %>
             <% else %>
               <%= fa_icon('warning', class: 'warning-icon') %>
@@ -74,7 +74,7 @@
       <div class="small-2 columns text-center">
         <% if bg_check.status > 1 %>
           <% if bg_check.status == 2 %>
-            <% if bg_check.issues.empty? %>
+            <% if bg_check.issues.active.empty? %>
               <%= fa_icon('ellipsis-h') %>
             <% else %>
               <%= fa_icon('warning', class: 'warning-icon') %>
@@ -87,7 +87,7 @@
       <div class="small-2 columns text-center">
         <% if bg_check.status > 2 %>
           <% if bg_check.status == 3 %>
-            <% if bg_check.issues.empty? %>
+            <% if bg_check.issues.active.empty? %>
               <%= fa_icon('ellipsis-h') %>
             <% else %>
               <%= fa_icon('warning', class: 'warning-icon') %>
@@ -113,7 +113,7 @@
               </tr>
             </thead>
             <tbody>
-              <% bg_check.issues.each do |issue| %>
+              <% bg_check.issues.active.each do |issue| %>
                 <tr>
                   <td>
                     <%=issue.category%>
@@ -121,8 +121,7 @@
                   <td>
                     <%=issue.description%>
                   </td>
-                  <td><!-- icon based on bg_check status -->
-                    <!--CORY I'LL LET YOU USE THIS SPACE FOR RESOLVE -->
+                  <td><%= link_to "Resolve", "bg_checks/#{bg_check.id}/issues/resolve/#{issue.id}", {method: "patch", class: "button unresolve-button"} %>
                   </td>
                 </tr>
               <% end %>

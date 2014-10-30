@@ -1,6 +1,7 @@
 Gelfand::Application.routes.draw do
   post "bg_checks/:bg_id/issues" => 'issues#create', :as => "issue_create"
   patch "bg_checks/:bg_id/issues/resolve/:id" => 'issues#resolve', :as => "issue_resolve"
+  patch "bg_checks/:bg_id/issues/unresolve/:id" => 'issues#unresolve', :as => "issue_unresolve"
   delete "bg_checks/:bg_id/issues/destroy/:id" => 'issues#destroy', :as => "issue_destroy"
   #Programs Routes
   get 'programs/:id/individuals_list' => 'programs#individuals_list'

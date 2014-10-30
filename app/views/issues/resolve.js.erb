@@ -1,1 +1,2 @@
-$("#test").html("ISSUE HAS BEEN SUCCESSFULLY RESOLVED.");
+$("#issue<%=@issue.id%>").remove();
+$("<%= j(render @issue) %>").appendTo("#current-issues");

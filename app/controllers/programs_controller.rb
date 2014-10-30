@@ -20,7 +20,7 @@ class ProgramsController < ApplicationController
     if @program.save
       redirect_to @program, notice: "Program created successfully"
     else
-      render action: 'new'  
+      render action: 'new'
     end
   end
 

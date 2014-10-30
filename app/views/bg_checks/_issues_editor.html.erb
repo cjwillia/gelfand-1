@@ -1,29 +1,31 @@
 <h2>Issues</h2>
 
-<div id="current-issues"><%= render @issues %></div>
+<div class="row">
+	<div class="small-7 columns"><div id="current-issues"><%= render @issues.by_relevance %></div></div>
+	<div class="small-5 columns panel">
+		<%= form_for Issue.new, url: "/bg_checks/#{@bg_check.id}/issues", remote: true do |new_issue_f| %>
+			<h3>New Issue</h3>
+			<div class="hide">
+				<%= new_issue_f.select :bg_check_id, [@bg_check.id] %>
+			</div>
+			<div class="row">	
+				<div class="small-9 columns">
+					<label>Category</label>
+					<%= new_issue_f.select :category, Issue.all_categories %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 columns">
+					<label>Description</label>
+					<%= new_issue_f.text_area :description %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-3 columns">
+					<%= new_issue_f.submit "Add an Issue", {class: 'button', style: 'background-color: goldenrod'} %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
 
-<hr>
-
-<%= form_for Issue.new, url: "/bg_checks/#{@bg_check.id}/issues", remote: true do |new_issue_f| %>
-	<h3>New Issue</h3>
-	<div class="hide">
-		<%= new_issue_f.select :bg_check_id, [@bg_check.id] %>
-	</div>
-	<div class="row">	
-		<div class="small-4 columns">
-			<label>Category</label>
-			<%= new_issue_f.select :category, Issue.all_categories %>
-		</div>
-	</div>
-	<div class="row">
-		<div class="small-6 columns">
-			<label>Description</label>
-			<%= new_issue_f.text_area :description %>
-		</div>
-	</div>
-	<div class="row">
-		<div class="small-3 columns">
-			<%= new_issue_f.submit "Add an Issue", {class: 'button', style: 'background-color: goldenrod'} %>
-		</div>
-	</div>
-<% end %>
