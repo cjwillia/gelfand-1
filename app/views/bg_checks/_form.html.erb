@@ -55,6 +55,8 @@
       </div>
     </div>
 
+
+
   <% elsif current_user.member?%>
     <%= f.hidden_field :status, :value => 0, :readonly => true %>
   <% end %>
@@ -70,7 +72,7 @@
     </div>
   </div>
 <% end %>
-
+<% if current_user.admin? %>
+  <div class="row"><%= render "issues_editor" %></div>
+<% end %>
 <div id="test"></div>
-
-<div class="row"><%= render "issues_editor" %></div>
