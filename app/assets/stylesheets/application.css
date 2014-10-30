@@ -31,6 +31,16 @@ body, html {
     margin-top: 1rem;
 }
 
+/* bg check edit */
+
+.panel.issue {
+    border-color: #cc5555;
+}
+
+.panel.issue-resolved {
+    border-color: #43ac6a;
+}
+
 /*bg check status page*/
 .bg-status-bar {
     border-style: solid;
