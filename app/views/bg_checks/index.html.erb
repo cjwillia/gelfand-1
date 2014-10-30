@@ -113,7 +113,7 @@
               </tr>
             </thead>
             <tbody>
-              <% bg_check.issues.each do |issue| %>
+              <% bg_check.issues.active.each do |issue| %>
                 <tr>
                   <td>
                     <%=issue.category%>
@@ -121,8 +121,7 @@
                   <td>
                     <%=issue.description%>
                   </td>
-                  <td><!-- icon based on bg_check status -->
-                    <!--CORY I'LL LET YOU USE THIS SPACE FOR RESOLVE -->
+                  <td><%= link_to "Resolve", "bg_checks/#{bg_check.id}/issues/resolve/#{issue.id}", {method: "patch", class: "button unresolve-button"} %>
                   </td>
                 </tr>
               <% end %>

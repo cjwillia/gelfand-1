@@ -1,7 +1,7 @@
 <div id="issue<%= issue.id %>" class="panel issue<%unless issue.active?%>-resolved<%end%>">
 	<div class="row">
-		<div class="small-4 columns">
-			<h4><%= issue.category %></h4>
+		<div class="small-12 columns">
+			<h4><%= issue.category %> <%unless issue.active?%><span style="color:#43ac6a">(Resolved)</span><%end%></h4>
 		</div>
 	</div>
 	<div class="row" data-equalizer>

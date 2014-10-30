@@ -23,7 +23,7 @@ class IssuesController < ApplicationController
 		respond_to do |format|
 			if @issue.save
 				format.js {}
-				format.html {}
+				format.html { redirect_to bg_checks_path, notice: "Issue successfully resolved" }
 			else
 				redirect_to @issue.bg_check, notice: "Error resolving issue"
 			end
