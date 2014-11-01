@@ -20,6 +20,8 @@ can accepts 2 arguments
          can :manage, :all
        elsif user.member?
           can :create, :all
+          # adding cannot instead of listing all models a User can create
+          cannot :create, :Organization 
 
 
 
@@ -63,7 +65,7 @@ can accepts 2 arguments
             end
           end
 
-          # if a Membership belongs to an Org that the User is an OrgUser for, they can manage that 
+          # if a User has a Membership to an Org that the User is an OrgUser for, they can manage that 
           can :manage, Membership do |memberShip|
               user.is_orgUser_for_specific_org(Organization.find_by(id: memberShip.organization_id))
           end
