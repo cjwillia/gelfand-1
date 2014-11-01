@@ -19,11 +19,8 @@ can accepts 2 arguments
        if user.admin?
          can :manage, :all
        elsif user.member?
-          can :create, :all
-          # adding cannot instead of listing all models a User can create
-          cannot :create, :Organization 
-
-
+          # can create all but Organization
+          can :create, [BgCheck, Program]
 
           can :update, User do |u|
             u.id == user.id
