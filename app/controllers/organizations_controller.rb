@@ -235,9 +235,9 @@ Improper emails entered: bad_email's
           notice_string = notice_string.at(0..-3)
       end
 
-    # if a regular update to Organization
-    if (not_in_app.empty? and all_new_unique_mem_ids.empty?)
-        notice_string = "Organization succesfully updated -- No new members were able to be added or requested."
+    # if a only Org model was changed
+    if (notice_string == "")
+        notice_string = "Organization succesfully updated -- No new members were able to be added or requested. No membership was made inactive. No change to Org heads."
     end
 
     respond_to do |format|
