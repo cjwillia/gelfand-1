@@ -28,15 +28,35 @@
   <br>
 
   <% if !@individuals.nil? %> 
-  <!-- Only display options to add people if at org Manage page -->
+  <!-- Only display options to add people if at org Manage page 
+          since this form is also used for org Create page -->
+          
+  <div class="row">
+      <h3>Manage org Head <h3>
+      <div class="small-4 columns">
+          <h5>Search members in Org</h5>
+          <div class="panel chosen-select-panel">
+            <!-- Add existing members non-email -->
+            <%= f.collection_select :org_users, @non_org_head_members, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+          </div>
+      </div>
+      
+      
+      <div class="small-4 columns text-left">
+          <h5>Current org Heads</h5>
           <!-- Add existing members non-email -->
+          <%= f.collection_select :org_users, @non_org_head_members, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+      </div>
+
+  </div>
+
   <div class="row">
           <h3>Add People to your Organization</h3>
-
           <h5>Search by Name</h5>
 
           <div id="programs-new-orgselect">
               <div class="small-5 columns panel chosen-select-panel">
+                    <!-- Add existing members non-email -->
                     <%= f.collection_select :individual_ids, @individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
               </div>
           </div>

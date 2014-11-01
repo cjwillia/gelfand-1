@@ -14,8 +14,11 @@ class OrganizationsController < ApplicationController
     # dont show indivs already in org
     @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
 
-    # indivs in org
-    @indivs_in_org = @organization.individuals.alphabetical
+
+    # all members of Org currently not an Org head -- sorted by last name
+    @indivs_ids_org = @organization.individuals
+    @indiv_ids_org_heads = @organization.get_org_users.map{|u| u.id}.map{|uid| Individual.where(user_id: uid)[0]}
+    @non_org_head_members = (@indivs_ids_org - @indiv_ids_org_heads).sort_by {|mem| mem.l_name}
   end
 
   # GET /organizations
@@ -237,7 +240,7 @@ Improper emails entered: bad_email's
 
     # if a only Org model was changed
     if (notice_string == "")
-        notice_string = "Organization succesfully updated -- No new members were able to be added or requested. No membership was made inactive. No change to Org heads."
+        notice_string = "Organization succesfully updated -- No new members were able to be added or requested. No change to Org heads."
     end
 
     respond_to do |format|
