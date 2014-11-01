@@ -42,10 +42,24 @@
       </div>
       
       
-      <div class="small-4 columns text-left">
-          <h5>Current org Heads</h5>
-          <!-- Add existing members non-email -->
-          <%= f.collection_select :org_users, @non_org_head_members, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+      <div class="small-6 columns text-left">
+            <h5>Current org Heads</h5>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th class="text-right">Remove?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @indiv_ids_org_heads. each do |oh| %>
+                        <tr>
+                            <td><%= oh.user.email %></td>
+                            <td class="text-right"><%=fa_icon("close", class: "close_icon")%></td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
       </div>
 
   </div>
