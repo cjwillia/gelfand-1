@@ -34,7 +34,7 @@
   <div class="row">
       <h3>Manage org Head <h3>
       <div class="small-4 columns">
-          <h5>Search members in Org</h5>
+          <h5>Search current members</h5>
           <div class="panel chosen-select-panel">
             <!-- Add existing members non-email -->
             <%= f.collection_select :org_users, @non_org_head_members, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
@@ -43,7 +43,7 @@
       
       
       <div class="small-6 columns text-left">
-            <h5>Current org Heads</h5>
+            <h5>Current heads</h5>
             <table>
                 <thead>
                     <tr>
