@@ -115,7 +115,7 @@ class OrganizationsController < ApplicationController
     # if all org_users for remove selected and no one was selected for add
     #     go back to edit page with warning
     if (@indiv_ids_org_heads.length == ou_ids_remove.length and ou_ids_add.empty?)
-        notice_string = "Total Org heads after add/delete 0. Action was not allowed"
+        notice_string = "Total Org heads after add/delete 0. Could not update Organization."
         redirect_to edit_organization_path, notice: notice_string
         return
     end
