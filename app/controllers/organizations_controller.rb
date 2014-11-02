@@ -79,14 +79,17 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1
   # PATCH/PUT /organizations/1.json
   def update
-    # Essentially 3 parts
+    
+    # Essentially 4 parts
     #   Org multiple email add
     #   Org regular multiple add
     #   Org change in model (ie. name, description, etc)
+    #   Org head update - allows for adding/deleting org Heads
     #   
-    # Using 5 new arrays
-    #   bad_emails    - improper emails, ie. john@@yahoo.com, john@yahoo, etc..
-    #                 - may be good to have 
+    # Using 5 new arrays 
+    #   (these are just for add/requesting members)
+    #   
+    #   bad_emails    - improper emails, ie. john@@yahoo.com, john@yahoo, etc.. 
     #   good_emails   - these emails passed validate check
     #   not_in_app    - subset of good_emails - emails not in app
     #   in_app        - subset of good_emails - emails in app (will map this to ids)
@@ -237,6 +240,17 @@ Improper emails entered: bad_email's
           # take out last comma
           notice_string = notice_string.at(0..-3)
       end
+
+    # format org_user_ids
+    org_users_ids = params[:organization][:org_users]
+    org_users_ids.reject!(&:blank?)
+    org_users_ids = org_users_ids.map{|id| id.to_i}
+
+    # format org_user_ids to remove
+    ou_ids_remove = params[:ou_ids_to_remove]
+    ou_ids_remove.reject!(&:blank?)
+    ou_ids_remove = ou_ids_remove.map{|id| id.to_i}
+
 
     # if a only Org model was changed
     if (notice_string == "")

@@ -55,7 +55,7 @@
                     <% @indiv_ids_org_heads. each do |oh| %>
                         <tr>
                             <td><%= oh.user.email %></td>
-                            <td class="text-right"><%=fa_icon("close", class: "close_icon")%></td>
+                            <td class="text-right"><%= check_box_tag "ou_ids_to_remove[]", oh.user_id %> </td>
                         </tr>
                     <% end %>
                 </tbody>
