@@ -5,7 +5,7 @@
   <br />
   <div class="row">
       <!-- Filter button -->
-      <div class="small-2 columns">
+      <div class="small-3 columns">
             <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Filter</button><br />
             <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
               <li><a href="#">Submitted</a></li>
@@ -18,7 +18,7 @@
             </ul>
       </div>
       <!-- Search text area -->
-      <div class="small-8 columns">
+      <div class="small-7 columns">
           <%= form_tag bg_checks_path, :method => 'get', :id => "bg_checks_search" do %>
           <%= text_field_tag :search, params[:search] %>
       </div>

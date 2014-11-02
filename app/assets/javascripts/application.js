@@ -74,8 +74,8 @@ $(document).ready(function(){
 
 
   /* search functionality */
-  $("bg_checks_search").submit(function() {
-      $.get(this.action, $(this).serialize(), null, "script");
+  $("bg_checks_search input").keyup(function() {
+      $.get($("#bg_checks_search").attr("action"), $("#bg_checks_search").serialize(), null, "script");
       return false; // so doesnt submit actual form
   }); 
 
