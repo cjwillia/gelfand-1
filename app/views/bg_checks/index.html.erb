@@ -4,12 +4,32 @@
   </div>
   <br />
   <div class="row">
-      <%= form_tag bg_checks_path, :method => 'get', :id => "bg_checks_search" do %>
-      <%= text_field_tag :search, params[:search] %>
-      <%= submit_tag "Search", :name => nil, :class => "button" %>
-      <% end %>
+      <!-- Filter button -->
+      <div class="small-2 columns">
+            <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Filter</button><br />
+            <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
+              <li><a href="#">Submitted</a></li>
+              <li><a href="#">Criminal Passed</a></li>
+              <li><a href="#">Child Abuse Passed</a></li>
+              <li><a href="#">Picked Up/Mailed</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Has Issues</a></li>
+              <li><a href="#">In Progress</a></li>
+            </ul>
+      </div>
+      <!-- Search text area -->
+      <div class="small-8 columns">
+          <%= form_tag bg_checks_path, :method => 'get', :id => "bg_checks_search" do %>
+          <%= text_field_tag :search, params[:search] %>
+      </div>
+      <!-- Search button -->
+      <div class="small-2 columns">
+              <%= submit_tag "Search", :name => nil, :class => "alert button expand" %>
+              <% end %>
+      </div>
   </div>
  
+
 <div id="bg_checks">
     <%= render 'bg_checks' %>
 </div>
