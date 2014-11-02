@@ -15,10 +15,25 @@ class BgChecksController < ApplicationController
   # GET /bg_checks.json
   def index
     if current_user.admin?
-      @bg_checks = BgCheck.search(params[:search]).joins(:individual).order('l_name, f_name')
+      if params[:search]
+          @bg_checks = BgCheck.joins(:individual).order('l_name, f_name').where('f_name LIKE ?', "%#{params[:search]}")
+      else
+          @bg_checks = BgCheck.joins(:individual).order('l_name, f_name')
+      end
     else
       redirect_to current_user.individual.bg_check
     end
+
+=begin
+    def self.search(search)
+        if search
+            self.individual
+            where('status LIKE ?', "%#{search}")
+        else
+            scoped # can have all, but scope returns scoped result so can add more to it
+        end
+    end
+=end
   end
 
   # POST /bg_checks

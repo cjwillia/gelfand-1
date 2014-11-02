@@ -56,14 +56,6 @@ class BgCheck < ActiveRecord::Base
     def humanize_name
         "#{self.individual.f_name} #{self.individual.l_name}"
     end
-
-    def self.search(search)
-        if search
-            where('status LIKE ?', "%#{search}")
-        else
-            scoped # can have all, but scope returns scoped result so can add more to it
-        end
-    end
    
     private
 
