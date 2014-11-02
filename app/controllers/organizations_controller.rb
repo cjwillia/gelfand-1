@@ -79,7 +79,7 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1
   # PATCH/PUT /organizations/1.json
   def update
-    
+
     # Essentially 4 parts
     #   Org multiple email add
     #   Org regular multiple add
@@ -94,6 +94,34 @@ class OrganizationsController < ApplicationController
     #   not_in_app    - subset of good_emails - emails not in app
     #   in_app        - subset of good_emails - emails in app (will map this to ids)
     #   all_new_unique_mem_ids - add new_member_ids and those in_app, then remove duplicates
+
+
+    #-----------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------
+    #  This section done first in case total Org heads after update is 0
+    #-----------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------
+    # format org_user_ids
+    ou_ids_add = params[:organization][:org_users]
+    ou_ids_add.reject!(&:blank?)
+    ou_ids_add = ou_ids_add.map{|id| id.to_i}
+
+    # format org_user_ids to remove
+    ou_ids_remove = params[:ou_ids_to_remove]
+    ou_ids_remove.reject!(&:blank?)
+    ou_ids_remove = ou_ids_remove.map{|id| id.to_i}
+
+    @indiv_ids_org_heads = @organization.get_org_users.map{|u| u.id}.map{|uid| Individual.where(user_id: uid)[0]}
+    # if all org_users for remove selected and no one was selected for add
+    #     go back to edit page with warning
+    if (@indiv_ids_org_heads.length == ou_ids_remove.length and ou_ids_add.empty?)
+        notice_string = "Total Org heads after add/delete 0. Action was not allowed"
+        redirect_to edit_organization_path, notice: notice_string
+        return
+    end
+    #-----------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------    
+
     
     bad_emails  = []
     good_emails = []
@@ -240,17 +268,6 @@ Improper emails entered: bad_email's
           # take out last comma
           notice_string = notice_string.at(0..-3)
       end
-
-    # format org_user_ids
-    org_users_ids = params[:organization][:org_users]
-    org_users_ids.reject!(&:blank?)
-    org_users_ids = org_users_ids.map{|id| id.to_i}
-
-    # format org_user_ids to remove
-    ou_ids_remove = params[:ou_ids_to_remove]
-    ou_ids_remove.reject!(&:blank?)
-    ou_ids_remove = ou_ids_remove.map{|id| id.to_i}
-
 
     # if a only Org model was changed
     if (notice_string == "")
