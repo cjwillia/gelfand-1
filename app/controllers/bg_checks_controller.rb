@@ -15,7 +15,7 @@ class BgChecksController < ApplicationController
   # GET /bg_checks.json
   def index
     if current_user.admin?
-      @bg_checks = BgCheck.all.joins(:individual).order('l_name, f_name')
+      @bg_checks = BgCheck.search(params[:search]).joins(:individual).order('l_name, f_name')
     else
       redirect_to current_user.individual.bg_check
     end
