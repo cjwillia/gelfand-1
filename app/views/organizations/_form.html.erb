@@ -33,7 +33,7 @@
           
   <div class="row">
       <h3>Manage Org head <h3>
-      <div class="small-4 columns">
+      <div class="small-5 columns">
           <h5>Search current members</h5>
           <div class="panel chosen-select-panel">
             <!-- Add existing members non-email -->
@@ -42,20 +42,20 @@
       </div>
       
       
-      <div class="small-6 columns text-left">
+      <div class="small-5 columns text-left">
             <h5>Current heads</h5>
             <table>
                 <thead>
                     <tr>
-                        <th>Email</th>
+                        <th>Name</th>
                         <th class="text-right">Remove?</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% @indiv_ids_org_heads. each do |oh| %>
+                    <% @indivs_curr_org_heads. each do |indiv| %>
                         <tr>
-                            <td><%= oh.user.email %></td>
-                            <td class="text-right"><%= check_box_tag "ou_ids_to_remove[]", oh.user_id %> </td>
+                            <td><%= indiv.name %></td>
+                            <td class="text-right"><%= check_box_tag "ou_ids_to_remove[]", indiv.user_id %> </td>
                         </tr>
                     <% end %>
                 </tbody>
