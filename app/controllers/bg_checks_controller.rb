@@ -35,7 +35,7 @@ class BgChecksController < ApplicationController
           @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
         end
       else
-          @bg_checks = BgCheck.joins(:individual).alphabetical
+          @bg_checks = BgCheck.joins(:individual).has_issues.alphabetical
       end
     else
       redirect_to current_user.individual.bg_check
