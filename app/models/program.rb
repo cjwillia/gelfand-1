@@ -57,6 +57,29 @@ class Program < ActiveRecord::Base
         res
     end
 
+    def calculate_time_frame
+        start_month = self.start_date.month
+        end_month = self.end_date.month
+        if start_month > end_month
+            end_month = end_month + 12
+        end
+        duration = end_month - start_month
+
+        if start_month >= 8 && duration <= 12-start_month
+            return "Fall: " + self.start_date.year.to_s
+        elsif start_month >= 1 && start_month <= 5 && duration <= 5-start_month
+            return "Spring: " + self.start_date.year.to_s
+        elsif start_month >= 6 && start_month <= 7 && duration <= 8-start_month
+            return "Summer: " + self.start_date.year.to_s
+        else 
+            if start_date.year == end_date.year
+                return "Year: " + start_date.year.to_s
+            else    
+                return "Year: " + start_date.year.to_s + " - " + end_date.year.to_s
+            end
+        end
+    end
+
     def uncleared_participants
         self.individuals.select{ |i| i.bg_check_complete? }
     end
@@ -82,11 +105,11 @@ class Program < ActiveRecord::Base
         self.individuals_in_org(org_id).select{ |i| i.bg_check_complete? }
     end
 
-  def affiliated_orgs
+    def affiliated_orgs
       self.affiliations.map {|affil| Organization.find(affil.organization_id)}
-  end
+    end
 
-  def orgs_not_already_affiliated
+    def orgs_not_already_affiliated
       Organization.all - self.affiliated_orgs
-  end
+    end
 end
