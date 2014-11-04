@@ -8,10 +8,11 @@
       <div class="small-3 columns">
             <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Filter</button><br />
             <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
-              <li><a href="#">Submitted</a></li>
-              <li><a href="#">Criminal Passed</a></li>
-              <li><a href="#">Child Abuse Passed</a></li>
-              <li><a href="#">Picked Up/Mailed</a></li>
+              <li><%= link_to "All", params.merge(:filter => :all) %></li>
+              <li><%= link_to "Submitted", params.merge(:filter => :submitted) %></li>
+              <li><%= link_to "Criminal Passed", params.merge(:filter => :passed_criminal) %></li>
+              <li><%= link_to "Child Abuse Passed", params.merge(:filter => :passed_child_abuse) %></li>
+              <li><%= link_to "Picked Up/Mailed", params.merge(:filter => :picked_up) %></li>
               <li class="divider"></li>
               <li><a href="#">Has Issues</a></li>
               <li><a href="#">In Progress</a></li>
