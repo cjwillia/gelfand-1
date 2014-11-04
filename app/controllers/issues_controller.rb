@@ -4,6 +4,7 @@ class IssuesController < ApplicationController
 	def new
 	end
 
+	# POST bg_check/:bg_id/issues
 	def create
 		@issue = Issue.new(issues_params)
 
@@ -12,11 +13,12 @@ class IssuesController < ApplicationController
 				BgCheck.find(@issue.bg_check_id).issues << @issue
 				format.js {}
 			else
-				redirect_to root_url, notice: "dat issue ain't save, mang."
+				redirect_to root_url, notice: "Error saving this issue, please try again."
 			end
 		end
 	end
 
+	# PATCH/PUT bg_check/:bg_id/issues/resolve/:id
 	def resolve
 		@issue.resolved = DateTime.now
 
@@ -30,6 +32,7 @@ class IssuesController < ApplicationController
 		end
 	end
 
+	# PATCH/PUT bg_check/:bg_id/issues/unresolve/:id
 	def unresolve
 		@issue.resolved = nil
 
@@ -38,11 +41,12 @@ class IssuesController < ApplicationController
 				format.js {}
 				format.html {}
 			else
-				redirect_to @issue.bg_check, notice: "Error unresolving issue"
+				redirect_to @issue.bg_check, notice: "Error unresolving #{@issue.type} issue"
 			end
 		end
 	end
 
+	# DESTROY bg_check/:bg_id/issues/destroy/:id
 	def destroy
 		@id = @issue.id
 		respond_to do |format|
