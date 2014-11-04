@@ -14,8 +14,8 @@
               <li><%= link_to "Child Abuse Passed", params.merge(:filter => :passed_child_abuse) %></li>
               <li><%= link_to "Picked Up/Mailed", params.merge(:filter => :picked_up) %></li>
               <li class="divider"></li>
-              <li><a href="#">Has Issues</a></li>
-              <li><a href="#">In Progress</a></li>
+              <li><%= link_to "Has Issues", params.merge(:filter => :has_issues) %></li>
+              <li><%= link_to "In Progress", params.merge(:filter => :in_progress) %></li>
             </ul>
       </div>
       <!-- Search text area -->
