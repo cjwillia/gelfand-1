@@ -21,7 +21,7 @@
       <!-- Search text area -->
       <div class="small-7 columns">
           <%= form_tag bg_checks_path, :method => 'get', :id => "bg_checks_search" do %>
-          <%= text_field_tag :search, params[:search], placeholder: "Enter a user's first name" %>
+          <%= text_field_tag :search, params[:search] %>
       </div>
       <!-- Search button -->
       <div class="small-2 columns">
