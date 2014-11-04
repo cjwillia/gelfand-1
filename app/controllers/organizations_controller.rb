@@ -119,7 +119,7 @@ class OrganizationsController < ApplicationController
     # if all org_users for remove selected and no one was selected for add
     #     go back to edit page with warning
     if (@indivs_curr_org_heads.length == ou_ids_remove.length and indiv_ids_add.empty?)
-        redirect_to edit_organization_path, notice: "Total org Heads after add/delete 0. Could not update Organization."
+        redirect_to edit_organization_path, notice: "Could not update organization"
         return
     end
     #-----------------------------------------------------------------------------
@@ -212,13 +212,13 @@ class OrganizationsController < ApplicationController
 
         # making the temporary membership when an Admin user enters in an email
         #---------------------------------------------------------------------
-            # making the indiv for the temp membership
+            # create indiv for the temp membership
             @indiv = Individual.new
             @indiv.f_name = @orgMailer.currently_registered_email
             @indiv.l_name = "Temp: " 
             @indiv.role = 0
             @indiv.save
-            # make the membership
+            # create membership
             @membership = Membership.new
             @membership.organization_id = @organization.id
             @membership.individual_id = @indiv.id
@@ -228,6 +228,7 @@ class OrganizationsController < ApplicationController
         if !@orgMailer.deliver
             redirect_to edit_organization_path(org_id)
             flash[:error] = 'Could not send notice.'
+            return
         end
 
     end
@@ -262,83 +263,15 @@ Improper emails entered: bad_email's
   - Dont have this yet (Not necessary?)
 =end
 
-    # Make the notice
-      notice_string = ""
-      not_in_app.each do |email|
-        notice_string+=(email+", ")
-      end
-      
-      if (!not_in_app.empty?)
-          notice_string = "Sent notice to: "+notice_string
-          # take out last comma
-          notice_string = notice_string.at(0..-3)
-      end
-
-
-      # Append to notice: if request members empty
-      if (not_in_app.empty?)
-          notice_string += "No members requested"
-      end
-      notice_string += " | "
-
-      # add regular member (not sending email)
-      if (!all_new_unique_mem_ids.empty?)
-
-          notice_string = notice_string + "Added member(s): " 
-          # put all_new_unique_mem_ids into notice string
-          all_new_unique_mem_ids.each do |id|
-              notice_string += (Individual.find(id).proper_name+", ")
-          end
-          # take out last comma
-          notice_string = notice_string.at(0..-3)
-      end
-
-      # Append to notice: if reg. members add empty
-      if (all_new_unique_mem_ids.empty?)
-          notice_string += "No members added"
-      end
-      notice_string += " | "
-
-      # Added Org heads
-      if (!indiv_ids_add.empty?)
-
-          notice_string = notice_string + "Added org Head(s): "
-          # same as prev. loop
-          indiv_ids_add.each do |id|
-              notice_string += (Individual.find(id).proper_name+", ")
-          end
-          # same as prev. loop
-          notice_string = notice_string.at(0..-3)
-      end 
-
-      # Append to notice: if Org heads add empty
-      if (indiv_ids_add.empty?)
-          notice_string += "No org heads added"
-      end
-      notice_string += " | "
-
-      # Deleted Org heads
-      if (!ou_ids_remove.empty?)
-          notice_string = notice_string + "Removed org Head(s): "
-          indiv_names_remove = ou_ids_remove.map{|user_id| (Individual.where(user_id: user_id)[0]).proper_name }          
-        
-          indiv_names_remove.each do |name|
-              notice_string += (name+", ")
-          end
-
-          notice_string = notice_string.at(0..-3)
-      end
-
-      # Append to notice: if Org heads remove empty
-      if (ou_ids_remove.empty?)
-          notice_string += "No org Heads removed"
-      end
-      # last notice so no need for " | "
+    if (!bad_emails.empty?)
+         redirect_to edit_organization_path, notice: "Could not update organization."
+         return
+    end
 
     respond_to do |format|
       if @organization.update(organization_params)
         # For note that Org was updated succesfully
-        notice_string = "Organization succesfully updated"+" | "+notice_string
+        notice_string = "Organization succesfully updated"
 
         format.html { redirect_to @organization, notice: notice_string }
         format.json { head :no_content }
