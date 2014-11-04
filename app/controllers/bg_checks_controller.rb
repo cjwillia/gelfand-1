@@ -33,6 +33,8 @@ class BgChecksController < ApplicationController
           @bg_checks = BgCheck.joins(:individual).has_issues.alphabetical
         elsif params[:filter]=="in_progress"
           @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
+        elsif params[:filter]=="urgency"
+          @bg_checks = BgCheck.order_by_urgency @bg_checks
         end
       else
           @bg_checks = BgCheck.joins(:individual).alphabetical
@@ -40,6 +42,7 @@ class BgChecksController < ApplicationController
     else
       redirect_to current_user.individual.bg_check
     end
+
 
 =begin
     def self.search(search)
