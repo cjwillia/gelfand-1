@@ -81,8 +81,22 @@
               <%= f.text_field :new_emails, :id => "tags" %> 
           </div>
   </div>
+
   <% end %>
 
+  <div class="row">
+      <div class="small-5 columns">
+          <!-- Remove members from org-->
+          <h3>Remove members</h3>
+
+          <h5>Search by Name</h5>
+
+          <div id="programs-new-orgselect">
+              <div class="columns panel chosen-select-panel">
+                    <%= f.collection_select :individual_ids, @indivs_org, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+              </div>
+      </div>
+  </div>
 
   <br>
 
