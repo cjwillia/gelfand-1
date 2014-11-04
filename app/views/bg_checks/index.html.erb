@@ -8,13 +8,14 @@
       <div class="small-3 columns">
             <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Filter</button><br />
             <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
-              <li><%= link_to "Submitted", "filter/submitted", remote: true %></li>
-              <li><%= link_to "Criminal Passed", "filter/crim_passed", remote: true %></li>
-              <li><%= link_to "Child Abuse Passed", "filter/abuse_passed", remote: true %></li>
-              <li><%= link_to "Picked Up/Mailed", "filter/complete", remote: true %></li>
+              <li><%= link_to "All", params.merge(:filter => :all) %></li>
+              <li><%= link_to "Submitted", params.merge(:filter => :submitted) %></li>
+              <li><%= link_to "Criminal Passed", params.merge(:filter => :passed_criminal) %></li>
+              <li><%= link_to "Child Abuse Passed", params.merge(:filter => :passed_child_abuse) %></li>
+              <li><%= link_to "Picked Up/Mailed", params.merge(:filter => :picked_up) %></li>
               <li class="divider"></li>
-              <li><%= link_to "Has Issues", "filter/with_issues", remote: true %></li>
-              <li><%= link_to "In Progress", "filter/in_progress", remote: true %></li>
+              <li><%= link_to "Has Issues", params.merge(:filter => :has_issues) %></li>
+              <li><%= link_to "In Progress", params.merge(:filter => :in_progress) %></li>
             </ul>
       </div>
       <!-- Search text area -->

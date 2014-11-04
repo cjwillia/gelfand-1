@@ -20,13 +20,15 @@ class BgCheck < ActiveRecord::Base
 
     # Scopes
     # ------
+    scope :alphabetical, -> {order('l_name, f_name')}
     scope :requested, -> { where('status = ?', 0) }
     scope :submitted, -> { where('status = ?', 1) }
     scope :passed_criminal, -> { where('status = ?', 2) }
     scope :passed_child_abuse, -> { where('status = ?', 3) }
-    scope :cleared, -> { where('status = ?', 4) }
+    scope :picked_up, -> { where('status = ?', 4) }
     scope :not_cleared, -> { where('status = ?', 5) }
     scope :expired, -> { where('bg_checks.child_abuse_date <= ?', Date.today<<36)}
+    scope :has_issues, ->{ joins(:issues).group('bg_checks.id').merge(Issue.active).having('count(issues.id) > 0')}
 
 
    	# Instance Methods

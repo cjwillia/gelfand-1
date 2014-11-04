@@ -18,8 +18,22 @@ class BgChecksController < ApplicationController
       if params[:search]
           # What about Last name?
           @bg_checks = BgCheck.joins(:individual).order('l_name, f_name').where('f_name LIKE ?', "%#{params[:search]}")
+      elsif params[:filter]
+        if params[:filter]=="all"
+          @bg_checks = BgCheck.joins(:individual).alphabetical
+        elsif params[:filter]=="submitted"
+          @bg_checks = BgCheck.joins(:individual).submitted.alphabetical
+        elsif params[:filter]=="passed_criminal"
+          @bg_checks = BgCheck.joins(:individual).passed_criminal.alphabetical
+        elsif params[:filter]=="passed_child_abuse"
+          @bg_checks = BgCheck.joins(:individual).passed_child_abuse.alphabetical
+        elsif params[:filter]=="picked_up"
+          @bg_checks = BgCheck.joins(:individual).picked_up.alphabetical
+        elsif params[:filter]=="has_issues"
+          @bg_checks = BgCheck.joins(:individual).has_issues.alphabetical
+        end
       else
-          @bg_checks = BgCheck.joins(:individual).order('l_name, f_name').where('status < ?', 4)
+          @bg_checks = BgCheck.joins(:individual).alphabetical
       end
     else
       redirect_to current_user.individual.bg_check
