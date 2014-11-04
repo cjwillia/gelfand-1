@@ -31,6 +31,12 @@ class BgCheck < ActiveRecord::Base
     scope :has_issues, ->{ joins(:issues).group('bg_checks.id').merge(Issue.active).having('count(issues.id) > 0')}
     scope :in_progress, -> { where('status < ?', 4)}
 
+    # Class meethods
+    # ----------------
+    def self.order_by_urgency bg_checks
+        checks = bg_checks.delete_if {|bg_c|bg_c.individual.days_till_program==nil||bg_c.individual.days_till_program<0}
+        checks = checks.sort {|x,y|x.individual.days_till_program <=> y.individual.days_till_program}
+    end
 
    	# Instance Methods
    	# ----------------
