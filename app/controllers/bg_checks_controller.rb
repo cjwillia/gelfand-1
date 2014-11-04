@@ -16,6 +16,7 @@ class BgChecksController < ApplicationController
   def index
     if current_user.admin?
       if params[:search]
+          # What about Last name?
           @bg_checks = BgCheck.joins(:individual).order('l_name, f_name').where('f_name LIKE ?', "%#{params[:search]}")
       elsif params[:filter]
         if params[:filter]=="all"

@@ -28,7 +28,7 @@ class BgCheck < ActiveRecord::Base
     scope :picked_up, -> { where('status = ?', 4) }
     scope :not_cleared, -> { where('status = ?', 5) }
     scope :expired, -> { where('bg_checks.child_abuse_date <= ?', Date.today<<36)}
-    scope :has_issues, ->{ joins(:issues).group('bg_checks.id').having('count(issues.id) > 0')}
+    scope :has_issues, ->{ joins(:issues).group('bg_checks.id').merge(Issue.active).having('count(issues.id) > 0')}
     scope :in_progress, -> { where('status < ?', 4)}
 
 
