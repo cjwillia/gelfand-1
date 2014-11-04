@@ -13,12 +13,10 @@
         </div>
             
         <% end %>
+        <br>
         <div class="row">
             <div class="small-4 columns">
-                Start Date: <%= @program.start_date.strftime "%m/%d/%y" %>
-            </div>
-            <div class="small-4 columns">
-                End Date: <%= @program.end_date.strftime "%m/%d/%y" %>
+                Time Frame: <%= @program.calculate_time_frame %>
             </div>
             <div class="small-4 columns">
                 Number of Minors: <%= @program.num_minors %>
@@ -46,12 +44,8 @@
                 <td><%= participant.individual.f_name %> <%= participant.individual.l_name %></td>
                 <td><%= participant.individual.contact.email %></td>
                 <td>
-                    <% if participant.individual.bg_check.nil? %>
-                        <%=fa_icon("close", class: "close_icon") %>
-                    <% elsif participant.individual.bg_check.status == 2 %>
+                    <% if !participant.individual.bg_check.nil? and participant.individual.bg_check.status == 4 %>
                         <%=fa_icon("check", class: "check_icon")%>
-                    <% else %>
-                        <%=fa_icon("close", class: "close_icon")%>
                     <% end %>
                 </td>
             </tr>
