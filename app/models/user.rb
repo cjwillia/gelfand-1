@@ -48,10 +48,10 @@ class User < ActiveRecord::Base
   end
 
   def cmu_person?
-    if self.individual.role.nil?
+    if self.individual&&self.individual.role.nil?
         return false
     end
-    if self.individual.role >= 0 && self.individual.role <= 2
+    if self.individual&&self.individual.role >= 0 && self.individual.role <= 2
       return true
     else
       return false
