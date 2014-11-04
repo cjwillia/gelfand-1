@@ -17,7 +17,7 @@ class BgChecksController < ApplicationController
     if current_user.admin?
       if params[:search]
           # What about Last name?
-          @bg_checks = BgCheck.joins(:individual).order('l_name, f_name').where('f_name LIKE ?', "%#{params[:search]}")
+          @bg_checks = BgCheck.joins(:individual).order('l_name, f_name').where('f_name LIKE ? OR l_name LIKE ?', "%#{params[:search]}%", "%#{params[:search]}%")
       elsif params[:filter]
         if params[:filter]=="all"
           @bg_checks = BgCheck.joins(:individual).alphabetical
