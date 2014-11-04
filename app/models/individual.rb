@@ -72,6 +72,10 @@ class Individual < ActiveRecord::Base
         return false
     end
 
+    def days_till_program
+        days = self.programs.map{|p| Date.today - p.start_date}.min
+    end
+
     # Private Methods
     # ---------------
     private
