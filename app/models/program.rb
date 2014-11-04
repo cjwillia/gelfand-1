@@ -66,16 +66,16 @@ class Program < ActiveRecord::Base
         duration = end_month - start_month
 
         if start_month >= 8 && duration <= 12-start_month
-            return "Fall: " + self.start_date.year.to_s
+            return "Fall " + self.start_date.year.to_s
         elsif start_month >= 1 && start_month <= 5 && duration <= 5-start_month
-            return "Spring: " + self.start_date.year.to_s
+            return "Spring " + self.start_date.year.to_s
         elsif start_month >= 6 && start_month <= 7 && duration <= 8-start_month
-            return "Summer: " + self.start_date.year.to_s
+            return "Summer " + self.start_date.year.to_s
         else 
             if start_date.year == end_date.year
-                return "Year: " + start_date.year.to_s
+                return "Year " + start_date.year.to_s
             else    
-                return "Year: " + start_date.year.to_s + " - " + end_date.year.to_s
+                return "Year " + start_date.year.to_s + "-" + end_date.year.to_s
             end
         end
     end
