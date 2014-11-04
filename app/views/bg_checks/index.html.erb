@@ -4,139 +4,35 @@
   </div>
   <br />
   <div class="row">
-    <div class="small-2 columns">
-      <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Filter</button><br />
-      <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
-        <li><a href="#">Submitted</a></li>
-        <li><a href="#">Criminal Passed</a></li>
-        <li><a href="#">Child Abuse Passed</a></li>
-        <li><a href="#">Picked Up/Mailed</a></li>
-        <li class="divider"></li>
-        <li><a href="#">Has Issues</a></li>
-        <li><a href="#">In Progress</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="row panel">
-    <div class="small-3 small-offset-1 columns">
-      <label><strong>Name</strong></label>
-    </div>
-    <div class="small-2 columns text-center">
-      <label><strong>Submitted</strong></label>
-    </div>
-    <div class="small-2 columns text-center">
-      <label><strong>Criminal Passed</strong></label>
-    </div>
-    <div class="small-2 columns text-center">
-      <label><strong>Child Abuse Passed</strong></label>
-    </div>
-    <div class="small-2 columns text-center">
-      <label><strong>Picked Up/Mailed</strong></label>
-    </div>
-  </div>
-  <br />
-  <% count = 0 %>
-  <% @bg_checks.each do |bg_check| %>
-    <% count += 1 %>
-    <div class="row">
-      <div id="toggler<%=count%>" class="small-1 column text-right issues-toggler">
-        <p class="closed-arrow"><%= fa_icon('angle-right') %></p>
-        <p class="open-arrow"><%= fa_icon('angle-down') %></p>
-      </div>
+      <!-- Filter button -->
       <div class="small-3 columns">
-        <%= link_to bg_check.individual.name, bg_check %>
+            <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Filter</button><br />
+            <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
+              <li><%= link_to "All", params.merge(:filter => :all) %></li>
+              <li><%= link_to "Submitted", params.merge(:filter => :submitted) %></li>
+              <li><%= link_to "Criminal Passed", params.merge(:filter => :passed_criminal) %></li>
+              <li><%= link_to "Child Abuse Passed", params.merge(:filter => :passed_child_abuse) %></li>
+              <li><%= link_to "Picked Up/Mailed", params.merge(:filter => :picked_up) %></li>
+              <li class="divider"></li>
+              <li><%= link_to "Has Issues", params.merge(:filter => :has_issues) %></li>
+              <li><%= link_to "In Progress", params.merge(:filter => :in_progress) %></li>
+            </ul>
       </div>
-      <div class="small-2 columns text-center">
-        <% if bg_check.status == 0 %>
-          <% if bg_check.issues.active.empty? %>
-            <%= fa_icon('ellipsis-h') %>
-          <% else %>
-            <%= fa_icon('warning', class: 'warning-icon') %>
-          <% end %>
-        <% else %>
-          <%= fa_icon('check', class: 'check_icon') %>
-        <% end %>
+      <!-- Search text area -->
+      <div class="small-7 columns">
+          <%= form_tag bg_checks_path, :method => 'get', :id => "bg_checks_search" do %>
+          <%= text_field_tag :search, params[:search] %>
       </div>
-      <div class="small-2 columns text-center">
-        <% if bg_check.status > 0 %>
-          <% if bg_check.status == 1 %>
-            <% if bg_check.issues.active.empty? %>
-              <%= fa_icon('ellipsis-h') %>
-            <% else %>
-              <%= fa_icon('warning', class: 'warning-icon') %>
-            <% end %>
-          <% else %>
-            <%= fa_icon('check', class: 'check_icon') %>
-          <% end %>
-        <% end %>
-      </div>
-      <div class="small-2 columns text-center">
-        <% if bg_check.status > 1 %>
-          <% if bg_check.status == 2 %>
-            <% if bg_check.issues.active.empty? %>
-              <%= fa_icon('ellipsis-h') %>
-            <% else %>
-              <%= fa_icon('warning', class: 'warning-icon') %>
-            <% end %>
-          <% else %>
-            <%= fa_icon('check', class: 'check_icon') %>
-          <% end %>
-        <% end %>
-      </div>
-      <div class="small-2 columns text-center">
-        <% if bg_check.status > 2 %>
-          <% if bg_check.status == 3 %>
-            <% if bg_check.issues.active.empty? %>
-              <%= fa_icon('ellipsis-h') %>
-            <% else %>
-              <%= fa_icon('warning', class: 'warning-icon') %>
-            <% end %>
-          <% else %>
-            <%= fa_icon('check', class: 'check_icon') %>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-
-    <div id="hiddenpanel<%=count%>" class="hide bg-check-index-issue">
-      <div class="row">
-        <div class="small-12 columns"> 
-          <% if !bg_check.issues.active.empty? %>
-            <strong>Issue(s)</strong>
-            <table>
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Description</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% bg_check.issues.each do |issue| %>
-                <tr>
-                  <td>
-                    <%=issue.category%>
-                  </td>
-                  <td>
-                    <%=issue.description%>
-                  </td>
-                  <td><!-- icon based on bg_check status -->
-                    <!--CORY I'LL LET YOU USE THIS SPACE FOR RESOLVE -->
-                  </td>
-                </tr>
+      <!-- Search button -->
+      <div class="small-2 columns">
+              <%= submit_tag "Search", :name => nil, :class => "alert button expand" %>
               <% end %>
-            </tbody>
-            </table>
-          <% else %>
-            <p>There are no issues with this background check</p>
-          <% end %>
-        </div>
       </div>
-    </div>
+  </div>
+ 
 
-    <hr>
-  
-  <% end %>
+<div id="bg_checks">
+    <%= render 'bg_checks' %>
+</div>
 
 </div>

@@ -73,6 +73,12 @@ $(document).ready(function(){
   });
 
 
+  /* search functionality */
+  $("bg_checks_search input").keyup(function() {
+      $.get($("#bg_checks_search").attr("action"), $("#bg_checks_search").serialize(), null, "script");
+      return false; // so doesnt submit actual form
+  }); 
+
   //datepicker code
   $('.datepicker').fdatepicker({
     format: 'yyyy-mm-dd'

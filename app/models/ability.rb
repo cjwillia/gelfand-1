@@ -19,9 +19,8 @@ can accepts 2 arguments
        if user.admin?
          can :manage, :all
        elsif user.member?
-          can :create, :all
-
-
+          # can create all but Organization
+          can :create, [BgCheck, Program]
 
           can :update, User do |u|
             u.id == user.id
@@ -63,7 +62,7 @@ can accepts 2 arguments
             end
           end
 
-          # if a Membership belongs to an Org that the User is an OrgUser for, they can manage that 
+          # if a User has a Membership to an Org that the User is an OrgUser for, they can manage that 
           can :manage, Membership do |memberShip|
               user.is_orgUser_for_specific_org(Organization.find_by(id: memberShip.organization_id))
           end

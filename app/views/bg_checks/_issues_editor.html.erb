@@ -1,8 +1,9 @@
 <h2>Issues</h2>
 
 <div class="row">
-	<div class="small-6 columns panel">
-				<%= form_for Issue.new, url: "/bg_checks/#{@bg_check.id}/issues", remote: true do |new_issue_f| %>
+	<div class="small-7 columns"><div id="current-issues"><%= render @issues.by_relevance %></div></div>
+	<div class="small-5 columns panel">
+		<%= form_for Issue.new, url: "/bg_checks/#{@bg_check.id}/issues", remote: true do |new_issue_f| %>
 			<h3>New Issue</h3>
 			<div class="hide">
 				<%= new_issue_f.select :bg_check_id, [@bg_check.id] %>
@@ -26,6 +27,5 @@
 			</div>
 		<% end %>
 	</div>
-	<div class="small-6 columns"><div id="current-issues"><%= render @issues.by_relevance %></div></div>
 </div>
 

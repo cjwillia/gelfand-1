@@ -16,7 +16,11 @@
           <tr class="rows_in_admin_org_home"><td><%= link_to org.name, org %> </td>
               <td><%= org.active ? "Yes" : "No" %></td> 
               <% orgUser = OrgUser.for_organization(org).first %>  
-              <td><%= orgUser.user.email %></td>                       
+              <% if orgUser.nil? %>
+                  <td>N/A</td>
+              <% else %>
+                  <td><%= orgUser.user.email %></td>
+              <% end %>
               <td class="row_actions"><%= link_to "Edit", edit_organization_path(org) %></td>
           </tr>
         <% end %>

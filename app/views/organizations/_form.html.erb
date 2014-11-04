@@ -27,28 +27,70 @@
   <br>
   <br>
 
-    <h3>Add People to your Organization</h3>
-
-    <h5>Search by Name</h5>
-
-    <div id="programs-new-orgselect" class="row">
-        <div class="small-5 columns panel chosen-select-panel">
-          <!-- This is something that should be done in the controller -Cory -->
-          <% @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) } %>
-          <%= f.collection_select :individual_ids, @individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
-        </div>
+  <% if !@individuals.nil? %> 
+  <!-- Only display options to add people if at org Manage page 
+          since this form is also used for org Create page -->
+          
+  <div class="row">
+      <h3>Manage Org head <h3>
+      <div class="small-5 columns">
+          <h5>Search current members</h5>
+          <div class="panel chosen-select-panel">
+            <!-- Add existing members non-email -->
+            <%= f.collection_select :org_users, @non_org_head_members, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+          </div>
       </div>
-    </div>  
-    <!-- see: http://stackoverflow.com/questions/11349508/rails-simpleform-with-non-model-inputs -->
-    <h5>Add by email</h5>
-    <%= f.text_field :new_emails, :id => "tags" %> 
+      
+      
+      <div class="small-5 columns text-left">
+            <h5>Current heads</h5>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th class="text-right">Remove?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @indivs_curr_org_heads. each do |indiv| %>
+                        <tr>
+                            <td><%= indiv.name %></td>
+                            <td class="text-right"><%= check_box_tag "ou_ids_to_remove[]", indiv.user_id %> </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+      </div>
 
-
-  <br>
-  <br>
-
-  <div class="actions">
-    <%= f.submit "Submit", :class => "button" %>
   </div>
 
+  <div class="row">
+          <h3>Add People to your Organization</h3>
+          <h5>Search by Name</h5>
+
+          <div id="programs-new-orgselect">
+              <div class="small-5 columns panel chosen-select-panel">
+                    <!-- Add existing members non-email -->
+                    <%= f.collection_select :individual_ids, @individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+              </div>
+          </div>
+
+          <div class="small-5 columns">
+              <!-- Add existing members email; if not in system then send email for them to sign up-->
+              <h5>Add by email</h5>
+              <%= f.text_field :new_emails, :id => "tags" %> 
+          </div>
+  </div>
+  <% end %>
+
+
+  <br>
+
+  <div class="row">
+    <div class="small-3 columns text-left">
+      <div class="actions">
+        <%= f.submit "Submit", :class => "button" %>
+      </div>
+    </div>
+  </div>
 <% end %>

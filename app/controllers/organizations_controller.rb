@@ -1,6 +1,25 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:show, :update, :destroy]
+
+
+  # Need new and edit to get individiuals
+  # wasnt sure how to combine code for both these actions
+  def new
+    # dont show indivs already in org
+    @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
+  end
+
+  def edit
+    # dont show indivs already in org
+    @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
+
+
+    # all members of Org currently not an Org head -- sorted by last name
+    @indivs_org = @organization.individuals
+    @indivs_curr_org_heads = (@organization.get_org_users.map{|u| u.id}.map{|uid| Individual.where(user_id: uid)[0]}).sort_by {|indiv| indiv.l_name}
+    @non_org_head_members = (@indivs_org - @indivs_curr_org_heads).sort_by {|mem| mem.l_name}
+  end
 
   # GET /organizations
   # GET /organizations.json
@@ -60,18 +79,52 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1
   # PATCH/PUT /organizations/1.json
   def update
-    # Essentially 3 parts
+
+    # Essentially 4 parts
     #   Org multiple email add
     #   Org regular multiple add
     #   Org change in model (ie. name, description, etc)
+    #   Org head update - allows for adding/deleting org Heads
     #   
-    # Using 5 new arrays
-    #   bad_emails    - improper emails, ie. john@@yahoo.com, john@yahoo, etc..
-    #                 - may be good to have 
+    # Using 5 new arrays 
+    #   (these are just for add/requesting members)
+    #   
+    #   bad_emails    - improper emails, ie. john@@yahoo.com, john@yahoo, etc.. 
     #   good_emails   - these emails passed validate check
     #   not_in_app    - subset of good_emails - emails not in app
     #   in_app        - subset of good_emails - emails in app (will map this to ids)
     #   all_new_unique_mem_ids - add new_member_ids and those in_app, then remove duplicates
+
+
+    #-----------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------
+    #  This section done first in case total Org heads after update is 0
+    #-----------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------
+    # format org_user_ids
+    indiv_ids_add = params[:organization][:org_users]
+    indiv_ids_add.reject!(&:blank?)
+    indiv_ids_add = indiv_ids_add.map{|id| id.to_i}
+
+    # format org_user_ids to remove
+    ou_ids_remove = params[:ou_ids_to_remove]
+    # nil when no org_users selected for remove
+    if (ou_ids_remove.nil?)
+        ou_ids_remove = []
+    end
+    ou_ids_remove.reject!(&:blank?)
+    ou_ids_remove = ou_ids_remove.map{|id| id.to_i}
+
+    @indivs_curr_org_heads = @organization.get_org_users.map{|u| u.id}.map{|uid| Individual.where(user_id: uid)[0]}
+    # if all org_users for remove selected and no one was selected for add
+    #     go back to edit page with warning
+    if (@indivs_curr_org_heads.length == ou_ids_remove.length and indiv_ids_add.empty?)
+        redirect_to edit_organization_path, notice: "Total org Heads after add/delete 0. Could not update Organization."
+        return
+    end
+    #-----------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------    
+
     
     bad_emails  = []
     good_emails = []
@@ -178,7 +231,27 @@ class OrganizationsController < ApplicationController
         end
 
     end
-      
+
+
+          
+    # Update orgHeads
+    # Assume here:
+    #     (no. adding + no. removing) >= 1
+    #     
+    # Add all selected Org heads:
+    indiv_ids_add.each do |id|
+        @org_user = OrgUser.new
+        @org_user.organization_id = @organization.id
+        @org_user.user_id = ((Individual.where(id: id)[0]).user).id
+        @org_user.save
+    end
+
+    # Delete all selected Org heads
+    ou_ids_remove.each do |id|
+        @org_user = OrgUser.where(user_id: id, organization_id: @organization.id)[0]
+        @org_user.delete
+    end
+
 =begin
 
 Notice will be:
@@ -202,30 +275,71 @@ Improper emails entered: bad_email's
       end
 
 
+      # Append to notice: if request members empty
+      if (not_in_app.empty?)
+          notice_string += "No members requested"
+      end
+      notice_string += " | "
+
       # add regular member (not sending email)
       if (!all_new_unique_mem_ids.empty?)
-          if (not_in_app.empty?)
-              notice_string += "No members were requested"
-          end
-
-          notice_string += " | " # need divider if not_in_app empty / not empty
 
           notice_string = notice_string + "Added member(s): " 
           # put all_new_unique_mem_ids into notice string
           all_new_unique_mem_ids.each do |id|
-              notice_string += ((Individual.find(id)).proper_name+", ")
+              notice_string += (Individual.find(id).proper_name+", ")
           end
           # take out last comma
           notice_string = notice_string.at(0..-3)
       end
 
-    # if a regular update to Organization
-    if (not_in_app.empty? and all_new_unique_mem_ids.empty?)
-        notice_string = "Organization succesfully updated -- No new members were able to be added or requested."
-    end
+      # Append to notice: if reg. members add empty
+      if (all_new_unique_mem_ids.empty?)
+          notice_string += "No members added"
+      end
+      notice_string += " | "
+
+      # Added Org heads
+      if (!indiv_ids_add.empty?)
+
+          notice_string = notice_string + "Added org Head(s): "
+          # same as prev. loop
+          indiv_ids_add.each do |id|
+              notice_string += (Individual.find(id).proper_name+", ")
+          end
+          # same as prev. loop
+          notice_string = notice_string.at(0..-3)
+      end 
+
+      # Append to notice: if Org heads add empty
+      if (indiv_ids_add.empty?)
+          notice_string += "No org heads added"
+      end
+      notice_string += " | "
+
+      # Deleted Org heads
+      if (!ou_ids_remove.empty?)
+          notice_string = notice_string + "Removed org Head(s): "
+          indiv_names_remove = ou_ids_remove.map{|user_id| (Individual.where(user_id: user_id)[0]).proper_name }          
+        
+          indiv_names_remove.each do |name|
+              notice_string += (name+", ")
+          end
+
+          notice_string = notice_string.at(0..-3)
+      end
+
+      # Append to notice: if Org heads remove empty
+      if (ou_ids_remove.empty?)
+          notice_string += "No org Heads removed"
+      end
+      # last notice so no need for " | "
 
     respond_to do |format|
       if @organization.update(organization_params)
+        # For note that Org was updated succesfully
+        notice_string = "Organization succesfully updated"+" | "+notice_string
+
         format.html { redirect_to @organization, notice: notice_string }
         format.json { head :no_content }
       else

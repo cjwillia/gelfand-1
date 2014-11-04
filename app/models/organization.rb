@@ -62,3 +62,4 @@ attr_accessor :new_emails # have this to allow input for multiple emails in orgM
       return org_users.map{|ou| User.where(id: ou.user_id)[0]}
   end
 end
+

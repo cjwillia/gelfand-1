@@ -101,7 +101,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @bg_check.issues.each do |issue| %>
+          <% @bg_check.issues.active.each do |issue| %>
             <tr>
               <td>
                 <%=issue.category%>
