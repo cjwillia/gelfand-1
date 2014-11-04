@@ -30,6 +30,8 @@ class BgChecksController < ApplicationController
           @bg_checks = BgCheck.joins(:individual).picked_up.alphabetical
         elsif params[:filter]=="has_issues"
           @bg_checks = BgCheck.joins(:individual).has_issues.alphabetical
+        elsif params[:filter]=="in_progress"
+          @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
         end
       else
           @bg_checks = BgCheck.joins(:individual).alphabetical
