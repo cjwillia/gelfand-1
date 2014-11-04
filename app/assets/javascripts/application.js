@@ -99,7 +99,7 @@ $(document).ready(function(){
 
   //code to fade out alert boxes
   $('.alert-box').fadeIn('normal', function() {
-      $(this).delay(2000).fadeOut();
+      $(this).delay(5000).fadeOut();
    });
 
 

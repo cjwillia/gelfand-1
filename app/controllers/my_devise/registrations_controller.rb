@@ -7,7 +7,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	  end
 
 	  def after_sign_in_path_for(resource)
-	  	flash[:notice] = "Signed In Successfully"
+	  	# flash[:notice] = "Signed In Successfully"
 	  	# this code is not run
 	  	# instead, application_controller.rb runs
 	  	# unusual issue: if we take that code out and put it in here, 
@@ -82,6 +82,7 @@ class MyDevise::RegistrationsController < Devise::RegistrationsController
 	      end
 	    else
 			puts "Resource not saved? Signing in normal"
+			flash[:notice] = "There were some problems..."
     		clean_up_passwords resource
     		expire_data_after_sign_in!
     		respond_with resource, location: after_sign_in_path_for(resource)
