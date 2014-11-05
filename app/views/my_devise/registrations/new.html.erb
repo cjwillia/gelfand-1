@@ -3,9 +3,26 @@
 <div class="small-8 small-centered columns">
 
   <div class="row">
-    <h2>Sign up</h2>
-    <%= devise_error_messages! %>
+    <div class="small-12 columns">
+      <h2>Sign up</h2>
+    </div>
   </div>
+<!-- 
+  <div class="row">
+        <%= f.fields_for :individual do |individual_form| %>
+          <div class="small-6 columns"><%= individual_form.label :first_name %><br />
+          <%= individual_form.text_field :f_name %></div>
+
+          <div class = "small-6 columns"><%= individual_form.label :last_name %><br />
+          <%= individual_form.text_field :l_name %></div>
+
+          <div><%= individual_form.label :role %><br />
+          <%= individual_form.select(:role, Individual::ROLES_LIST) %></div>
+        <% end %>
+    <div class="small-4 columns">
+    </div>
+  </div>
+
   <div class="row">
         <div class="small-4 columns">
           <div><%= f.label :email %><br />
@@ -19,27 +36,42 @@
           <div><%= f.label :password_confirmation %><br />
           <%= f.password_field :password_confirmation %></div>
         </div>
+  </div> -->
+<div class="row">
+  <div class="small-12 columns">
+    <p>Please use your official andrew email address if you are affiliated with Carnegie Mellon University.</p>
   </div>
-
-  <div class="row">
-    <div class="small-8 columns">
-        <%= f.fields_for :individual do |individual_form| %>
-          <div><%= individual_form.label :first_name %><br />
-          <%= individual_form.text_field :f_name %></div>
-
-          <div><%= individual_form.label :last_name %><br />
-          <%= individual_form.text_field :l_name %></div>
-
-          <div><%= individual_form.label :role %><br />
-          <%= individual_form.select(:role, Individual::ROLES_LIST) %></div>
-        <% end %>
+</div>
+<%= form_for(:user, :url => user_registration_path) do |f| %>
+  <%= f.fields_for :individual_attributes do |individual_f| %>
+    <div class="row">
+      <div class="small-6 columns"><%= individual_f.text_field :f_name, :placeholder => "First Name" %></div>
+      <div class="small-6 columns"><%= individual_f.text_field :l_name, :placeholder => "Last Name" %></div>
     </div>
-    <div class="small-4 columns">
+    <div class="row"><div class="small-12 columns"><%= f.email_field :email, :placeholder => "Email" %></div></div>
+    <div class="row">
+      <div class="small-6 columns"><%= f.password_field :password, :placeholder => "Password" %></div>
+      <div class="small-6 columns"><%= f.password_field :password, :placeholder => "Confirm Password" %></div>
     </div>
-  </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <%= individual_f.select :role, Individual::ROLES_LIST, :include_blank => "Which role describes you best?" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <%= f.submit 'Create Account', :class => "button" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<!-- 
+  
   <div class="row">
-      <%= f.submit %>
-  </div>
+    <div class = "small-12 columns">
+      <%= f.submit :class => "button"%>
+    </div>
+  </div> -->
 </div>
 <% end %>
 
