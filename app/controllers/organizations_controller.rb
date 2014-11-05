@@ -15,9 +15,9 @@ class OrganizationsController < ApplicationController
     @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
 
     # all members of Org currently not an Org head -- sorted by last name
-    @indivs_org = @organization.individuals
+    @indivs_org = @organization.individuals.sort_by{|indiv| indiv.l_name}
     @indivs_curr_org_heads = (@organization.get_org_users.map{|u| u.id}.map{|uid| Individual.where(user_id: uid)[0]}).sort_by {|indiv| indiv.l_name}
-    @non_org_head_members = (@indivs_org - @indivs_curr_org_heads).sort_by {|mem| mem.l_name}
+    @non_org_head_members = (@indivs_org - @indivs_curr_org_heads).sort_by {|indiv| indiv.l_name}
   end
 
   # GET /organizations
