@@ -71,7 +71,7 @@
         <%= link_to "Add a Member to this Organization", edit_organization_path, :class => "button" %>
     <%end%>
 
-        <% if @organization.get_all_individuals.empty? %>
+        <% if @organization.get_all_active_individuals.empty? %>
             Currently there are no members
         <% else %>
             <table>
@@ -83,7 +83,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% @organization.get_all_individuals.sort.each do |indiv| %>
+                    <% @organization.get_all_active_individuals.sort.each do |indiv| %>
                         <tr>
                             <td><!-- check if temp indiv -->
                                 <% if indiv.proper_name.include? "Temp:"%>
