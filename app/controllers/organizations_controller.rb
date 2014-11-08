@@ -253,6 +253,21 @@ class OrganizationsController < ApplicationController
         @org_user.delete
     end
 
+    #---------------------------
+    # Make members inactive
+    #-----------------------------
+    # format indiv_ids
+    members_to_inactive = params[:organization][:memberships]
+    members_to_inactive.reject!(&:blank?)
+    members_to_inactive.map!{|id| id.to_i}
+
+    members_to_inactive.each do |indiv_id|
+        mem = Membership.where(individual_id: indiv_id, organization_id: @organization.id)[0]
+        mem.active = false
+        mem.save!
+    end
+
+
     # Send Notice: unable to update
     if (!bad_emails.empty?)
          redirect_to edit_organization_path, notice: "Could not update organization."
