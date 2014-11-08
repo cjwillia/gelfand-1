@@ -79,11 +79,12 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1.json
   def update
 
-    # Essentially 4 parts
+    # Essentially 5 parts
     #   Org multiple email add
     #   Org regular multiple add
     #   Org change in model (ie. name, description, etc)
     #   Org head update - allows for adding/deleting org Heads
+    #   Remove members (this just makes Membership inactive)
     #   
     # Using 5 new arrays 
     #   (these are just for add/requesting members)
@@ -252,16 +253,7 @@ class OrganizationsController < ApplicationController
         @org_user.delete
     end
 
-=begin
-
-Notice will be:
-Added: all_new_unique_mem_ids
-Sent notice to: not_in_app's
-Improper emails entered: bad_email's
-  - Emails that didn’t pass validation test
-  - Dont have this yet (Not necessary?)
-=end
-
+    # Send Notice: unable to update
     if (!bad_emails.empty?)
          redirect_to edit_organization_path, notice: "Could not update organization."
          return

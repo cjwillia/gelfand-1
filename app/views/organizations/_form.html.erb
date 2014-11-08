@@ -102,7 +102,7 @@
           <h5>Select name</h5>
 
               <div class="panel ">
-                    <%= f.collection_select :individual_ids, @indivs_org, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+                    <%= f.collection_select :memberships, @organization.get_all_active_individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
               </div>
       </div>
   </div>
