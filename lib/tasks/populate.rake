@@ -177,6 +177,7 @@ namespace :db do
         end
         
         # Have them be members of 0...4 orgs
+        # BUG: user can be added to the same organization twice.
         rand(5).times do
             membership = Membership.new
             org = organizations.sample

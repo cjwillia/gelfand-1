@@ -1,6 +1,8 @@
 class Organization < ActiveRecord::Base
 attr_accessor :new_emails # have this to allow input for multiple emails in orgManage
 
+# BUG: people can be added to organizations twice
+
     # Relationships
     # ------------- 
     belongs_to :contact
