@@ -268,6 +268,24 @@ class OrganizationsController < ApplicationController
         mem.save!
     end
 
+    #---------------------------
+    # Make members active
+    #-----------------------------
+    # format mem_ids_to_reactivate to re-active
+    mem_ids_reactivate = params[:mem_ids_to_reactivate]
+    # nil when no member selected for remove
+    if (mem_ids_reactivate.nil?)
+        mem_ids_reactivate = []
+    end
+    mem_ids_reactivate.reject!(&:blank?)
+    mem_ids_reactivate.map!{|id| id.to_i}
+
+    mem_ids_reactivate.each do |indiv_id|
+        mem = Membership.where(individual_id: indiv_id, organization_id: @organization.id)[0]
+        mem.active = true
+        mem.save!
+    end
+
 
     # Send Notice: unable to update
     if (!bad_emails.empty?)
