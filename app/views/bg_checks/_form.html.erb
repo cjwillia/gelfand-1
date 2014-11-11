@@ -1,20 +1,4 @@
 <%= simple_form_for(@bg_check) do |f| %>
-  <div class="row">
-    <div class="small-12 columns">
-      <% if @bg_check.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@bg_check.errors.count, "error") %> prohibited this bg_check from being saved:</h2>
-
-          <ul>
-          <% @bg_check.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
   <% if current_user.admin? %>
     <div class="row">
       <div class="small-12 columns" id="bg_check_button_select">

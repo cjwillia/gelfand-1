@@ -94,7 +94,11 @@ class BgChecksController < ApplicationController
         format.html { redirect_to bg_check_path(@bg_check), notice: 'Bg check was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { 
+          @issues = @bg_check.issues
+          puts "WENT HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+          render action: 'edit' 
+        }
         format.json { render json: @bg_check.errors, status: :unprocessable_entity }
       end
     end
