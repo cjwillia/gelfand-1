@@ -5,8 +5,30 @@
   <br />
   <div class="row">
       <!-- Filter button -->
-      <div class="small-3 columns">
-            <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">Filter</button><br />
+      <div class="small-4 columns">
+            <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">
+              <% filter = ""
+                if params[:filter] == nil 
+                  filter = "In Progress"
+                elsif params[:filter] == "all"
+                  filter = "All"
+                elsif params[:filter] == "submitted"
+                  filter = "Submitted"
+                elsif params[:filter] == "passed_criminal"
+                  filter = "Criminal Passed"
+                elsif params[:filter] == "passed_child_abuse"
+                  filter = "Child Abuse Passed"
+                elsif params[:filter] == "picked_up"
+                  filter = "Completed"
+                elsif params[:filter] == "has_issues"
+                  filter = "Has Issues"
+                elsif params[:filter] == "in_progress"
+                  filter = "In Progress"
+                elsif params[:filter] == "urgency"
+                  filter = "Urgency"
+                end%>
+                <%= filter %>
+            </button><br />
             <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
               <li><%= link_to "All", params.merge(:filter => :all) %></li>
               <li><%= link_to "Submitted", params.merge(:filter => :submitted) %></li>
@@ -20,7 +42,7 @@
             </ul>
       </div>
       <!-- Search text area -->
-      <div class="small-7 columns">
+      <div class="small-6 columns">
           <%= form_tag bg_checks_path, :method => 'get', :id => "bg_checks_search" do %>
           <%= text_field_tag :search, params[:search] %>
       </div>
