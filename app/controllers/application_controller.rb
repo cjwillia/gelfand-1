@@ -10,6 +10,11 @@ class ApplicationController < ActionController::Base
   	redirect_to root_url
   end
 
+  rescue_from ActiveRecord::RecordNotFound do
+    flash[:notice] = "Sorry, that page does not exist."
+    redirect_to root_url
+  end
+
   # allows additional params on devise signup
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:first_name, :last_name, :profile_name, :email, :password, :password_confirmation, individual_attributes: [:f_name, :l_name, :role]) }

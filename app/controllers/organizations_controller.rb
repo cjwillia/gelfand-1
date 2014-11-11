@@ -222,6 +222,7 @@ class OrganizationsController < ApplicationController
             @membership = Membership.new
             @membership.organization_id = @organization.id
             @membership.individual_id = @indiv.id
+            @membership.active = true
             @membership.save
         #---------------------------------------------------------------------
         
@@ -310,6 +311,6 @@ class OrganizationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def organization_params
-      params.require(:organization).permit(:name, :is_partner, :description, :active, :department, :contact_id, memberships_attributes: [:id, :organization_id, :individual_id, :_destroy])
+      params.require(:organization).permit(:name, :is_partner, :description, :active, :department, :contact_id, memberships_attributes: [:id, :organization_id, :individual_id, :active, :_destroy])
     end
 end
