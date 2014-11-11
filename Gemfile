@@ -35,6 +35,7 @@ gem 'chronic'
 #gem 'mysql2'
 gem 'faker'
 gem 'populator'
+gem 'elastic-beanstalk'
 
 
 group :doc do
@@ -57,6 +58,7 @@ group :production do
     #gem 'pg', '~> 0.17.1'
     #gem 'rails_12factor'
     #gem 'unicorn'
+    #gem 'mysql2'
 #---------------------
 end
 

@@ -183,6 +183,7 @@ namespace :db do
             org = organizations.sample
             membership.individual_id = indiv.id
             membership.organization_id = org.id
+            membership.active = true
             membership.save!
 
 

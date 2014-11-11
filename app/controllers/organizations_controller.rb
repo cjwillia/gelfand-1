@@ -14,11 +14,10 @@ class OrganizationsController < ApplicationController
     # dont show indivs already in org
     @individuals = Individual.alphabetical.reject!{|i| i.organizations.include?(@organization) }
 
-
     # all members of Org currently not an Org head -- sorted by last name
-    @indivs_org = @organization.individuals
+    @indivs_org = @organization.individuals.sort_by{|indiv| indiv.l_name}
     @indivs_curr_org_heads = (@organization.get_org_users.map{|u| u.id}.map{|uid| Individual.where(user_id: uid)[0]}).sort_by {|indiv| indiv.l_name}
-    @non_org_head_members = (@indivs_org - @indivs_curr_org_heads).sort_by {|mem| mem.l_name}
+    @non_org_head_members = (@indivs_org - @indivs_curr_org_heads).sort_by {|indiv| indiv.l_name}
   end
 
   # GET /organizations
@@ -80,11 +79,12 @@ class OrganizationsController < ApplicationController
   # PATCH/PUT /organizations/1.json
   def update
 
-    # Essentially 4 parts
+    # Essentially 5 parts
     #   Org multiple email add
     #   Org regular multiple add
     #   Org change in model (ie. name, description, etc)
     #   Org head update - allows for adding/deleting org Heads
+    #   Remove members (this just makes Membership inactive)
     #   
     # Using 5 new arrays 
     #   (these are just for add/requesting members)
@@ -253,16 +253,22 @@ class OrganizationsController < ApplicationController
         @org_user.delete
     end
 
-=begin
+    #---------------------------
+    # Make members inactive
+    #-----------------------------
+    # format indiv_ids
+    members_to_inactive = params[:organization][:memberships]
+    members_to_inactive.reject!(&:blank?)
+    members_to_inactive.map!{|id| id.to_i}
 
-Notice will be:
-Added: all_new_unique_mem_ids
-Sent notice to: not_in_app's
-Improper emails entered: bad_email's
-  - Emails that didn’t pass validation test
-  - Dont have this yet (Not necessary?)
-=end
+    members_to_inactive.each do |indiv_id|
+        mem = Membership.where(individual_id: indiv_id, organization_id: @organization.id)[0]
+        mem.active = false
+        mem.save!
+    end
 
+
+    # Send Notice: unable to update
     if (!bad_emails.empty?)
          redirect_to edit_organization_path, notice: "Could not update organization."
          return

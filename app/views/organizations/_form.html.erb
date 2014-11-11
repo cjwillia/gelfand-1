@@ -31,8 +31,14 @@
   <!-- Only display options to add people if at org Manage page 
           since this form is also used for org Create page -->
           
+
   <div class="row">
-      <h3>Manage Org head <h3>
+      <div class="small-8 columns">
+        <h3>Manage Org head <h3>
+      </div>
+  </div>
+
+  <div class="row">
       <div class="small-5 columns">
           <h5>Search current members</h5>
           <div class="panel chosen-select-panel">
@@ -65,24 +71,43 @@
   </div>
 
   <div class="row">
-          <h3>Add People to your Organization</h3>
-          <h5>Search by Name</h5>
+    <div class="small-8 columns">
+        <h3>Add People to your Organization</h3>
+    </div>
+  </div>
 
-          <div id="programs-new-orgselect">
-              <div class="small-5 columns panel chosen-select-panel">
+  <div class="row">
+      <div class="small-5 columns">
+          
+          <h5>Search by Name</h5>
+              <div class="panel chosen-select-panel">
                     <!-- Add existing members non-email -->
                     <%= f.collection_select :individual_ids, @individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
               </div>
-          </div>
+      </div>
 
-          <div class="small-5 columns">
-              <!-- Add existing members email; if not in system then send email for them to sign up-->
-              <h5>Add by email</h5>
-              <%= f.text_field :new_emails, :id => "tags" %> 
-          </div>
+      <div class="small-5 columns">
+          <!-- Add existing members email; if not in system then send email for them to sign up-->
+          <h5>Add by email</h5>
+          <%= f.text_field :new_emails, :id => "tags" %> 
+      </div>
+
   </div>
-  <% end %>
 
+  <div class="row">
+    
+      <div class="small-5 columns">
+      <!-- Remove members from org-->
+      <h3>Make members inactive</h3>
+          <h5>Select name</h5>
+
+              <div class="panel ">
+                    <%= f.collection_select :memberships, @organization.get_all_active_individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+              </div>
+      </div>
+  </div>
+
+<% end %> <!-- close condition for: !@individuals.nil? -->
 
   <br>
 
