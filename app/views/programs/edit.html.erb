@@ -1,4 +1,17 @@
 <div class="row">
+    <div class="small-12 columns">
+        <% if @program.errors.any? %>
+            <% @program.errors.full_messages.each do |msg| %>
+                <div data-alert="" class="alert-box alert round">
+                    <%= msg %>
+                    <a href="" class="close">×</a>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+<div class="row">
 	<h1>Manage <%= @program.name %></h1>
 </div>
 
