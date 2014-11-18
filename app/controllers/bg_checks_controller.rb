@@ -35,6 +35,8 @@ class BgChecksController < ApplicationController
           @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
         elsif params[:filter]=="urgency"
           @bg_checks = BgCheck.order_by_urgency @bg_checks
+        elsif params[:filter]=="not_cleared"
+          @bg_checks = BgCheck.joins(:individual).not_cleared.alphabetical
         end
       else
           @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
