@@ -1,19 +1,4 @@
-<div class="row">
-      <div class="small-12 columns">
-        <%= form_for(@organization) do |f| %>
-            <% if @organization.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
-
-              <ul>
-              <% @organization.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-              <% end %>
-              </ul>
-          </div>
-        <% end %>
-    </div>
-</div>
+<%= form_for(@organization) do |f| %>
 
 <div class="row">
     <div class="small-8 columns">

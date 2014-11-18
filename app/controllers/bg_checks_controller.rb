@@ -96,7 +96,6 @@ class BgChecksController < ApplicationController
       else
         format.html { 
           @issues = @bg_check.issues
-          puts "WENT HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
           render action: 'edit' 
         }
         format.json { render json: @bg_check.errors, status: :unprocessable_entity }
