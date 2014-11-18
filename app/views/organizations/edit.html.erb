@@ -1,15 +1,14 @@
+<br>
 <div class="row">
       <div class="small-12 columns">
             <% if @organization.errors.any? %>
-                <div id="error_explanation">
-                  <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
-                  <ul>
-                  <% @organization.errors.full_messages.each do |msg| %>
-                        <li><%= msg %></li>
-                  <% end %>
-                  </ul>
-                </div>
-            <% end %>
+	            <% @organization.errors.full_messages.each do |msg| %>
+	                <div data-alert="" class="alert-box alert round">
+	                    <%= msg %>
+	                    <a href="" class="close">×</a>
+	                </div>
+	            <% end %>
+	        <% end %>
     </div>
 </div>
 

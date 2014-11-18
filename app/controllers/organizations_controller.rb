@@ -119,7 +119,8 @@ class OrganizationsController < ApplicationController
     # if all org_users for remove selected and no one was selected for add
     #     go back to edit page with warning
     if (@indivs_curr_org_heads.length == ou_ids_remove.length and indiv_ids_add.empty?)
-        redirect_to edit_organization_path, notice: "Could not update organization"
+        @organization.errors[:base] << "Could not update organization"
+        render action: 'edit'
         return
     end
     #-----------------------------------------------------------------------------
