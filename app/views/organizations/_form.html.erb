@@ -1,31 +1,53 @@
-<%= form_for(@organization) do |f| %>
-  <% if @organization.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
+<br>
+<div class="row">
+      <div class="small-12 columns">
+        <%= form_for(@organization) do |f| %>
+            <% if @organization.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
 
-      <ul>
-      <% @organization.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+              <ul>
+              <% @organization.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+              </ul>
+          </div>
+        <% end %>
     </div>
-  <% end %>
+</div>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description, :class => "org-text-area" %>
-  </div>
-    <%= f.hidden_field :active, :value => true %>
-  <div class="field">
-    <%= f.label :department %>
-    <%= f.text_field :department %>
-  </div>
-  <br>
-  <br>
+<div class="row">
+    <div class="small-8 columns">
+        <h3>General Info <h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-4 columns">
+        <h5>Description</h5>
+        <div class="field">
+          <%= f.text_field :name %>
+        </div>
+
+        <h5>Department</h5>
+        <div class="field">
+          <%= f.text_field :department %>
+        </div>
+
+    </div>
+
+    <div class="small-7 columns">
+        <h5>Name</h5>
+        <div class="field">
+          <%= f.text_area :description, :class => "org-text-area" %>
+        </div>
+          <%= f.hidden_field :active, :value => true %>
+
+        <br>
+        <br>
+    </div>
+</div>
+
 
   <% if !@individuals.nil? %> 
   <!-- Only display options to add people if at org Manage page 
