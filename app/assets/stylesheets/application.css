@@ -127,7 +127,7 @@ a .large-trash-icon {
 .close_icon{
     pointer-events: none; 
     cursor: default;
-    color: red;
+    color: #e50000;
 }
 
 .check_icon{
