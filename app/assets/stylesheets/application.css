@@ -124,13 +124,13 @@ a .large-trash-icon {
     margin-top: 1.2rem;
 }
 
-.close_icon{
+.close-icon{
     pointer-events: none; 
     cursor: default;
-    color: red;
+    color: #cc0000;
 }
 
-.check_icon{
+.check-icon{
     pointer-events: none; 
     cursor: default;
     color: green;
