@@ -66,7 +66,7 @@ group :development, :test do
 	gem 'factory_girl_rails', '4.2.1'
 	gem 'shoulda'
     gem 'sqlite3'
-    gem 'better_errors', '0.7.0'
+    #gem 'better_errors', '0.7.0'
     gem 'binding_of_caller'
 end
 
@@ -83,6 +83,9 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+#  had to add in gem because it was giving errors
+gem 'responders', '1.1.2'
 
 # Use Foundation for clean CSS/JS
 gem 'foundation-rails', '5.4.3.1'

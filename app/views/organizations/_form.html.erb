@@ -95,16 +95,42 @@
   </div>
 
   <div class="row">
+    <div class="small-8 columns">
+        <h3>Update member status</h3>
+    </div>
+  </div>
+
+  <div class="row">
     
       <div class="small-5 columns">
-      <!-- Remove members from org-->
-      <h3>Make members inactive</h3>
-          <h5>Select name</h5>
+      <!-- Make members inactive -->
+          <h5>Make inactive</h5>
 
               <div class="panel ">
                     <%= f.collection_select :memberships, @organization.get_all_active_individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
               </div>
       </div>
+      <div class="small-5 columns">
+      <!-- make members active from org-->
+          <h5>Inactive members</h5>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th class="text-right">Re-activate?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @organization.get_all_inactive_individuals. each do |indiv| %>
+                        <tr>
+                            <td><%= indiv.name %></td>
+                            <td class="text-right"><%= check_box_tag "mem_ids_to_reactivate[]", indiv.id %> </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+      </div>
+
   </div>
 
 <% end %> <!-- close condition for: !@individuals.nil? -->

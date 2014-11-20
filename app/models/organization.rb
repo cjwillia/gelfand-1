@@ -38,6 +38,10 @@ attr_accessor :new_emails # have this to allow input for multiple emails in orgM
     self.memberships.where(active: true).map{|mems| Individual.find(mems.individual_id) }
   end
 
+  def get_all_inactive_individuals
+    self.memberships.where(active: false).map{|mems| Individual.find(mems.individual_id) }
+  end
+
   def get_membership_size
     self.memberships.length
   end

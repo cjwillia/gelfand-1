@@ -2,7 +2,7 @@
 <% num_stages = 4 %>
 <div class="row">
   <div class="small-9 columns">
-    <h1>My Background Check Status</h1>
+    <h2><%= @bg_check.individual.proper_name %>'s Background Check</h2>
     <br>
   </div>
   <div class="small-3 columns">
@@ -29,18 +29,22 @@
 <!-- i represents which stage (not related to ith element of stages) -->
 <div class="row">
       <div class="small-3 columns text-center">
-        <% if @bg_check.status == 0 %>
+        <% if @bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif @bg_check.status == 0 %>
           <% if @bg_check.issues.active.empty? %>
             <%= fa_icon('ellipsis-h') %>
           <% else %>
             <%= fa_icon('warning', class: 'warning-icon') %>
           <% end %>
         <% else %>
-          <%= fa_icon('check', class: 'check_icon') %>
+          <%= fa_icon('check', class: 'check-icon') %>
         <% end %>
       </div>
       <div class="small-3 columns text-center">
-        <% if @bg_check.status > 0 %>
+        <% if @bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif @bg_check.status > 0 %>
           <% if @bg_check.status == 1 %>
             <% if @bg_check.issues.active.empty? %>
               <%= fa_icon('ellipsis-h') %>
@@ -48,12 +52,14 @@
               <%= fa_icon('warning', class: 'warning-icon') %>
             <% end %>
           <% else %>
-            <%= fa_icon('check', class: 'check_icon') %>
+            <%= fa_icon('check', class: 'check-icon') %>
           <% end %>
         <% end %>
       </div>
       <div class="small-3 columns text-center">
-        <% if @bg_check.status > 1 %>
+        <% if @bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif @bg_check.status > 1 %>
           <% if @bg_check.status == 2 %>
             <% if @bg_check.issues.active.empty? %>
               <%= fa_icon('ellipsis-h') %>
@@ -61,12 +67,14 @@
               <%= fa_icon('warning', class: 'warning-icon') %>
             <% end %>
           <% else %>
-            <%= fa_icon('check', class: 'check_icon') %>
+            <%= fa_icon('check', class: 'check-icon') %>
           <% end %>
         <% end %>
       </div>
       <div class="small-3 columns text-center">
-        <% if @bg_check.status > 2 %>
+        <% if @bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif @bg_check.status > 2 %>
           <% if @bg_check.status == 3 %>
             <% if @bg_check.issues.active.empty? %>
               <%= fa_icon('ellipsis-h') %>
@@ -74,7 +82,7 @@
               <%= fa_icon('warning', class: 'warning-icon') %>
             <% end %>
           <% else %>
-            <%= fa_icon('check', class: 'check_icon') %>
+            <%= fa_icon('check', class: 'check-icon') %>
           <% end %>
         <% end %>
       </div>
