@@ -1,31 +1,52 @@
 <h2>Issues</h2>
 
 <div class="row">
-	<div class="small-7 columns"><div id="current-issues"><%= render @issues.by_relevance %></div></div>
-	<div class="small-5 columns panel">
-		<%= form_for Issue.new, url: "/bg_checks/#{@bg_check.id}/issues", remote: true do |new_issue_f| %>
-			<h3>New Issue</h3>
+	<%= form_for Issue.new, url: "/bg_checks/#{@bg_check.id}/issues", remote: true do |new_issue_f| %>
+		<div class="panel">
+			<div class="row">
+				<div class="small-12 columns"><h3>New Issue</h3></div>
+			</div>
+
+			<!-- hidden field to auto-select the background check id. there is probably a way
+				 to do this in Rails that makes more sense than this -->
 			<div class="hide">
 				<%= new_issue_f.select :bg_check_id, [@bg_check.id] %>
 			</div>
-			<div class="row">	
-				<div class="small-9 columns">
+
+			<div class="row">
+				<div class="small-6 columns">
 					<label>Category</label>
 					<%= new_issue_f.select :category, Issue.all_categories %>
 				</div>
-			</div>
-			<div class="row">
-				<div class="small-12 columns">
+				<div class="small-6 columns">
 					<label>Description</label>
 					<%= new_issue_f.text_area :description %>
 				</div>
 			</div>
+
 			<div class="row">
-				<div class="small-3 columns">
-					<%= new_issue_f.submit "Add an Issue", {class: 'button', style: 'background-color: goldenrod'} %>
+				<div class="small-12 columns">
+					<div class="right">
+						<%= new_issue_f.submit "Add an Issue", {class: 'button small', style: 'background-color: goldenrod'} %>
+					</div>
 				</div>
 			</div>
-		<% end %>
+		</div>
+	<% end %>
+
+</div>
+
+<div class="row">
+	<div class="small-12 columns">
+		<h3>Current Issues</h3>
+		<div id="current-issues"><%= render @issues.active %></div>
 	</div>
+</div>
+
+<div class="row">
+	<div class="small-12 columns">
+		<h3>Resolved Issues</h3>
+		<div id="resolved-issues"><%= render @issues.inactive %></div>
+	</div>	
 </div>
 

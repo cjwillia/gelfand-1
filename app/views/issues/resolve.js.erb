@@ -1,2 +1,2 @@
 $("#issue<%=@issue.id%>").remove();
-$("<%= j(render @issue) %>").appendTo("#current-issues");
+$("<%= j(render @issue) %>").prependTo("#resolved-issues");

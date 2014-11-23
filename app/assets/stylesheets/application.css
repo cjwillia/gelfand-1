@@ -115,7 +115,7 @@ probably stable) */
 /* Icon Classes */
 
 a .large-trash-icon {
-    color: red;
+    color: gray;
     font-size: 2rem;
 }
 .edit-icon {
