@@ -13,9 +13,9 @@
 		<div class="row">
 			<div class="small-6 columns text-center" data-equalizer-watch>
 				<% if issue.active? %>
-					<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button unresolve-button", remote: true} %>
+					<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button small resolve-button", remote: true} %>
 				<% else %>
-					<%= link_to "Unresolve", "issues/unresolve/#{issue.id}", {method: "patch", class: "button resolve-button", remote: true} %>
+					<%= link_to "Unresolve", "issues/unresolve/#{issue.id}", {method: "patch", class: "button small unresolve-button", remote: true} %>
 				<% end %>
 			</div>
 			<div class="small-6 columns text-center" data-equalizer-watch>

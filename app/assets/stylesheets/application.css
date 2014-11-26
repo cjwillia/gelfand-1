@@ -35,18 +35,20 @@ body, html {
 
 .panel.issue {
     border-color: #cc5555;
+    border-width: 2px;
 }
 
 .panel.issue-resolved {
     border-color: #43ac6a;
+    border-width: 2px;
 }
 
 .button.unresolve-button {
-    background-color: #43ac6a;
+    background-color: goldenrod;
 }
 
 .button.resolve-button {
-    background-color: #cc5555;
+    background-color: #43ac6a;
 }
 
 /*bg check status page*/
