@@ -2,10 +2,59 @@ class BgChecksController < ApplicationController
   load_and_authorize_resource
   before_action :set_bg_check, only: [:show, :edit, :update, :destroy]
 
+  def new
+    @bg_check = BgCheck.new
+    @issues = @bg_check.issues
+  end
+
+  def edit
+    @issues = @bg_check.issues
+  end
+
   # GET /bg_checks
   # GET /bg_checks.json
   def index
-    @bg_checks = BgCheck.all
+    if current_user.admin?
+      if params[:search]
+          @bg_checks = BgCheck.joins(:individual).order('l_name, f_name').where('f_name LIKE ? OR l_name LIKE ?', "%#{params[:search]}%", "%#{params[:search]}%")
+      elsif params[:filter]
+        if params[:filter]=="all"
+          @bg_checks = BgCheck.joins(:individual).alphabetical
+        elsif params[:filter]=="submitted"
+          @bg_checks = BgCheck.joins(:individual).submitted.alphabetical
+        elsif params[:filter]=="passed_criminal"
+          @bg_checks = BgCheck.joins(:individual).passed_criminal.alphabetical
+        elsif params[:filter]=="passed_child_abuse"
+          @bg_checks = BgCheck.joins(:individual).passed_child_abuse.alphabetical
+        elsif params[:filter]=="picked_up"
+          @bg_checks = BgCheck.joins(:individual).picked_up.alphabetical
+        elsif params[:filter]=="has_issues"
+          @bg_checks = BgCheck.joins(:individual).has_issues.alphabetical
+        elsif params[:filter]=="in_progress"
+          @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
+        elsif params[:filter]=="urgency"
+          @bg_checks = BgCheck.order_by_urgency @bg_checks
+        elsif params[:filter]=="not_cleared"
+          @bg_checks = BgCheck.joins(:individual).not_cleared.alphabetical
+        end
+      else
+          @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
+      end
+    else
+      redirect_to current_user.individual.bg_check
+    end
+
+
+=begin
+    def self.search(search)
+        if search
+            self.individual
+            where('status LIKE ?', "%#{search}")
+        else
+            scoped # can have all, but scope returns scoped result so can add more to it
+        end
+    end
+=end
   end
 
   # POST /bg_checks
@@ -21,11 +70,19 @@ class BgChecksController < ApplicationController
     respond_to do |format|
       if @bg_check.save
 
-        format.html { redirect_to bg_checks_path, notice: 'Bg check was successfully created.' }
+        format.html { redirect_to bg_check_path(@bg_check), notice: 'Bg check was successfully created.' }
         format.json { render action: 'show', status: :created, location: @bg_check }
       else
         format.html { render action: 'new' }
         format.json { render json: @bg_check.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def show  
+    unless current_user.admin?
+      unless current_user.individual.bg_check.id == @bg_check.id
+        redirect_to '/restricted_access', notice: "Cannot access this background check."
       end
     end
   end
@@ -35,10 +92,13 @@ class BgChecksController < ApplicationController
   def update
     respond_to do |format|
       if @bg_check.update(bg_check_params)
-        format.html { redirect_to bg_checks_path, notice: 'Bg check was successfully updated.' }
+        format.html { redirect_to bg_check_path(@bg_check), notice: 'Bg check was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { 
+          @issues = @bg_check.issues
+          render action: 'edit' 
+        }
         format.json { render json: @bg_check.errors, status: :unprocessable_entity }
       end
     end

@@ -1,56 +1,117 @@
-<div class="row" data-equalizer>
-  <div class="small-2 columns leftNav" data-equalizer-watch>
-      <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
-      <ul class="side-nav">
-        <li><%= link_to 'Create a Program', new_program_path %></li>
-        <li><%= link_to 'Edit Org', edit_organization_path(@organization) %></li>
-        <li><%= link_to 'Back', organizations_path %></li>
-      </ul>
-  </div>
-  <div class="small-6 columns rightContent" data-equalizer-watch>
+<div class="row">
+  <div class="small-8 columns">
+        <h1>  <%= @organization.name %></h1>
+        <h3>General Info</h3>
 
-  <h1>  <%= @organization.name %></h1>
+        Contact <br>
 
-
-  <strong>Description:</strong>
-  <%= @organization.description %>
-
-  <br>
-
-  <strong>Is partner:</strong>
-  <%= @organization.is_partner ? "Yes" : "No"%>
-
-  <br>
-  <br>
-  <div class="Org_Show_Content">
-      <% if @organization.memberships.empty? %>
-               <h3> Currently there are no members.</h3>
-      <% else %>
-              <!-- <div class="OrgShow_title">Manage</div> -->
-              <%= render 'indivs_for_an_org' %>
-      <% end %>
-  </div>
-<br>
-<br>
-    <div class="orgs_actions">  
-          <% if current_user.admin || current_user.is_orgUser_for_specific_org(@organization) %>
-              <%= link_to 'Edit', edit_organization_path(@organization) %> |
-          <% end %>
-      <%= link_to 'My orgs', organizations_path %>
+        <% count = 1 %>
+        <% @organization.get_org_users.each do |ou| %>
+            <%= ou.individual.f_name + ' ' + ou.individual.l_name + ': ' + ou.email%>
+            <!-- add <br> after all emails but last -->
+            <% if count != @organization.get_org_users_emails.length %> ,<br> <% end %>
+        <% count += 1%>
+        <% end %>
     </div>
 
+    <div class="small-4 columns">
+        <div>                
+            <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
+               <%=link_to fa_icon("edit"), edit_organization_path, class:"edit-icon" %>
+            <% end %>
+        </div>
+    </div>
 </div>
 
-      <div class="small-4 columns addMemberPartOfOrgShowPage" data-equalizer-watch>
+<br>
+  
+<div class="row" data-equalizer>
+  <div class="small-12 small-centered columns" data-equalizer-watch>
 
-                    <% if current_user.admin || current_user.is_orgUser_for_specific_org(@organization) %>
-                        <div class="Org_Show_Content">
-                                <h3>Affiliated Programs</h3>
-                                <%= render 'programs_for_an_org' %>
-                        </div>
+    <h5 class="subheading">Description:</h5>
+    <%= @organization.description %>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>Programs <%= @organization.name %> is participating in </h3>
+    <% if current_user.admin? || @organization.users.include?(current_user) %>
+        <%=link_to "Create a Program for this Organization", new_program_path + "?org_id=" + "#{@organization.id}", :class => "button" %>
+    <%end%>
+
+    <br>
+        <% if @organization.affiliated_progs.empty? %>
+            Currently there are no programs available.
+        <% else %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @organization.programs. each do |program| %>
+                        <tr>
+                            <td><%= link_to program.name, program_path(program) %></td>
+                            <td><%= program.start_date.strftime "%m/%d/%y" %></td>
+                            <td><%= program.end_date.strftime "%m/%d/%y" %></td>
+                        </tr>
                     <% end %>
+                </tbody>
+            </table>
+        <% end %>
 
+    <br>
+    <br>
+    <h3>People in the Organization</h3>
+    <% if current_user.admin? or current_user.is_orgUser_for_specific_org(@organization) %>
+        <%= link_to "Add a Member to this Organization", edit_organization_path, :class => "button" %>
+    <%end%>
 
-      </div>
+        <% if @organization.get_all_active_individuals.empty? %>
+            Currently there are no members
+        <% else %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Cleared?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @organization.get_all_active_individuals.sort.each do |indiv| %>
+                        <tr>
+                            <td><!-- check if temp indiv -->
+                                <% if indiv.proper_name.include? "Temp:"%>
+                                Temporary user -- sign up pending
+                                <% else %>
+                                    <%= indiv.proper_name %>
+                                <% end %>
+                            </td>
+                            <td>
+                                <!-- email based on temp creation, since temp created has no actual email -->
+                                <% if indiv.proper_name.include? "Temp:"%>
+                                    <%= indiv.proper_name.slice!(0..(indiv.proper_name.length-8)) %>
 
+                                <% else %>
+                                    <%= User.where(id: indiv.user_id)[0].email %>
+                                <% end %>
+                            </td>
+                            <td><!-- icon based on bg_check status -->
+                                <% if !indiv.bg_check.nil? and indiv.bg_check.status == 4 %>
+                                    <%=fa_icon("check", class: "check-icon")%>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        <% end %>    
+    <br />
+
+</div>
 </div>

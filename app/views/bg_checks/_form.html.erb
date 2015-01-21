@@ -1,54 +1,46 @@
 <%= simple_form_for(@bg_check) do |f| %>
-  <div class="row">
-    <div class="small-12 columns">
-      <% if @bg_check.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@bg_check.errors.count, "error") %> prohibited this bg_check from being saved:</h2>
-
-          <ul>
-          <% @bg_check.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
   <% if current_user.admin? %>
     <div class="row">
-      <div class="small-12 columns">
+      <div class="small-12 columns" id="bg_check_button_select">
         <div class="field">
-          <%= f.label :status %><br>
+          <p>Status</p>
 
               <%= f.radio_button :status, 0, :checked => @bg_check.status==0 %>
-              <%= f.label :status, "Requested", :value => 0  %>
+              <%= f.label :status, "Requested", :value => 0, :class => bg_check_button_class(@bg_check, 0)  %>
 
               <%= f.radio_button :status, 1, :checked => @bg_check.status==1 %>
-              <%= f.label :status, "Criminal Passed", :value => 1 %>
+              <%= f.label :status, "Submitted", :value => 1, :class => bg_check_button_class(@bg_check, 1) %>
 
               <%= f.radio_button :status, 2 , :checked => @bg_check.status==2 %>
-              <%= f.label :status, "Child Abuse Passed", :value => 2 %>
+              <%= f.label :status, "Criminal Passed", :value => 2, :class => bg_check_button_class(@bg_check, 2) %>
               
               <%= f.radio_button :status, 3, :checked => @bg_check.status==3 %>
-              <%= f.label :status, "Under Review", :value => 3 %>
+              <%= f.label :status, "Child Abuse Passed", :value => 3, :class => bg_check_button_class(@bg_check, 3) %>
 
               <%= f.radio_button :status, 4, :checked => @bg_check.status==4 %>
-              <%= f.label :status, "Not Cleared", :value => 4 %>
+              <%= f.label :status, "Picked Up/Mailed", :value => 4, :class => bg_check_button_class(@bg_check, 4) %>
 
               <%= f.radio_button :status, 5, :checked => @bg_check.status==5 %>
-              <%= f.label :status, "Expired", :value => 5 %>
+              <%= f.label :status, "Not Cleared", :value => 5, :class => bg_check_button_class(@bg_check, 5) %>
         </div>  
       </div>
     </div>
+
+    <br />
+
     <div class="row" id="dates">
-      <div class="small-6 columns">
-          <%= f.input :criminal_date, :label => "Criminal Date", :as => :string, :input_html => {:class => "datepicker"} %>   
+      <div class="small-4 columns">
+          <%= f.input :criminal_date, :label => "Criminal Date", :as => :string, :input_html => {:class => "datepicker"}%>   
       </div>
-      <div class="small-6 columns">
-          <%= f.input :child_abuse_date, :label => "Child Abuse Date", :as => :string, :input_html => {:class => "datepicker"} %>   
+      <div class="small-4 columns">
+          <%= f.input :child_abuse_date, :label => "Child Abuse Date", :as => :string, :input_html => {:class => "datepicker"}%>   
+      </div>
+      <div class="small-4 columns">
       </div>
     </div>
+
+
+
   <% elsif current_user.member?%>
     <%= f.hidden_field :status, :value => 0, :readonly => true %>
   <% end %>
@@ -56,11 +48,15 @@
     <div class="actions">
       <div class="small-12 columns">
         <% if current_user.admin? %>
-          <%= f.submit :class => 'button'%>
+          <%= f.submit 'Update', :class => 'button'%>
         <% else %>
-          <%= f.submit "Continue", :class => "button" %>
+          <%= f.submit "Start", :class => "button" %>
         <% end %>
       </div>
     </div>
   </div>
 <% end %>
+<% if current_user.admin? %>
+  <div class="row"><%= render "issues_editor" %></div>
+<% end %>
+<div id="test"></div>

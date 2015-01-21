@@ -1,53 +1,37 @@
 <div class="row" data-equalizer>
-  <div class="small-2 columns leftNav" data-equalizer-watch>
-    <%= render 'sidebar' %>
-  </div>
-  <div class="small-10 columns rightContent" data-equalizer-watch>
-      <h1>Organization home</h1>
-  <br>
-      <% if current_user.admin %>
-                    <table id="org_home_table">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Is a partner</th>
-                          <th>Active</th>
-                          <th>Org head</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <% @organizations.each do |org|  %>
-                        <tr class="rows_in_admin_org_home"><td><%= link_to org.name, org %> </td>
-                            <td><%= org.is_partner ? "Yes" : "No" %></td>
-                            <td><%= org.active ? "Yes" : "No" %></td> 
-                            <% orgUser = OrgUser.for_organization(org).first %>
-
-                            <% if orgUser.nil? %>
-                                <td> N/A </td>
-                            <% else %>
-                                <% indiv = orgUser.user.individual %>
-                                <td><%= link_to indiv.f_name, indiv %></td>
-                                
-                                 <td class="removeOrgUser"><%= image_tag('removeOrgUser_2.png', size: "75x30", alt: "Remove?", :class => "ButtonRemoveOrgUser")   %>
-                                </td>
-                                <td style="display:none;">
-<%= simple_form_for OrgUser.new, :html => {:method => 'post'} do |f| %> 
-    <%= f.input :organization_id, :as => :hidden, :input_html => { :value => org.id } %>
-    <%= f.input :user_id, :label => "Create a new Org Admin:", :collection => @names_from_users %>
-     <%= f.button :submit, :name => "fromOrgShowPage", :value => "Add", :id => "addingFormButton" %>
-<% end %>
-                                </td>
-                            <% end %>                           
-                            <td class="row_actions"><%= link_to "#{image_tag('pencil_edit.png', size: "20x20")}".html_safe, edit_organization_path(org) %></td>
-                        </tr>
-                      <% end %>
-                    </tbody>
-                   </table>   
-        <% elsif current_user.member %>  
-
-            <%= render 'org_home_for_regular_user' %>
-        
+  <div class="small-12">
+    <% if current_user.admin %>
+      <h1>Organizations</h1>
+      <table id="org_home_table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Active</th>
+            <th>Contact</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @organizations.each do |org|  %>
+          <tr class="rows_in_admin_org_home"><td><%= link_to org.name, org %> </td>
+              <td><%= org.active ? "Yes" : "No" %></td> 
+              <% orgUser = OrgUser.for_organization(org).first %>  
+              <% if orgUser.nil? %>
+                  <td>N/A</td>
+              <% else %>
+                  <td><%= orgUser.user.email %></td>
+              <% end %>
+              <td class="row_actions"><%= link_to "Edit", edit_organization_path(org) %></td>
+          </tr>
         <% end %>
+      </tbody>
+     </table>   
+    <% elsif current_user.member %>  
+
+        <h1>Whoa!</h1>
+        <p>It looks like you don't have permission to view this page.</p>
+    
+    <% end %>
     
    </div>
  </div>

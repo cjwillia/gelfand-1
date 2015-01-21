@@ -6,8 +6,13 @@ class ApplicationController < ActionController::Base
 
   # below makes access denied errors more user friendly
   rescue_from CanCan::AccessDenied do |exception|
-  	flash[:error] = "Sorry, you do not have permission to view this page."
+  	flash[:error] = "Sorry, you do not have permission to view that page."
   	redirect_to root_url
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do
+    flash[:notice] = "Sorry, that page does not exist."
+    redirect_to root_url
   end
 
   # allows additional params on devise signup
@@ -20,5 +25,17 @@ class ApplicationController < ActionController::Base
     return nil if string.blank?
     Chronic.parse(string).to_date
   end
-  
+
+  def after_sign_in_path_for(resource)
+    #flash[:notice] = "Signed In Successfully"
+    bg_c = resource.individual.bg_check
+    if (resource.admin)
+        bg_checks_path
+    elsif (bg_c.nil?)
+        new_bg_check_path
+    else
+        bg_check_path(bg_c)     
+    end  
+  end
+
 end

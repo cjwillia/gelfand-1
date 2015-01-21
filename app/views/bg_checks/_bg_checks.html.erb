@@ -1,0 +1,127 @@
+  <div class="row panel">
+    <div class="small-3 small-offset-1 columns">
+      <label><strong>Name</strong></label>
+    </div>
+    <div class="small-2 columns text-center">
+      <label><strong>Submitted</strong></label>
+    </div>
+    <div class="small-2 columns text-center">
+      <label><strong>Criminal Passed</strong></label>
+    </div>
+    <div class="small-2 columns text-center">
+      <label><strong>Child Abuse Passed</strong></label>
+    </div>
+    <div class="small-2 columns text-center">
+      <label><strong>Picked Up/Mailed</strong></label>
+    </div>
+  </div>
+  <br />
+  <% count = 0 %>
+  <% @bg_checks.each do |bg_check| %>
+    <% count += 1 %>
+    <div id="bg_check<%=count-1%>" class="row">
+      <div id="toggler<%=count%>" class="small-1 column text-right issues-toggler">
+        <p class="closed-arrow"><%= fa_icon('angle-right') %></p>
+        <p class="open-arrow"><%= fa_icon('angle-down') %></p>
+      </div>
+      <div class="small-3 columns">
+        <%= link_to bg_check.individual.name, bg_check %>
+      </div>
+      <div class="small-2 columns text-center">
+        <% if bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif bg_check.status == 0 %>
+          <% if bg_check.issues.active.empty? %>
+            <%= fa_icon('ellipsis-h') %>
+          <% else %>
+            <%= fa_icon('warning', class: 'warning-icon') %>
+          <% end %>
+        <% else %>
+          <%= fa_icon('check', class: 'check-icon') %>
+        <% end %>
+      </div>
+      <div class="small-2 columns text-center">
+        <% if bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif bg_check.status > 0 %>
+          <% if bg_check.status == 1 %>
+            <% if bg_check.issues.active.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check-icon') %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="small-2 columns text-center">
+        <% if bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif bg_check.status > 1 %>
+          <% if bg_check.status == 2 %>
+            <% if bg_check.issues.active.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check-icon') %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="small-2 columns text-center">
+        <% if bg_check.status == 5 %>
+          <%= fa_icon('close', class: 'close-icon') %>
+        <% elsif bg_check.status > 2 %>
+          <% if bg_check.status == 3 %>
+            <% if bg_check.issues.active.empty? %>
+              <%= fa_icon('ellipsis-h') %>
+            <% else %>
+              <%= fa_icon('warning', class: 'warning-icon') %>
+            <% end %>
+          <% else %>
+            <%= fa_icon('check', class: 'check-icon') %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="hiddenpanel<%=count%>" class="hide bg-check-index-issue">
+      <div class="row">
+        <div class="small-12 columns"> 
+          <% if !bg_check.issues.active.empty? %>
+            <strong>Issue(s)</strong>
+            <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% bg_check.issues.active.each do |issue| %>
+                <tr>
+                  <td>
+                    <%=issue.category%>
+                  </td>
+                  <td>
+                    <%=issue.description%>
+                  </td>
+                  <td><%= link_to "Resolve", "bg_checks/#{bg_check.id}/issues/resolve/#{issue.id}", {method: "patch", class: "button unresolve-button"} %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+            </table>
+          <% else %>
+            <p>There are no issues with this background check</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+  
+  <% end %>

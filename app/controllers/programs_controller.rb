@@ -2,28 +2,47 @@ class ProgramsController < ApplicationController
   load_and_authorize_resource
   before_action :set_program, only: [:edit, :update, :destroy]
 
-def new
-  @program = Program.new
-  @contact = Contact.new
-end
+  def new
+    @program = Program.new
+    if params[:org_id].nil?
+      redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
+    elsif current_user.organizations.include?(Organization.find(params[:org_id])) || current_user.admin?
+      @program.organizations << Organization.find(params[:org_id])
+    else
+      redirect_to "/restricted_access", notice: "Must be an organization leader and create from organization page."
+    end
+  end
 
-def individuals_list
-  @program = Program.find(params[:id])
-  @cleared = @program.cleared_participants
-  @not_cleared = @program.uncleared_participants
-end
+  # POST /programs
+  # POST /programs.json
+  def create
+    @program = Program.new(program_params)
+    if @program.save
+      redirect_to @program, notice: "Program created successfully"
+    else
+      render action: 'new'
+    end
+  end
 
-def ongoing
-  @ongoing = Program.current
-end
+  # These controller actions are probably deprecated. Made them a while back -Cory
 
-def completed
-  @completed = Program.completed
-end
+  # def individuals_list
+  #   @program = Program.find(params[:id])
+  #   @cleared = @program.cleared_participants
+  #   @not_cleared = @program.uncleared_participants
+  # end
 
-def upcoming
-  @upcoming = Program.upcoming
-end
+  # def ongoing
+  #   @ongoing = Program.current
+  # end
+
+  # def completed
+  #   @completed = Program.completed
+  # end
+
+  # def upcoming
+  #   @upcoming = Program.upcoming
+  # end
 
   # GET /programs
   # GET /programs.json
@@ -38,36 +57,40 @@ end
     @affiliation = Affiliation.new
   end
 
-  # POST /programs
-  # POST /programs.json
-  def create
-    @program = Program.new(program_params)
-    @contact = Contact.new(contact_params)
-    @contact.save!
-    @program.contact_id = @contact.id
-    respond_to do |format|
-      if @program.save        
-        format.html { redirect_to @program, notice: 'Program was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @program }
-      else
-        @contact.delete
-        format.html { render action: 'new' }
-        format.json { render json: @program.errors, status: :unprocessable_entity }
-      end
-    end
+  def edit
+    if @program.managers.include?(current_user) || current_user.admin?
+      @orgs = Organization.alphabetical.reject!{|o| o.programs.include?(@program)}
+    else
+      redirect_to "/restricted_access", notice: "You must be running an organization that manages a program to edit it."
+    end    
   end
 
-  # PATCH/PUT /programs/1
-  # PATCH/PUT /programs/1.json
   def update
-    respond_to do |format|
-      if @program.update(program_params)
-        format.html { redirect_to @program, notice: 'Program was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @program.errors, status: :unprocessable_entity }
+    # Grab the new people and organization ids, clear blank entries, and add them to the program here.
+    # (I don't know why the chosen select sends an empty string first index. Maybe there's a way 
+    # to fix it client-side to clean this up?)
+
+    @newparticipants = params[:program][:individual_ids].reject!(&:blank?)
+    @neworgs = params[:program][:organization_ids].reject!(&:blank?)
+
+    @newparticipants.each do |i|
+      ind = Individual.find(i)
+      unless @program.individuals.include?(ind)
+        @program.individuals << ind
       end
+    end
+
+    @neworgs.each do |o|
+      org = Organization.find(o)
+      unless @program.organizations.include?(org)
+        @program.organizations << org
+      end
+    end
+
+    if @program.update(program_params)
+      redirect_to @program, notice: 'Program was successfully updated.'
+    else
+      render action: 'edit'
     end
   end
 
@@ -89,10 +112,11 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def program_params
-      params.require(:program).permit(:name, :description, :start_date, :end_date, :cmu_facilities, :off_campus_facilities, :num_minors, :num_adults_supervising, :irb_approval, :contact_id, affiliations_attributes: [:id, :organization_id, :program_id, :description, :followed_process, :_destroy])
+      params.require(:program).permit(:name, :description, :start_date, :end_date, :cmu_facilities, :off_campus_facilities, :num_minors, :num_adults_supervising, :irb_approval, :contact_id, :organizations, :organization_ids, :individual_ids, affiliations_attributes: [:id, :organization_id, :program_id, :description, :followed_process, :_destroy])
     end
 
-    def contact_params
-      params.require(:contact).permit(:title, :email, :street, :street2, :phone, :zip, :city, :state, :nickname, :notes)
+    def affiliations_params
+      params.require(:affiliations).permit(:organization_ids)
     end
+
 end

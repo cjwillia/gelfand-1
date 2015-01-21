@@ -1,4 +1,4 @@
-<h3>Congratulations!</h3>
+<h4>Congratulations!</h4>
 
 <p>You have completed all the necessary requirements for background checks and are in accordance with Carnegie Mellon University's policy to work with minors.</p>
 
@@ -8,4 +8,4 @@
 
 <p>Your background check is valid for 3 years following the approval of your child abuse clearance. Once your background check expires you will need to complete the process again.<br></p>
 
-<p><strong>Background Check Expiration Date: <% b = @bg_check.child_abuse_date>>36%><%=b.strftime("%m/%d/%Y")%></strong></p>
+<p><strong>Background Check Expiration Date: <%= @bg_check.child_abuse_date%></strong></p>

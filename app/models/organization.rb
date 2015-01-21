@@ -1,4 +1,7 @@
 class Organization < ActiveRecord::Base
+attr_accessor :new_emails # have this to allow input for multiple emails in orgManage
+
+# BUG: people can be added to organizations twice
 
     # Relationships
     # ------------- 
@@ -30,6 +33,14 @@ class Organization < ActiveRecord::Base
   def get_all_individuals
     self.memberships.map{|mems| Individual.find(mems.individual_id) }
   end
+  
+  def get_all_active_individuals
+    self.memberships.where(active: true).map{|mems| Individual.find(mems.individual_id) }
+  end
+
+  def get_all_inactive_individuals
+    self.memberships.where(active: false).map{|mems| Individual.find(mems.individual_id) }
+  end
 
   def get_membership_size
     self.memberships.length
@@ -38,7 +49,6 @@ class Organization < ActiveRecord::Base
   def is_member?(ind)
     self.individuals.map(&:id).member?(ind)
   end
-
 
     def indivs_not_already_part_of_org
         Individual.all - self.get_all_individuals   
@@ -51,4 +61,15 @@ class Organization < ActiveRecord::Base
   def programs_not_already_part_of_org
       Program.all - self.affiliated_progs
   end
+
+  def get_org_users_emails
+      org_users = Organization.where(name: self.name)[0].org_users
+      return org_users.map{|ou| User.where(id: ou.user_id)[0].email}
+  end
+
+  def get_org_users
+      org_users = Organization.where(name: self.name)[0].org_users
+      return org_users.map{|ou| User.where(id: ou.user_id)[0]}
+  end
 end
+

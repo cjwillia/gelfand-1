@@ -1,0 +1,4 @@
+$("<%= j(render @issue) %>").prependTo("#current-issues");
+$("#issue_description").val("");
+$("#issue_category").val("");
+$('#notice').html("Issue Created").slideDown(500).delay(5000).fadeOut();

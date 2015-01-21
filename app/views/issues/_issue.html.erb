@@ -1,0 +1,28 @@
+<div id="issue<%= issue.id %>" class="panel issue<%unless issue.active?%>-resolved<%end%>">
+	<div class="row">
+		<div class="small-12 columns">
+			<h4><%= issue.category %> <%unless issue.active?%><span style="color:#43ac6a">(Resolved)</span><%end%></h4>
+		</div>
+	</div>
+	<div class="row" data-equalizer>
+		<div class="row">
+			<div class="small-10 small-centered columns" data-equalizer-watch>
+				<p class="panel callout"><%= issue.description %></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="small-6 columns text-center" data-equalizer-watch>
+				<% if issue.active? %>
+					<%= link_to "Resolve", "issues/resolve/#{issue.id}", {method: "patch", class: "button small resolve-button", remote: true} %>
+				<% else %>
+					<%= link_to "Unresolve", "issues/unresolve/#{issue.id}", {method: "patch", class: "button small unresolve-button", remote: true} %>
+				<% end %>
+			</div>
+			<div class="small-6 columns text-center" data-equalizer-watch>
+				<%= link_to "issues/destroy/#{issue.id}", {method: "delete", remote: true} do %>
+					<%= fa_icon('trash', class: 'large-trash-icon') %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

@@ -8,6 +8,7 @@ class Individual < ActiveRecord::Base
     has_many :participants
     has_many :programs, through: :participants
     has_one :bg_check
+    has_many :issues, through: :bg_check
     belongs_to :user
 
 
@@ -15,7 +16,7 @@ class Individual < ActiveRecord::Base
     validates :l_name, :presence => true
 
     # TBD by future ERD
-    validates :role, :presence => true, :numericality => {:only_integer => true, :less_than_or_equal_to => 2, :greater_than_or_equal_to => 0}
+    validates :role, :presence => true, :numericality => {:only_integer => true, :less_than_or_equal_to => 3, :greater_than_or_equal_to => 0}
 
 
     # Callbacks
@@ -25,16 +26,18 @@ class Individual < ActiveRecord::Base
     # Scopes
     # ------
     default_scope { where(active: true) }
-    scope :alphabetical, -> { order('l_name') }
-    scope :alpha_by_first, -> { order('f_name') }
+    scope :alphabetical, -> { order('l_name, f_name') }
+    scope :alpha_by_first, -> { order('f_name, l_name') }
     scope :students, -> { where(role: 0) }
     scope :faculty, -> { where(role: 1) }
-    scope :off_campus, -> { where(role: 2) }
+    scope :staff, -> { where(role: 2) }
+    scope :contractor, -> { where(role: 3)}
     scope :inactive, -> { where(active: false) }
 
     # Select Lists
     # -------
-    ROLES_LIST = [["Student", 0],["Staff", 1],["Faculty", 2]]
+
+    ROLES_LIST = [["CMU Student", 0],["CMU Faculty", 1],["CMU Staff", 2],["External Contractor", 3]]
 
     # Class Methods
     # -------------
@@ -44,11 +47,13 @@ class Individual < ActiveRecord::Base
             when 0
                 return "Student"
             when 1
-                return "Faculty"
+                return "Staff"
             when 2
-                return "Off-Campus"
+                return "Faculty"
+            when 3
+                return "External Contractor"
             else
-                return "attr_error"
+                return "Unknown"
     	end
     end
 
@@ -65,6 +70,10 @@ class Individual < ActiveRecord::Base
             return self.bg_check.complete?
         end
         return false
+    end
+
+    def days_till_program
+        days = self.programs.map{|p| Date.today - p.start_date}.min
     end
 
     # Private Methods

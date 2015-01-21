@@ -1,23 +1,61 @@
 <div class="row" data-equalizer>
-  <div class="small-2 columns leftNav" data-equalizer-watch>
-    <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
-  </div>
 
-  <div class="small-10 columns rightContent" data-equalizer-watch>
+	<% if (current_user != nil) && current_user.admin? %>
+		<!-- No code -->
+	<% elsif (current_user != nil) && current_user.member? %>
+		<!-- No code -->
+	<% else %>
+		<div class="small-8 columns">
+			<h2>Help provide a safe and secure environment for minors</h2>
+			<div class="row">
+				<div class="small-2 columns">
+					<img src="<%= asset_path( 'children-icon.png' ) %>">
+				</div>
+				<div class="small-10 columns">
+					<p>The purpose of this registration system is to ensure the safety and well-being of minors while setting high standards to encourage the pursuit of excellence in our engagement, outreach, and service to the community. </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-2 columns">
+					<img src="<%= asset_path( 'form-icon.png' ) %>">
+				</div>
+				<div class="small-10 columns">
+					<p>Organizations must register each program that they conduct with the Office for the Protection of Children and receive approval prior to any interactions with minors.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-2 columns">
+					<img src="<%= asset_path( 'check-icon.png' ) %>">
+				</div>
+				<div class="small-10 columns">
+					<p>All faculty, staff, students, contractors, and volunteers must satisfy all requirements of applicable federal, state, and local laws, concerning background checks or other clearances before interacting with minors.</p>
+				</div>
+			</div>
+		</div>
+		<div class="small-4 columns">
+			<h1>Sign Up</h1>
+			<p>Please use your official andrew email address if you are affiliated with Carnegie Mellon University.</p>
+			<%= form_for(:user, :url => user_registration_path) do |f| %>
+				<%= f.fields_for :individual_attributes do |individual_f| %>
+					<div class="row">
+						<div class="small-6 columns"><%= individual_f.text_field :f_name, :placeholder => "First Name" %></div>
+						<div class="small-6 columns"><%= individual_f.text_field :l_name, :placeholder => "Last Name" %></div>
+					</div>
+					<div class="row"><div class="small-12 columns"><%= f.email_field :email, :placeholder => "Email" %></div></div>
+					<div class="row">
+						<div class="small-6 columns"><%= f.password_field :password, :placeholder => "Password" %></div>
+						<div class="small-6 columns"><%= f.password_field :password, :placeholder => "Confirm Password" %></div>
+					</div>
+					<div class="row">
+						<div class="small-12 columns"><%= individual_f.select :role, Individual::ROLES_LIST, :include_blank => "Which role describes you best?" %></div>
+					</div>
 
-		<% if (current_user != nil) && current_user.admin? %>
-			<%= render 'home_for_admin' %>
-		<% elsif (current_user != nil) && current_user.member? %>
-			<h3> Welcome back to the Gelfand Center! </h3>
-			Here you can:	<br>
-				- track your background check <br>
-				- create/manage your organization <br>
-				- add individuals to your organization <br>
-		<% else %>
-			<h3> Welcome to the Gelfand Center! </h3>
-		<% end %>
-
-  </div>
+					<br />
+					<%= f.submit 'Create Account', :class => "button" %>
+				<% end %>
+			<% end %>
+		</div>
+	<% end %>
 
 </div>
 

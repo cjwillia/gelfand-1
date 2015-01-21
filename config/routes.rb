@@ -1,5 +1,8 @@
 Gelfand::Application.routes.draw do
-
+  post "bg_checks/:bg_id/issues" => 'issues#create', :as => "issue_create"
+  patch "bg_checks/:bg_id/issues/resolve/:id" => 'issues#resolve', :as => "issue_resolve"
+  patch "bg_checks/:bg_id/issues/unresolve/:id" => 'issues#unresolve', :as => "issue_unresolve"
+  delete "bg_checks/:bg_id/issues/destroy/:id" => 'issues#destroy', :as => "issue_destroy"
   #Programs Routes
   get 'programs/:id/individuals_list' => 'programs#individuals_list'
   get 'programs/completed' => 'programs#completed'
@@ -25,6 +28,8 @@ Gelfand::Application.routes.draw do
 
   resources :bg_checks 
 
+  get 'signed_up_confirm' => "home#signed_up_confirm", :as => :signed_up_confirm
+  get 'restricted_access' => "home#restricted_access", :as => :restricted_access
   #match 'organizations/overview' => 'organizations#overview', :via => [:get], :as => :org_overview
 
   # below is so I can add the 'delete_multiple' action and url along with the regular 7 we get from 
@@ -36,7 +41,7 @@ Gelfand::Application.routes.draw do
     end
   end
 
-    # need these 2 routes so do not receive GET or POST error for routes when creating an affiliation
+  # need these 2 routes so do not receive GET or POST error for routes when creating an affiliation
   get 'affiliations', to: 'affiliations#index'
   post 'affiliations', to: 'affiliations#create'
 
@@ -46,10 +51,7 @@ Gelfand::Application.routes.draw do
   # need this so can delete orgUser
   resources :org_users
   
-
-  # this route is for the form in Org show page
-  match '/organization_mailers',     to: 'organizations#send_sign_up_notice_if_no_indiv_exists',  via: 'post'
-
+  # these routes are for contact form
   match '/mailers',     to: 'mailers#new',             via: 'get'
   resources "mailers", only: [:new, :create]
 
@@ -59,7 +61,7 @@ Gelfand::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "my_devise/registrations"} 
   root :to => "home#index"
 
-
+  get ':action' => 'static#:action' 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

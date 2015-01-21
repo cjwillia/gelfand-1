@@ -1,11 +1,26 @@
-
-<div class="row" data-equalizer>
-    <div class="small-2 columns leftNav" data-equalizer-watch>
-        <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
-    </div>
-    <div class="small-10 columns rightContent" data-equalizer-watch>
-        <h1>Updating <%= @bg_check.humanize_name %>'s Background Check</h1>
-        <p>This background check was started on <%= @bg_check.date_requested.strftime("%m/%d/%Y") %></p>
-        <%= render 'form' %>
+<br>
+<div class="row">
+    <div class="small-12 columns">
+        <% if @bg_check.errors.any? %>
+            <% @bg_check.errors.full_messages.each do |msg| %>
+                <div data-alert="" class="alert-box alert round">
+                    <%= msg %>
+                    <a href="" class="close">×</a>
+                </div>
+            <% end %>
+        <% end %>
     </div>
 </div>
+<div class="row">
+    <div class="small-12 small-centered columns">
+        <h1>Update <%= @bg_check.humanize_name %>'s Background Check</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="small-12 columns">
+        <p>Background check created on: <%= @bg_check.date_requested.strftime("%Y-%m-%d") %></p>
+    </div>
+</div>
+<%= render 'form' %>
+
+

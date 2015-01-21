@@ -3,10 +3,11 @@ class BgCheck < ActiveRecord::Base
     # Relationships
     # -------------
     belongs_to :individual
+    has_many :issues
     
 	# Validations
 	# -----------
-  	validates :status, :numericality => {:only_integer => true, :less_than_or_equal_to => 5, :greater_than_or_equal_to => 0}
+  	validates :status, :numericality => {:only_integer => true, :less_than_or_equal_to => 6, :greater_than_or_equal_to => 0}
     validates :individual_id, :presence => true, :numericality => {:only_integer => true, :greater_than_or_equal_to => 0 }
     validates_date :date_requested, :allow_blank => true, :on_or_before => :today
     validates_date :criminal_date, :after => :date_requested, :allow_blank => true
@@ -19,34 +20,42 @@ class BgCheck < ActiveRecord::Base
 
     # Scopes
     # ------
+    scope :alphabetical, -> {order('l_name, f_name')}
     scope :requested, -> { where('status = ?', 0) }
-    scope :passed_criminal, -> { where('status = ?', 1) }
-    scope :passed_child_abuse, -> { where('status = ?', 2) }
-    scope :criminal_failed, -> { where('status = ?', 3) }
-    scope :not_cleared, -> { where('status = ?', 4) }
+    scope :submitted, -> { where('status = ?', 1) }
+    scope :passed_criminal, -> { where('status = ?', 2) }
+    scope :passed_child_abuse, -> { where('status = ?', 3) }
+    scope :picked_up, -> { where('status = ?', 4) }
+    scope :not_cleared, -> { where('status = ?', 5) }
     scope :expired, -> { where('bg_checks.child_abuse_date <= ?', Date.today<<36)}
+    scope :has_issues, ->{ joins(:issues).group('bg_checks.id').merge(Issue.active).having('count(issues.id) > 0')}
+    scope :in_progress, -> { where('status < ?', 4)}
 
+    # Class meethods
+    # ----------------
+    def self.order_by_urgency bg_checks
+        checks = bg_checks.delete_if {|bg_c|bg_c.individual.days_till_program==nil||bg_c.individual.days_till_program<0}
+        checks = checks.sort {|x,y|x.individual.days_till_program <=> y.individual.days_till_program}
+    end
 
-   	# Class Methods
-   	# -------------
-
-   	def complete?
-   		return self.status == 2
-   	end
+   	# Instance Methods
+   	# ----------------
 
     def format_status
         case self.status
             when 0
                 return "Requested"
             when 1
-                return "Criminal Passed"
+                return "Submitted"
             when 2
-                return "Child Abuse Passed"
+                return "Criminal Passed"
             when 3
-                return "Criminal Failed, Under Review"
+                return "Child Abuse Passed"
             when 4
-                return "Not Cleared"
+                return "Picked Up/Mailed"
             when 5
+                return "Not Cleared"
+            when 6
                 return "Expired"
             else
                 return "attr_error"
@@ -72,17 +81,19 @@ class BgCheck < ActiveRecord::Base
 
     # Method to update the status of a bg_check if the date is updated
     def auto_update_status
-            if self.child_abuse_date
-                if Date.today > self.child_abuse_date >> 36
-                    self.status = 5
-                else
-                    self.status = 2
-                end
-            elsif self.criminal_date
-                self.status = 1
-            else
+        if self.child_abuse_date
+            if self.status < 3
+                self.status = 3
+            end
+        elsif self.criminal_date
+            if self.status < 2
+                self.status = 2
+            end
+        else
+            unless self.status
                 self.status = 0
             end
+        end
     end
 
 end

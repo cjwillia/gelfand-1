@@ -1,21 +1,26 @@
+<br>
+<div class="row">
+      <div class="small-12 columns">
+            <% if @organization.errors.any? %>
+	            <% @organization.errors.full_messages.each do |msg| %>
+	                <div data-alert="" class="alert-box alert round">
+	                    <%= msg %>
+	                    <a href="" class="close">×</a>
+	                </div>
+	            <% end %>
+	        <% end %>
+    </div>
+</div>
 
 <div class="row" data-equalizer>
-  <div class="small-2 columns leftNav" data-equalizer-watch>
-      <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
-  </div>
-
-  <div class="small-10 columns rightContent" data-equalizer-watch>
-		<h1>Editing: <%= @organization.name %> </h1>
-		
-		<div class="org_form">
-			<%= render 'form' %>
-		</div>
-
+  <div class="small-12 small-centered columns" data-equalizer-watch>
+		<h1>Manage <%= @organization.name %> </h1>
 		<br>
 
-		<div class="orgs_actions">
-			<%= link_to 'Back', @organization %> |
-			<%= link_to 'My orgs', organizations_path %>
-		</div>
+			<%= render 'form' %>
+
+		<br />
+
 	</div>
+
 </div>

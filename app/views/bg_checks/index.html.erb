@@ -1,101 +1,64 @@
-<div class="row" data-equalizer>
-  <div class="small-2 columns leftNav"  data-equalizer-watch>
-    <img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
-     <ul class="side-nav">
-      <%if current_user.admin%>
-      <%else%>
-        <li><a href="http://www.cmu.edu/gelfand/clearance-forms/clearance-faq.html" target="_blank">FAQ</a>
-        </li>
-          
-        <li>
-          <% if current_user.individual.bg_check.nil? %> 
-              <%= link_to 'Start Background Check', new_bg_check_path %>
-          <% else %>
-              <%= link_to 'My Status', bg_check_path(current_user.individual.bg_check) %>
-          <% end %>
-        </li>
-      <%end%>
-    </ul> 
-    <br />
+<div class="row">
+  <div class="row">
+    <h1>Background Checks</h1>
   </div>
-
-  <div class="small-10 columns rightContent" data-equalizer-watch>
-    <%if current_user.admin%>
-      <h1>Listing Background Checks</h1>
-
-      <table>
-        <thead>
-          <tr> 
-            <th>For</th>
-            <th>Status</th>
-            <th>Criminal date</th>
-            <th>Child abuse date</th>
-
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @bg_checks.each do |bg_check| %>
-            <tr>
-              <td><%= bg_check.individual.name %>
-              <td><%= bg_check.format_status %></td>
-              <td><%= bg_check.criminal_date %></td>
-              <td><%= bg_check.child_abuse_date %></td>
-              <td><%= link_to 'Edit', edit_bg_check_path(bg_check) %></td>
-              <td><%= link_to "#{image_tag('remove.png', size: "16x16", alt: "Remove?")}".html_safe, bg_check, method: :delete,  :data => { :confirm => "Are you sure?" } %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-
-      <br>
-
-    <%else%>
-      <% if current_user.individual.bg_check.nil?%>
-        <h1>Start a Background Check?</h1>
-        <div class="bg-wrapper">
-          <div class="bg-status-bar">
-            <table>
-              <tr>
-                <td>Process Initiated</td>
-                <td> > </td>
-                <td>In Progress</td>
-                <td> > </td>
-                <td>Complete</td>
-              </tr>
-            </table>
-          </div>
-
-          <p class="bg-text">
-            In order to work with minors, Pennsylvania state law states that one must complete 
-            a Criminal Clearance Form, a Child Abuse Clearance Form, and a Child Abuse Release Form. 
-
-            <br><br>
-            More information about this process can be found <a href="http://www.cmu.edu/gelfand/clearance-forms/index.html" target="_blank">Here</a>.
-
-            <br><br>
-            To signal your intent to complete the background check process, click the 'Begin Process' button below.
-          </p>
-
-          <%= link_to 'Begin Process', new_bg_check_path, class: "button", id: "BeginProcess" %>
-        </div>
-      <%else%>
-        <h1>Background Check Overview</h1>
-
-        <p>The Gelfand Center will support the costs associated with obtaining Pennsylvania criminal and child abuse clearances for current faculty, students and staff of Carnegie Mellon who volunteer to provide services to improve educational opportunities for children in the community. This support is extended to members of organizations that serve the community and for students/faculty involved in service activities that are associated with university courses; i.e. service learning.</p>
-
-        <p>If your department charges a fee to the community for the programs that you provide for children or to educators, the Gelfand Center is not able to cover the costs of the clearances.  You can follow the steps below to process the Criminal and Child Abuse clearance requests.</p>
-
-        <p>Once you have received your clearances be sure to KEEP the certificates since you will need to show this to the school or agency where you volunteer. The certificates are then valid for one year.</p>
-
-        
-      <%end%>
-
-    <%end%>
+  <br />
+  <div class="row">
+      <!-- Filter button -->
+      <div class="small-4 columns">
+            <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">
+              <% filter = ""
+                if params[:filter] == nil 
+                  filter = "In Progress"
+                elsif params[:filter] == "all"
+                  filter = "All"
+                elsif params[:filter] == "submitted"
+                  filter = "Submitted"
+                elsif params[:filter] == "passed_criminal"
+                  filter = "Criminal Passed"
+                elsif params[:filter] == "passed_child_abuse"
+                  filter = "Child Abuse Passed"
+                elsif params[:filter] == "picked_up"
+                  filter = "Completed"
+                elsif params[:filter] == "has_issues"
+                  filter = "Has Issues"
+                elsif params[:filter] == "in_progress"
+                  filter = "In Progress"
+                elsif params[:filter] == "urgency"
+                  filter = "Urgency"
+                elsif params[:filter] == "not_cleared"
+                  filter = "Not Cleared"
+                end%>
+                <%= filter %>
+            </button><br />
+            <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
+              <li><%= link_to "In Progress", params.merge(:filter => :in_progress) %></li>
+              <li><%= link_to "All", params.merge(:filter => :all) %></li>
+              <li><%= link_to "Submitted", params.merge(:filter => :submitted) %></li>
+              <li><%= link_to "Criminal Passed", params.merge(:filter => :passed_criminal) %></li>
+              <li><%= link_to "Child Abuse Passed", params.merge(:filter => :passed_child_abuse) %></li>
+              <li><%= link_to "Completed", params.merge(:filter => :picked_up) %></li>
+              <li><%= link_to "Not Cleared", params.merge(:filter => :not_cleared) %></li>
+              <li class="divider"></li>
+              <li><%= link_to "Has Issues", params.merge(:filter => :has_issues) %></li>
+              <li><%= link_to "Urgency", params.merge(:filter => :urgency) %></li>
+            </ul>
+      </div>
+      <!-- Search text area -->
+      <div class="small-6 columns">
+          <%= form_tag bg_checks_path, :method => 'get', :id => "bg_checks_search" do %>
+          <%= text_field_tag :search, params[:search] %>
+      </div>
+      <!-- Search button -->
+      <div class="small-2 columns">
+              <%= submit_tag "Search", :name => nil, :class => "alert button expand" %>
+              <% end %>
+      </div>
   </div>
+ 
+
+<div id="bg_checks">
+    <%= render 'bg_checks' %>
 </div>
 
-
-
+</div>

@@ -1,5 +1,5 @@
 class OrganizationMailer < MailForm::Base
-  attribute :currently_registered_email,     :validate => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+  attribute :currently_registered_email
   attribute :nickname,  :captcha  => true
   attribute :org_name
   attribute :NOTICE

@@ -12,22 +12,146 @@
  *= require foundation_and_overrides
  *= require foundation-datepicker.css
  *= require font-awesome
+ *= require chosen.css
+ *= require jquery.tagsinput.css
  *= require_tree 
+ *= require font-awesome
+
  */
 
 body, html {
     height: 100%;
 }
 
-.row {
-  margin-left: 0;
-  margin-right: 0;
-  width: 100% !important;
-  max-width: 100%;
-  min-width: 100% !important;
-  position: relative;
-}
-
 .date-switch, .dow, .datepicker .next, .datepicker .prev {
     color:black;
+}
+
+.subheading{
+    margin-top: 1rem;
+}
+
+/* bg check edit */
+
+.panel.issue {
+    border-color: #cc5555;
+    border-width: 2px;
+}
+
+.panel.issue-resolved {
+    border-color: #43ac6a;
+    border-width: 2px;
+}
+
+.button.unresolve-button {
+    background-color: goldenrod;
+}
+
+.button.resolve-button {
+    background-color: #43ac6a;
+}
+
+/*bg check status page*/
+.bg-status-bar {
+    border-style: solid;
+    border-color: black;
+    padding: 1rem;
+    border-width: .1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#bg_check_status_0, #bg_check_status_1, #bg_check_status_2, #bg_check_status_3, #bg_check_status_4, #bg_check_status_5  {
+    display:none;
+}
+
+/*bg check admin index*/
+
+/*Stole from: http://codepen.io/gosupernova/pen/zCKcy*/
+.f-dropdown .divider {
+  border-top: solid 1px #1a1a1a;
+  clear: both;
+  height: 1px;
+  width: 100%;
+}
+
+.issues-toggler p.open-arrow {
+    display: none;
+}
+
+.issues-toggler p.closed-arrow {
+    display: block;
+}
+
+.issues-toggler.open p.open-arrow {
+    display: block;
+}
+
+.issues-toggler.open p.closed-arrow {
+    display: none;
+}
+
+/* Programs */
+
+.panel.chosen-select-panel {
+    height: 20rem;
+}
+
+#programs-new-orgselect {
+	height: 10rem;
+}
+
+/* This panel is set to be a little bigger
+than the maximum size my browser makes a
+select drop-down without making it scrollable.
+-Cory (Chrome Version 37.0.2062.124 but that's
+probably stable) */
+#programs-new-orgselect .panel {
+	height: 20rem;
+}
+
+#program_description {
+	height: 8rem;
+}
+
+/* Icon Classes */
+
+a .large-trash-icon {
+    color: gray;
+    font-size: 2rem;
+}
+.edit-icon {
+    font-size: 3rem;
+    float:right;
+    margin-top: 1.2rem;
+}
+
+.close-icon{
+    pointer-events: none; 
+    cursor: default;
+    color: #cc0000;
+}
+
+.check-icon{
+    pointer-events: none; 
+    cursor: default;
+    color: green;
+}
+
+.warning-icon {
+    pointer-event: none;
+    cursor: default;
+    color: #ffcc33;
+}
+
+.program-edit{
+    float:right;
+    margin-top:1.2rem;
+    font-size:3rem;
+}
+
+/* css for org*/
+
+.org-text-area{
+    height: 10rem;
 }

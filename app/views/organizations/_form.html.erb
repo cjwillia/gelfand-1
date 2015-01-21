@@ -1,35 +1,163 @@
 <%= form_for(@organization) do |f| %>
-  <% if @organization.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
 
-      <ul>
-      <% @organization.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<div class="row">
+    <div class="small-8 columns">
+        <h3>General Info <h3>
     </div>
-  <% end %>
+</div>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :is_partner, "Are you a Carnegie Mellon University organization? (This includes faculty projects and student organizations)." %>
-    <%= f.select :is_partner, [['Yes', false],['No',true]] %>
-  </div>
-  <div class="field">
-    <%= f.label :description %>
-    <%= f.text_area :description %>
-  </div>
-    <%= f.hidden_field :active, :value => true %>
-  <div class="field">
-    <%= f.label :department %>
-    <%= f.text_field :department %>
+<div class="row">
+    <div class="small-4 columns">
+        <h5>Name</h5>
+        <div class="field">
+          <%= f.text_field :name %>
+        </div>
+
+        <h5>Department</h5>
+        <div class="field">
+          <%= f.text_field :department %>
+        </div>
+
+    </div>
+
+    <div class="small-7 columns">
+        <h5>Description</h5>
+        <div class="field">
+          <%= f.text_area :description, :class => "org-text-area" %>
+        </div>
+          <%= f.hidden_field :active, :value => true %>
+
+        <br>
+        <br>
+    </div>
+</div>
+
+
+  <% if !@individuals.nil? %> 
+  <!-- Only display options to add people if at org Manage page 
+          since this form is also used for org Create page -->
+          
+
+  <div class="row">
+      <div class="small-8 columns">
+        <h3>Manage Org head <h3>
+      </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Submit", :class => "button" %>
+  <div class="row">
+      <div class="small-5 columns">
+          <h5>Search current members</h5>
+          <div class="panel chosen-select-panel">
+            <!-- Add existing members non-email -->
+            <%= f.collection_select :org_users, @non_org_head_members, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+          </div>
+      </div>
+      
+      
+      <div class="small-5 columns text-left">
+            <h5>Current heads</h5>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th class="text-right">Remove?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @indivs_curr_org_heads. each do |indiv| %>
+                        <tr>
+                            <td><%= indiv.name %></td>
+                            <td class="text-right"><%= check_box_tag "ou_ids_to_remove[]", indiv.user_id %> </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+      </div>
+
+  </div>
+
+<br>
+
+
+  <div class="row">
+    <div class="small-8 columns">
+        <h3>Add People to your Organization</h3>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="small-5 columns">
+          
+          <h5>Search by Name</h5>
+              <div class="panel chosen-select-panel">
+                    <!-- Add existing members non-email -->
+                    <%= f.collection_select :individual_ids, @individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+              </div>
+      </div>
+
+      <div class="small-5 columns">
+          <!-- Add existing members email; if not in system then send email for them to sign up-->
+          <h5>Add by email</h5>
+          <%= f.text_field :new_emails, :id => "tags" %> 
+      </div>
+
+  </div>
+
+<br>
+
+
+  <div class="row">
+    <div class="small-8 columns">
+        <h3>Update member status</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    
+      <div class="small-5 columns">
+      <!-- Make members inactive -->
+          <h5>Make inactive</h5>
+
+              <div class="panel ">
+                    <%= f.collection_select :memberships, @organization.get_all_active_individuals, :id, :name, {:include_blank => false}, {:class => "chosen-select", :multiple => "true"} %>
+              </div>
+      </div>
+      <div class="small-5 columns">
+      <!-- make members active from org-->
+          <h5>Inactive members</h5>
+          <% if @organization.get_all_inactive_individuals.empty? %>
+              Currently, all members are active
+          <% else %>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Name</th>
+                          <th class="text-right">Re-activate?</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <% @organization.get_all_inactive_individuals. each do |indiv| %>
+                          <tr>
+                              <td><%= indiv.name %></td>
+                              <td class="text-right"><%= check_box_tag "mem_ids_to_reactivate[]", indiv.id %> </td>
+                          </tr>
+                      <% end %>
+                  </tbody>
+              </table>
+          <% end %>
+      </div>
+
+  </div>
+
+<% end %> <!-- close condition for: !@individuals.nil? -->
+
+  <br>
+
+  <div class="row">
+    <div class="small-3 columns text-left">
+      <div class="actions">
+        <%= f.submit "Submit", :class => "button" %>
+      </div>
+    </div>
   </div>
 <% end %>

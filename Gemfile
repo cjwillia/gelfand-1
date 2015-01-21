@@ -1,10 +1,13 @@
 source 'https://rubygems.org'
 
+
+# Commented out for Windows users
+#---------------------
+#ruby '2.1.0'
+#---------------------
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
-
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -29,6 +32,10 @@ gem 'jbuilder', '~> 1.2'
 gem 'devise'
 gem 'font-awesome-rails'
 gem 'chronic'
+gem 'faker'
+gem 'populator'
+gem 'elastic-beanstalk'
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -45,12 +52,21 @@ gem 'hirb'
 gem 'validates_timeliness'
 
 group :production do
-	gem 'mysql2'
+# Commented out for Windows users
+#---------------------
+    #gem 'pg', '~> 0.17.1'
+    #gem 'rails_12factor'
+    #gem 'unicorn'
+    gem 'mysql2'
+#---------------------
 end
 
-group :test do
+group :development, :test do
 	gem 'factory_girl_rails', '4.2.1'
 	gem 'shoulda'
+    gem 'sqlite3'
+    #gem 'better_errors', '0.7.0'
+    gem 'binding_of_caller'
 end
 
 
@@ -67,8 +83,12 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+#  had to add in gem because it was giving errors
+gem 'responders', '1.1.2'
+
 # Use Foundation for clean CSS/JS
-gem 'foundation-rails'
+gem 'foundation-rails', '5.4.3.1'
+gem 'foundation-datetimepicker-rails'
 
 gem 'simple_form'
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140427194158) do
+ActiveRecord::Schema.define(version: 20141108090933) do
 
   create_table "affiliations", force: true do |t|
     t.integer  "organization_id"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20140427194158) do
     t.boolean  "followed_process"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "ownership"
+    t.boolean  "is_owner"
   end
 
   create_table "bg_checks", force: true do |t|
@@ -58,11 +60,19 @@ ActiveRecord::Schema.define(version: 20140427194158) do
     t.integer  "user_id"
   end
 
+  create_table "issues", force: true do |t|
+    t.string   "category"
+    t.text     "description"
+    t.datetime "resolved"
+    t.integer  "bg_check_id"
+  end
+
   create_table "memberships", force: true do |t|
     t.integer  "individual_id"
     t.integer  "organization_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active"
   end
 
   create_table "org_users", force: true do |t|
@@ -74,7 +84,6 @@ ActiveRecord::Schema.define(version: 20140427194158) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.boolean  "is_partner"
     t.text     "description"
     t.boolean  "active"
     t.string   "department"
@@ -120,8 +129,12 @@ ActiveRecord::Schema.define(version: 20140427194158) do
     t.datetime "updated_at"
     t.boolean  "admin",                  default: false
     t.boolean  "member",                 default: true
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
