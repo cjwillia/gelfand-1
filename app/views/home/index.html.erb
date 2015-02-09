@@ -5,29 +5,37 @@
 	<% elsif (current_user != nil) && current_user.member? %>
 		<!-- No code -->
 	<% else %>
+		<br />
 		<div class="small-8 columns">
-			<h2>Help provide a safe and secure environment for minors</h2>
+			<h3>Carnegie Mellon is committed to providing a safe and secure environment for minors involved in any activities conducted in partnership with the university</h3>
 			<div class="row">
-				<div class="small-2 columns">
-					<img src="<%= asset_path( 'children-icon.png' ) %>">
+				<br />
+				<div class="small-3 columns">
+					<a class="th" href="<%= asset_path( 'homepage1.jpg' ) %>">
+						<img src="<%= asset_path( 'homepage1.jpg' ) %>">
+					</a>
 				</div>
-				<div class="small-10 columns">
+				<div class="small-9 columns">
 					<p>The purpose of this registration system is to ensure the safety and well-being of minors while setting high standards to encourage the pursuit of excellence in our engagement, outreach, and service to the community. </p>
 				</div>
 			</div>
 			<div class="row">
-				<div class="small-2 columns">
-					<img src="<%= asset_path( 'form-icon.png' ) %>">
+				<div class="small-3 columns">
+					<a class="th" href="<%= asset_path( 'homepage2.jpg' ) %>">
+						<img src="<%= asset_path( 'homepage2.jpg' ) %>">
+					</a>
 				</div>
-				<div class="small-10 columns">
+				<div class="small-9 columns">
 					<p>Organizations must register each program that they conduct with the Office for the Protection of Children and receive approval prior to any interactions with minors.</p>
 				</div>
 			</div>
 			<div class="row">
-				<div class="small-2 columns">
-					<img src="<%= asset_path( 'check-icon.png' ) %>">
+				<div class="small-3 columns">
+					<a class="th" href="<%= asset_path( 'homepage3.jpg' ) %>">
+						<img src="<%= asset_path( 'homepage3.jpg' ) %>">
+					</a>
 				</div>
-				<div class="small-10 columns">
+				<div class="small-9 columns">
 					<p>All faculty, staff, students, contractors, and volunteers must satisfy all requirements of applicable federal, state, and local laws, concerning background checks or other clearances before interacting with minors.</p>
 				</div>
 			</div>
