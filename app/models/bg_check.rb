@@ -13,7 +13,7 @@ class BgCheck < ActiveRecord::Base
     validates_date :criminal_date, :allow_blank => true
     validates_date :child_abuse_date, :allow_blank => true
     validates_date :fbi_date, :allow_blank => true
-    
+
     # Callbacks
     # ---------
 
@@ -25,14 +25,11 @@ class BgCheck < ActiveRecord::Base
     scope :alphabetical, -> {order('l_name, f_name')}
     scope :requested, -> { where('status = ?', 0) }
     scope :submitted, -> { where('status = ?', 1) }
-    scope :passed_criminal, -> { where('status = ?', 2) }
-    scope :passed_child_abuse, -> { where('status = ?', 3) }
-    scope :passed_fbi, -> { where("status = ?", 4) }
-    scope :picked_up, -> { where('status = ?', 5) }
-    scope :not_cleared, -> { where('status = ?', 6) }
+    scope :in_progress, -> { where('status = ?', 2) }
+    scope :picked_up, -> { where('status = ?', 3) }
     scope :expired, -> { where('bg_checks.child_abuse_date <= ?', Date.today<<36)}
     scope :has_issues, ->{ joins(:issues).group('bg_checks.id').merge(Issue.active).having('count(issues.id) > 0')}
-    scope :in_progress, -> { where('status < ?', 5)}
+    scope :incomplete, -> { where('status < ?', 3)}
 
     # Class meethods
     # ----------------
@@ -51,16 +48,12 @@ class BgCheck < ActiveRecord::Base
             when 1
                 return "Submitted"
             when 2
-                return "Criminal Passed"
+                return "Clearances in Progress"
             when 3
-                return "Child Abuse Passed"
-            when 4
-                return "FBI Passed/Waived"
-            when 5
                 return "Picked Up/Mailed"
-            when 6
+            when 4
                 return "Not Cleared"
-            when 7
+            when 5
                 return "Expired"
             else
                 return "attr_error"
@@ -86,18 +79,8 @@ class BgCheck < ActiveRecord::Base
 
     # Method to update the status of a bg_check if the date is updated
     def auto_update_status
-        if self.child_abuse_date
-            if self.status < 3
-                self.status = 3
-            end
-        elsif self.criminal_date
-            if self.status < 2
-                self.status = 2
-            end
-        else
-            unless self.status
-                self.status = 0
-            end
+        if self.criminal_date && self.child_abuse_date && self.fbi_date && self.status < 3
+            self.status = 3
         end
     end
 

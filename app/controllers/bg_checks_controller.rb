@@ -22,23 +22,26 @@ class BgChecksController < ApplicationController
           @bg_checks = BgCheck.joins(:individual).alphabetical
         elsif params[:filter]=="submitted"
           @bg_checks = BgCheck.joins(:individual).submitted.alphabetical
-        elsif params[:filter]=="passed_criminal"
-          @bg_checks = BgCheck.joins(:individual).passed_criminal.alphabetical
-        elsif params[:filter]=="passed_child_abuse"
-          @bg_checks = BgCheck.joins(:individual).passed_child_abuse.alphabetical
+        # elsif params[:filter]=="passed_criminal"
+          # deprecated
+        # elsif params[:filter]=="passed_child_abuse"
+          # deprecated
+        elsif params[:filter]=="clearances_in_progress"
+          @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
         elsif params[:filter]=="picked_up"
           @bg_checks = BgCheck.joins(:individual).picked_up.alphabetical
         elsif params[:filter]=="has_issues"
           @bg_checks = BgCheck.joins(:individual).has_issues.alphabetical
         elsif params[:filter]=="in_progress"
-          @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
+          # TODO: fix filter in the view for this
+          @bg_checks = BgCheck.joins(:individual).incomplete.alphabetical
         elsif params[:filter]=="urgency"
           @bg_checks = BgCheck.order_by_urgency @bg_checks
         elsif params[:filter]=="not_cleared"
           @bg_checks = BgCheck.joins(:individual).not_cleared.alphabetical
         end
       else
-          @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
+          @bg_checks = BgCheck.joins(:individual).incomplete.alphabetical
       end
     else
       redirect_to current_user.individual.bg_check
