@@ -10,8 +10,10 @@ class BgCheck < ActiveRecord::Base
   	validates :status, :numericality => {:only_integer => true, :less_than_or_equal_to => 6, :greater_than_or_equal_to => 0}
     validates :individual_id, :presence => true, :numericality => {:only_integer => true, :greater_than_or_equal_to => 0 }
     validates_date :date_requested, :allow_blank => true, :on_or_before => :today
-    validates_date :criminal_date, :after => :date_requested, :allow_blank => true
-    validates_date :child_abuse_date, :after => :criminal_date, :allow_blank => true
+    validates_date :criminal_date, :allow_blank => true
+    validates_date :child_abuse_date, :allow_blank => true
+    validates_date :fbi_date, :allow_blank => true
+    
     # Callbacks
     # ---------
 
@@ -25,11 +27,12 @@ class BgCheck < ActiveRecord::Base
     scope :submitted, -> { where('status = ?', 1) }
     scope :passed_criminal, -> { where('status = ?', 2) }
     scope :passed_child_abuse, -> { where('status = ?', 3) }
-    scope :picked_up, -> { where('status = ?', 4) }
-    scope :not_cleared, -> { where('status = ?', 5) }
+    scope :passed_fbi, -> { where("status = ?", 4) }
+    scope :picked_up, -> { where('status = ?', 5) }
+    scope :not_cleared, -> { where('status = ?', 6) }
     scope :expired, -> { where('bg_checks.child_abuse_date <= ?', Date.today<<36)}
     scope :has_issues, ->{ joins(:issues).group('bg_checks.id').merge(Issue.active).having('count(issues.id) > 0')}
-    scope :in_progress, -> { where('status < ?', 4)}
+    scope :in_progress, -> { where('status < ?', 5)}
 
     # Class meethods
     # ----------------
@@ -52,10 +55,12 @@ class BgCheck < ActiveRecord::Base
             when 3
                 return "Child Abuse Passed"
             when 4
-                return "Picked Up/Mailed"
+                return "FBI Passed/Waived"
             when 5
-                return "Not Cleared"
+                return "Picked Up/Mailed"
             when 6
+                return "Not Cleared"
+            when 7
                 return "Expired"
             else
                 return "attr_error"
