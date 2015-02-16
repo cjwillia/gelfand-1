@@ -16,16 +16,16 @@
 <% count = 0 %>
 <% @bg_checks.each do |bg_check| %>
   <% count += 1 %>
-  <div id="bg_check<%=count-1%>" class="row">
+  <div id="bg_check<%=count-1%>" class="row bg-index-entry">
     <div id="toggler<%=count%>" class="small-1 column text-right issues-toggler">
-      <p class="closed-arrow"><%= fa_icon('angle-right') %></p>
-      <p class="open-arrow"><%= fa_icon('angle-down') %></p>
+      <p class="closed-arrow"><strong><%= fa_icon('angle-right') %></strong></p>
+      <p class="open-arrow"><strong><%= fa_icon('angle-down') %></strong></p>
     </div>
     <div class="small-3 columns">
       <%= link_to bg_check.individual.name, bg_check %>
     </div>
     <div class="small-2 columns text-center">
-      <% if bg_check.status == 5 %>
+      <% if bg_check.status == 4 %>
         <%= fa_icon('close', class: 'close-icon') %>
       <% elsif bg_check.status == 0 %>
         <% if bg_check.issues.active.empty? %>
@@ -37,41 +37,42 @@
         <%= fa_icon('check', class: 'check-icon') %>
       <% end %>
     </div>
-    <div class="small-2 columns text-center">
-      <% if bg_check.status == 5 %>
-        <%= fa_icon('close', class: 'close-icon') %>
-      <% elsif bg_check.status > 0 %>
-        <% if bg_check.status == 1 %>
-          <% if bg_check.issues.active.empty? %>
-            <%= fa_icon('ellipsis-h') %>
-          <% else %>
-            <%= fa_icon('warning', class: 'warning-icon') %>
-          <% end %>
-        <% else %>
-          <%= fa_icon('check', class: 'check-icon') %>
-        <% end %>
+    <div class="small-4 columns text-center">
+      <% if bg_check.status > 1 %>
+      <div class="panel dates-panel<%= bg_check.clearances_remaining %>">
+        <div class="row">
+          <div class="small-4 columns">
+            <% unless bg_check.criminal_date.nil? %>
+              Criminal Expires: <strong><%= bg_check.criminal_date %></strong>
+            <% else %>
+              Criminal Check Required
+            <% end %>
+          </div>
+          <div class="small-4 columns">
+            <% unless bg_check.child_abuse_date.nil? %>
+              Child Abuse Expires: <strong><%= bg_check.child_abuse_date %></strong>
+            <% else %>
+              Child Abuse Check Required
+            <% end %>
+          </div>
+          <div class="small-4 columns">
+            <% unless bg_check.fbi_date.nil? %>
+              FBI Expires: <strong><%= bg_check.fbi_date %></strong>
+            <% else %>
+              FBI Check Required
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% else %>
+      <!-- No code -->
       <% end %>
     </div>
     <div class="small-2 columns text-center">
-      <% if bg_check.status == 5 %>
+      <% if bg_check.status == 4 %>
         <%= fa_icon('close', class: 'close-icon') %>
       <% elsif bg_check.status > 1 %>
         <% if bg_check.status == 2 %>
-          <% if bg_check.issues.active.empty? %>
-            <%= fa_icon('ellipsis-h') %>
-          <% else %>
-            <%= fa_icon('warning', class: 'warning-icon') %>
-          <% end %>
-        <% else %>
-          <%= fa_icon('check', class: 'check-icon') %>
-        <% end %>
-      <% end %>
-    </div>
-    <div class="small-2 columns text-center">
-      <% if bg_check.status == 5 %>
-        <%= fa_icon('close', class: 'close-icon') %>
-      <% elsif bg_check.status > 2 %>
-        <% if bg_check.status == 3 %>
           <% if bg_check.issues.active.empty? %>
             <%= fa_icon('ellipsis-h') %>
           <% else %>

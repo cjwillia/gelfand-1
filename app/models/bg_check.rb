@@ -50,7 +50,7 @@ class BgCheck < ActiveRecord::Base
             when 2
                 return "Clearances in Progress"
             when 3
-                return "Picked Up/Mailed"
+                return "Completed"
             when 4
                 return "Not Cleared"
             when 5
@@ -62,6 +62,20 @@ class BgCheck < ActiveRecord::Base
 
     def humanize_name
         "#{self.individual.f_name} #{self.individual.l_name}"
+    end
+
+    def clearances_remaining
+        res = 3
+        unless self.criminal_date.nil?
+            res -= 1
+        end
+        unless self.child_abuse_date.nil?
+            res -= 1
+        end
+        unless self.fbi_date.nil?
+            res -= 1
+        end
+        return res
     end
    
     private

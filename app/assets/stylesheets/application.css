@@ -81,14 +81,31 @@ body, html {
 
 .issues-toggler p.closed-arrow {
     display: block;
+    font-size: 28px;
 }
 
 .issues-toggler.open p.open-arrow {
     display: block;
+    font-size: 28px;
 }
 
 .issues-toggler.open p.closed-arrow {
     display: none;
+}
+
+.panel.dates-panel2 {
+    background-color: #AED4BC;
+    border-color: #43ac6a;
+}
+
+.panel.dates-panel1 {
+    background-color: #77D199;
+    border-color: #43ac6a;
+}
+
+.panel.dates-panel0 {
+    background-color: #47D17A;
+    border-color: #43ac6a;
 }
 
 /* Programs */

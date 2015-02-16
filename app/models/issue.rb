@@ -20,7 +20,7 @@ class Issue < ActiveRecord::Base
 
     
     def self.all_categories
-    	["Submission", "Criminal Clearance", "Child Abuse Clearance", "Other"]
+    	["Submission", "Criminal Clearance", "Child Abuse Clearance", "FBI Clearance", "Other"]
     end
 
     def self.descriptions
