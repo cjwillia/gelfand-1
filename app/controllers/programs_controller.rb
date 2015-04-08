@@ -54,6 +54,7 @@ class ProgramsController < ApplicationController
 
   def show
     @program = Program.find(params[:id])
+    @participants = @program.individuals.alphabetical
     @affiliation = Affiliation.new
   end
 

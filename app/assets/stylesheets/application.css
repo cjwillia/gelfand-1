@@ -31,6 +31,10 @@ body, html {
     margin-top: 1rem;
 }
 
+.fa.large-icon {
+    font-size: 32px;
+}
+
 /* bg check edit */
 
 .panel.issue {
@@ -61,8 +65,16 @@ body, html {
     margin-bottom: 1.5rem;
 }
 
-#bg_check_status_0, #bg_check_status_1, #bg_check_status_2, #bg_check_status_3, #bg_check_status_4, #bg_check_status_5  {
+#bg_check_status_0, #bg_check_status_1, #bg_check_status_2, #bg_check_status_3{
     display:none;
+}
+
+#bg_check_status_4, #bg_check_status_5, #bg_check_status_6 {
+    display: none;
+}
+
+.negative-status.button {
+    background-color: goldenrod;
 }
 
 /*bg check admin index*/
@@ -91,21 +103,6 @@ body, html {
 
 .issues-toggler.open p.closed-arrow {
     display: none;
-}
-
-.panel.dates-panel2 {
-    background-color: #AED4BC;
-    border-color: #43ac6a;
-}
-
-.panel.dates-panel1 {
-    background-color: #77D199;
-    border-color: #43ac6a;
-}
-
-.panel.dates-panel0 {
-    background-color: #47D17A;
-    border-color: #43ac6a;
 }
 
 /* Programs */
@@ -149,7 +146,7 @@ a .large-trash-icon {
     color: #cc0000;
 }
 
-.check-icon{
+.check-icon {
     pointer-events: none; 
     cursor: default;
     color: green;
@@ -161,7 +158,13 @@ a .large-trash-icon {
     color: #ffcc33;
 }
 
-.program-edit{
+.early-warning-icon {
+    pointer-event: none;
+    cursor: default;
+    color: #aaaaaa;
+}
+
+.program-edit {
     float:right;
     margin-top:1.2rem;
     font-size:3rem;

@@ -18,7 +18,7 @@
 </div>
 <div class="row">
     <div class="small-12 columns">
-        <p>Background check created on: <%= @bg_check.date_requested.strftime("%Y-%m-%d") %></p>
+        <p>Background check created on: <%= @bg_check.date_requested.strftime("%m/%d/%y") %></p>
     </div>
 </div>
 <%= render 'form' %>

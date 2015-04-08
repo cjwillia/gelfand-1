@@ -48,8 +48,11 @@ gem 'cancancan', '~> 1.7'
 # hirb gem makes rails console look nicer, https://github.com/cldwalker/hirb/tree/master#readme
 gem 'hirb'
 
-#Validates_timeliness for date and time validations
+# Validates_timeliness for date and time validations
 gem 'validates_timeliness'
+
+# whenever gem to handle cron job-like time automation for tasks
+gem 'whenever', :require => false
 
 group :production do
 # Commented out for Windows users

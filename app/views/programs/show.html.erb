@@ -39,12 +39,12 @@
             </tr>
         </thead>
       <tbody>
-        <% @program.participants.each do |participant| %>
+        <% @participants.each do |individual| %>
             <tr>
-                <td><%= participant.individual.f_name %> <%= participant.individual.l_name %></td>
-                <td><%= participant.individual.contact.email %></td>
+                <td><%= individual.f_name %> <%= individual.l_name %></td>
+                <td><%= individual.contact.email %></td>
                 <td>
-                    <% if !participant.individual.bg_check.nil? and participant.individual.bg_check.status == 4 %>
+                    <% if !individual.bg_check.nil? and individual.bg_check.status == 4 %>
                         <%=fa_icon("check", class: "check-icon")%>
                     <% end %>
                 </td>

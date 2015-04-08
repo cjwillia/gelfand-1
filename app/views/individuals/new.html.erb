@@ -1,30 +1,84 @@
-<div class="row" data-equalizer-watch>
-	<div class="small-2 columns leftNav">
-		<img src="<%= asset_path( 'gelfandLogo.jpg' ) %>" /> 
-		<ul class="side-nav">
-		    <li><%= link_to 'Organizations', organizations_path %></li>
-		    <li><%= link_to 'Programs', programs_path %></li>
-		    <li><%= link_to 'Back', individuals_path %></li>
-		</ul>
-	</div>
-
-	<div class="small-10 columns rightContent">
-		<p id="notice"><%= notice %></p>
-		<h1>New Individual</h1>
-
-		<%= form_for(@individual) do |f| %>
-			<div class="cushionWrapper">
-				<%= render partial: 'form', object: f  %>
-			</div>
-
-			<div class="row">
-		  	  <div class="cushionWrapper">
-		  	    <%= f.submit "Create Individual", :class => "button" %>
-		  	  </div>
-		  	</div>
-
+<%= form_for(@individual) do |f| %>
+	<% if @individual.errors %>
+	<div class="row">
+		<% @individual.errors.each do |err| %>
+			<%= err %>
 		<% end %>
 	</div>
+	<% end %>
+	<div class="row">
+		<div class="small-12 columns">
+			<h1>New Individual</h1>
+		</div>
+	</div>
 
-	
-</div>
+	<div class="row">
+		<div class="small-6 columns">
+			<%= f.label :f_name, "First Name" %>
+			<%= f.text_field :f_name %>
+		</div>
+		<div class="small-6 columns">
+			<%= f.label :l_name, "Last Name" %>
+			<%= f.text_field :l_name %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="small-6 columns">
+			<%= f.label :role %>
+			<%= f.select :role, Individual::ROLES_LIST, :include_blank => "Select Role..." %>
+		</div>
+		<div class="small-6 columns">
+			<!-- This would be where any organizations they wanted to be added to would go -->
+		</div>
+	</div>
+
+	<br />
+
+	<%= f.fields_for(:bg_check) do |bf| %>
+		<div class="row">
+			<h2>Background Check Information</h2>
+		</div>
+		<div class="row">
+			<h3>Clearances</h3>
+		</div>
+
+		<br />
+
+		<div class="row">
+			<strong><%= bf.label :criminal_date, "Criminal Clearance Date" %></strong>
+			<%= bf.date_select :criminal_date, {:prompt => true, :use_short_month => true, :start_year => Date.today.year - 4, :end_year => Date.today.year + 1, :order => [:month, :day, :year]}, {:class => "small-4 columns"} %>
+		</div>
+		<div class="row">
+			<strong><%= bf.label :child_abuse_date, "Child Abuse Clearance Date" %></strong>
+			<%= bf.date_select :child_abuse_date, {:prompt => true, :use_short_month => true, :start_year => Date.today.year - 4, :end_year => Date.today.year + 1, :order => [:month, :day, :year]}, {:class => "small-4 columns"} %>
+		</div>
+		<div class="row">
+			<strong><%= bf.label :fbi_date, "FBI Clearance Date" %></strong>
+			<%= bf.date_select :fbi_date, {:prompt => true, :use_short_month => true, :start_year => Date.today.year - 4, :end_year => Date.today.year + 1, :order => [:month, :day, :year]}, {:class => "small-4 columns"} %>
+		</div>
+
+		<br />
+
+		<div class="row">
+			<h3>Other</h3>
+		</div>
+
+		<div class="row">
+			<div class="small-6 columns">
+				<div class="row">
+					<%= bf.label :date_requested, "Date Requested (optional)" %>
+					<%= bf.date_select :date_requested, {:prompt => true, :use_short_month => true, :order => [:month, :day, :year]}, {:class => "small-4 columns"} %>
+				</div>
+			</div>
+			<div class="small-6 columns">
+				<%= bf.label :status %>
+				<%= bf.select :status, BgCheck::STATUS_LIST, :include_blank => "Optional if date information is filled in" %>
+			</div>
+		</div>
+	<% end %>
+	<div class="row">
+		<%= f.submit "Create Individual", :class => "button" %>
+	</div>
+
+<% end %>

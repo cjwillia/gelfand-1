@@ -8,6 +8,7 @@ class Individual < ActiveRecord::Base
     has_many :participants
     has_many :programs, through: :participants
     has_one :bg_check
+    accepts_nested_attributes_for :bg_check
     has_many :issues, through: :bg_check
     belongs_to :user
 

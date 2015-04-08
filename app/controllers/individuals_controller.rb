@@ -8,26 +8,22 @@ class IndividualsController < ApplicationController
     @individuals = Individual.all.alphabetical
   end
 
-  def students
-    @individuals = Individual.students
+  def new
+    @individual = Individual.new
+    @individual.bg_check = BgCheck.new
+    @individual.bg_check.individual = @individual
   end
-
-  def faculty
-    @individuals = Individual.faculty
-  end
-
-  # POST /individuals
-  # POST /individuals.json
 
   def show
     @individual = Individual.find(params[:id])
   end
+
   def create
     @individual = Individual.new(individual_params)
 
     respond_to do |format|
       if @individual.save
-        format.html { redirect_to @individual, notice: 'Individual was successfully created.' }
+        format.html { redirect_to @individual.bg_check, notice: 'Individual was successfully created.' }
         format.json { render action: 'show', status: :created, location: @individual }
       else
         format.html { render action: 'new' }
@@ -69,6 +65,8 @@ class IndividualsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def individual_params
-      params.require(:individual).permit(:f_name, :l_name, :role, :dob, :active, :bg_check_id, :contact_id)
+      params.require(:individual).permit(:f_name, :l_name, :role, :dob, :active,
+        bg_check_attributes:  [:id, :individual_id, :status, :date_requested, :criminal_date, :child_abuse_date, :fbi_date]
+        )
     end
 end

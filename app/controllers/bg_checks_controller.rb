@@ -9,6 +9,15 @@ class BgChecksController < ApplicationController
 
   def edit
     @issues = @bg_check.issues
+    if @bg_check.criminal_date
+      @bg_check.criminal_date = @bg_check.criminal_date - 3.years
+    end
+    if @bg_check.child_abuse_date
+      @bg_check.child_abuse_date = @bg_check.child_abuse_date - 3.years
+    end
+    if @bg_check.fbi_date
+      @bg_check.fbi_date = @bg_check.fbi_date - 3.years
+    end
   end
 
   # GET /bg_checks
@@ -22,19 +31,16 @@ class BgChecksController < ApplicationController
           @bg_checks = BgCheck.joins(:individual).alphabetical
         elsif params[:filter]=="submitted"
           @bg_checks = BgCheck.joins(:individual).submitted.alphabetical
-        # elsif params[:filter]=="passed_criminal"
-          # deprecated
-        # elsif params[:filter]=="passed_child_abuse"
-          # deprecated
-        elsif params[:filter]=="clearances_in_progress"
+        elsif params[:filter]=="in_progress"
           @bg_checks = BgCheck.joins(:individual).in_progress.alphabetical
-        elsif params[:filter]=="picked_up"
-          @bg_checks = BgCheck.joins(:individual).picked_up.alphabetical
+        elsif params[:filter]=="complete"
+          @bg_checks = BgCheck.joins(:individual).complete.alphabetical
+        elsif params[:filter]=="expiring"
+          @bg_checks = BgCheck.joins(:individual).expiring.alphabetical
+        elsif params[:filter]=="expired"
+          @bg_checks = BgCheck.joins(:individual).expired.alphabetical
         elsif params[:filter]=="has_issues"
           @bg_checks = BgCheck.joins(:individual).has_issues.alphabetical
-        elsif params[:filter]=="in_progress"
-          # TODO: fix filter in the view for this
-          @bg_checks = BgCheck.joins(:individual).incomplete.alphabetical
         elsif params[:filter]=="urgency"
           @bg_checks = BgCheck.order_by_urgency @bg_checks
         elsif params[:filter]=="not_cleared"
@@ -46,18 +52,6 @@ class BgChecksController < ApplicationController
     else
       redirect_to current_user.individual.bg_check
     end
-
-
-=begin
-    def self.search(search)
-        if search
-            self.individual
-            where('status LIKE ?', "%#{search}")
-        else
-            scoped # can have all, but scope returns scoped result so can add more to it
-        end
-    end
-=end
   end
 
   # POST /bg_checks
@@ -125,6 +119,10 @@ class BgChecksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bg_check_params
-      params.require(:bg_check).permit(:date_requested, :status, :criminal_date, :child_abuse_date, :individual_id) 
+      params.require(:bg_check).permit(:date_requested, :status, :criminal_date, :child_abuse_date, :fbi_date, :individual_id) 
+    end
+
+    def individual_params
+      params.require(:individual).permit(:id, :f_name, :l_name, :role, :active)
     end
 end

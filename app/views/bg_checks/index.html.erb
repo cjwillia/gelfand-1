@@ -1,6 +1,12 @@
 <div class="row">
+  <br />
   <div class="row">
-    <h1>Background Checks</h1>
+    <div class="small-6 columns">
+      <h1>Background Checks</h1>
+    </div>
+    <div class="small-6 columns">
+      <%= link_to "Create New Record", new_individual_path, :class => "button right" %>
+    </div>
   </div>
   <br />
   <div class="row">
@@ -9,39 +15,34 @@
             <button href="#" data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">
               <% filter = ""
                 if params[:filter] == nil 
-                  filter = "In Progress"
+                  filter = "Incomplete"
                 elsif params[:filter] == "all"
                   filter = "All"
-                elsif params[:filter] == "submitted"
-                  filter = "Submitted"
-                elsif params[:filter] == "passed_criminal"
-                  filter = "Criminal Passed"
-                elsif params[:filter] == "passed_child_abuse"
-                  filter = "Child Abuse Passed"
-                elsif params[:filter] == "picked_up"
-                  filter = "Completed"
+                elsif params[:filter] == "in_progress"
+                  filter = "Clearances in Progress"
+                elsif params[:filter] == "complete"
+                  filter = "Complete"
+                elsif params[:filter] == "expiring"
+                  filter = "Expiring"
+                elsif params[:filter] == "expired"
+                  filter = "Expired"
                 elsif params[:filter] == "has_issues"
                   filter = "Has Issues"
-                elsif params[:filter] == "in_progress"
-                  filter = "In Progress"
-                elsif params[:filter] == "urgency"
-                  filter = "Urgency"
                 elsif params[:filter] == "not_cleared"
                   filter = "Not Cleared"
                 end%>
                 <%= filter %>
             </button><br />
             <ul id="drop1" data-dropdown-content class="f-dropdown" aria-hidden="true" tabindex="-1">
-              <li><%= link_to "In Progress", params.merge(:filter => :in_progress) %></li>
-              <li><%= link_to "All", params.merge(:filter => :all) %></li>
-              <li><%= link_to "Submitted", params.merge(:filter => :submitted) %></li>
-              <li><%= link_to "Criminal Passed", params.merge(:filter => :passed_criminal) %></li>
-              <li><%= link_to "Child Abuse Passed", params.merge(:filter => :passed_child_abuse) %></li>
-              <li><%= link_to "Completed", params.merge(:filter => :picked_up) %></li>
-              <li><%= link_to "Not Cleared", params.merge(:filter => :not_cleared) %></li>
-              <li class="divider"></li>
+              <li><%= link_to "Incomplete", params.merge(:filter => :incomplete) %></li>
+              <li><%= link_to "Complete", params.merge(:filter => :complete) %></li>
+              <li><%= link_to "Expired", params.merge(:filter => :expired) %></li>
               <li><%= link_to "Has Issues", params.merge(:filter => :has_issues) %></li>
-              <li><%= link_to "Urgency", params.merge(:filter => :urgency) %></li>
+              <li class="divider"></li>
+              <li><%= link_to "All", params.merge(:filter => :all) %></li>
+              <li><%= link_to "Clearances in Progress", params.merge(:filter => :in_progress) %></li>
+              <li><%= link_to "Expiring", params.merge(:filter => :expiring) %></li>
+              <li><%= link_to "Not Cleared", params.merge(:filter => :not_cleared) %></li>
             </ul>
       </div>
       <!-- Search text area -->
@@ -55,6 +56,7 @@
               <% end %>
       </div>
   </div>
+
  
 
 <div id="bg_checks">
